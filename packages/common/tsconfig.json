@@ -1,0 +1,15 @@
+{
+    "extends": "./tsconfig.build.json",
+    "compilerOptions": {
+        "composite": false,
+        "rootDir": "."
+    },
+    "include": [
+        "src",
+        "typings",
+        "tests"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}
