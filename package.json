@@ -16,6 +16,8 @@
     "typescript": "^3.7.5"
   },
   "scripts": {
+    "start:backend": "yarn workspace @study-buddy/backend run start:dev",
+    "start:frontend": "yarn workspace @study-buddy/frontend run start",
     "build": "lerna run build",
     "clean": "lerna clean && lerna run clean",
     "lint": "eslint . --ext .js,.ts",
