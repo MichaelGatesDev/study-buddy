@@ -4,11 +4,10 @@
   "private": true,
   "scripts": {
     "tsc": "tsc -p tsconfig.build.json",
-    "build": "node ./util/build.js",
-    "lint": "tslint --project \"tsconfig.json\"",
-    "start": "node -r module-alias/register ./dist",
-    "start:dev": "nodemon --config nodemon.json",
-    "test": "nodemon --config nodemon.test.json"
+    "dev": "tsnd -r tsconfig-paths/register --respawn --transpileOnly ./src/index.ts",
+    "dev:inspect": "tsnd --inspect -r tsconfig-paths/register --respawn --transpileOnly ./src/index.ts",
+    "prod": "yarn tsc && node -r tsconfig-paths/register ./dist/index.js",
+    "test": "jest --forceExit --coverage --verbose --detectOpenHandles --passWithNoTests"
   },
   "dependencies": {
     "@study-buddy/common": "1.0.0",
@@ -34,11 +33,6 @@
     "fs-extra": "^8.1.0",
     "jasmine": "^3.5.0",
     "jsonfile": "^5.0.0",
-    "nodemon": "^2.0.2",
-    "supertest": "^4.0.2",
-    "ts-node": "^8.6.2",
-    "tsconfig-paths": "^3.9.0",
-    "tslint": "^6.0.0",
-    "typescript": "^3.7.5"
+    "supertest": "^4.0.2"
   }
 }
