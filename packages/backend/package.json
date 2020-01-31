@@ -1,18 +1,14 @@
 {
   "name": "@study-buddy/backend",
   "version": "0.0.0",
+  "private": true,
   "scripts": {
+    "tsc": "tsc -p tsconfig.build.json",
     "build": "node ./util/build.js",
     "lint": "tslint --project \"tsconfig.json\"",
     "start": "node -r module-alias/register ./dist",
     "start:dev": "nodemon --config nodemon.json",
     "test": "nodemon --config nodemon.test.json"
-  },
-  "_moduleAliases": {
-    "@daos": "dist/daos",
-    "@entities": "dist/entities",
-    "@shared": "dist/shared",
-    "@server": "dist/Server"
   },
   "dependencies": {
     "@study-buddy/common": "1.0.0",
@@ -21,7 +17,6 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "http-status-codes": "^1.4.0",
-    "module-alias": "^2.2.2",
     "morgan": "^1.9.1",
     "winston": "^3.2.1"
   },
