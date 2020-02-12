@@ -1,0 +1,27 @@
+.HomeSection{
+    h1{ 
+        font-size: 50px;
+    }
+    h2{
+        text-align: center;
+    }
+    div{
+        padding: 15px
+    }
+    div#Container{
+       display: flex;
+       margin: auto;
+       width: max-content;
+       padding: 10px;
+       form{
+           height: max-content;
+           margin: 10px;
+           padding: inherit;
+           border: 2px solid lightgray;
+       }
+
+    }
+
+    
+    
+}
