@@ -4,9 +4,13 @@
     display: block;
     margin: auto;
     text-align: center;
+    
     input{
-        block-size: 200px;
+        height: auto;
         text-align: center;
         font-size: 20px;
+        background-color: #32A4D6;
+        color: white;
+        border-radius: 8px;
     }
 }
