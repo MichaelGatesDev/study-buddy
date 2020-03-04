@@ -1,53 +1,45 @@
-import { sequelize } from '../database';
-import { Model, DataTypes } from 'sequelize';
+import { Table, Column, Model, CreatedAt, UpdatedAt, ForeignKey, PrimaryKey, BelongsTo, AutoIncrement, BelongsToMany, HasMany } from 'sequelize-typescript';
 
-export class User extends Model {
+import { School } from "./school";
+import { Course } from "./course";
+
+@Table
+export class User extends Model<User> {
+    @AutoIncrement
+    @PrimaryKey
+    @Column
     public id!: number;
-    public schoolID!: number;
+
+    @Column
     public email!: string;
+    @Column
     public passwordHash!: string;
+    @Column
     public passwordSalt!: string;
+    @Column
     public preferredName!: string;
+    @Column
     public displayName!: string;
 
-    // timestamps!
-    public readonly createdAt!: Date;
-    public readonly updatedAt!: Date;
+    @ForeignKey(() => School)
+    @Column
+    schoolId!: number;
+
+    @BelongsTo(() => School)
+    school!: School;
+
+    @BelongsToMany(() => Course)
+    coursesTaking!: Course[];
+
+    @HasMany(() => Course)
+    coursesTaken!: Course[];
+
+    @CreatedAt
+    @Column
+    createdAt!: Date;
+
+    @UpdatedAt
+    @Column
+    updatedAt!: Date;
+
 }
-
-User.init({
-    id: {
-        type: DataTypes.INTEGER.UNSIGNED,
-        autoIncrement: true,
-        primaryKey: true,
-    },
-    schoolID: {
-        type: DataTypes.INTEGER.UNSIGNED,
-        allowNull: true,
-    },
-    email: {
-        type: new DataTypes.STRING(320),
-        allowNull: false,
-    },
-    passwordHash: {
-        type: new DataTypes.STRING(),
-        allowNull: false,
-    },
-    passwordSalt: {
-        type: new DataTypes.STRING(),
-        allowNull: false,
-    },
-    preferredName: {
-        type: new DataTypes.STRING(30),
-        allowNull: false,
-    },
-    displayName: {
-        type: new DataTypes.STRING(30),
-        allowNull: false,
-    },
-}, {
-    tableName: 'users',
-    sequelize: sequelize, // this bit is important
-});
-
-User.sync({ force: true });
