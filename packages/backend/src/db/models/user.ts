@@ -2,6 +2,7 @@ import { Table, Column, Model, CreatedAt, UpdatedAt, ForeignKey, PrimaryKey, Bel
 
 import { School } from "./school";
 import { Course } from "./course";
+import { CourseUser } from './course-user';
 
 @Table
 export class User extends Model<User> {
@@ -13,33 +14,33 @@ export class User extends Model<User> {
     @Column
     public email!: string;
     @Column
-    public passwordHash!: string;
+    public password_hash!: string;
     @Column
-    public passwordSalt!: string;
+    public password_salt!: string;
     @Column
-    public preferredName!: string;
+    public preferred_name!: string;
     @Column
-    public displayName!: string;
+    public display_name!: string;
 
     @ForeignKey(() => School)
     @Column
-    schoolId!: number;
+    school_id!: number;
 
-    @BelongsTo(() => School)
+    @BelongsTo(() => School, "school_id")
     school!: School;
 
-    @BelongsToMany(() => Course)
-    coursesTaking!: Course[];
+    @BelongsToMany(() => Course, () => CourseUser)
+    courses_taking!: Course[];
 
-    @HasMany(() => Course)
-    coursesTaken!: Course[];
+    @BelongsToMany(() => Course, () => CourseUser, "course_id", "user_id")
+    courses_taken!: Course[];
 
     @CreatedAt
     @Column
-    createdAt!: Date;
+    created_at!: Date;
 
     @UpdatedAt
     @Column
-    updatedAt!: Date;
+    updated_at!: Date;
 
 }

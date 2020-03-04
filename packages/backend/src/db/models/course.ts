@@ -2,6 +2,7 @@ import { Table, Column, ForeignKey, CreatedAt, UpdatedAt, HasMany, Model, Primar
 
 import { User } from "./user";
 import { School } from "./school";
+import { CourseUser } from './course-user';
 
 @Table
 export class Course extends Model<Course> {
@@ -10,20 +11,20 @@ export class Course extends Model<Course> {
     public id!: number;
 
     @Column
-    public courseNumber!: string;
+    public course_number!: string;
     @Column
-    public courseTitle!: string;
+    public course_title!: string;
 
     @ForeignKey(() => School)
     school_id!: number;
-    @BelongsTo(() => School)
+    @BelongsTo(() => School, "school_id")
     school!: School;
 
-    @HasMany(() => User)
-    enrolled_users!: User[];
+    @HasMany(() => CourseUser)
+    enrolled_users!: CourseUser[];
 
     @CreatedAt
-    public readonly createdAt!: Date;
+    public readonly created_at!: Date;
     @UpdatedAt
-    public readonly updatedAt!: Date;
+    public readonly updated_at!: Date;
 }

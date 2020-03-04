@@ -1,6 +1,7 @@
 import { Table, Column, ForeignKey, CreatedAt, UpdatedAt, HasMany, Model, PrimaryKey } from "sequelize-typescript";
 
 import { User } from "./user";
+import { Course } from './course';
 
 @Table
 export class School extends Model<School> {
@@ -16,8 +17,14 @@ export class School extends Model<School> {
     @HasMany(() => User)
     enrolled_users!: User[];
 
+    @HasMany(() => Course)
+    active_courses!: Course[];
+
+    @HasMany(() => Course)
+    inactive_Courses!: Course[];
+
     @CreatedAt
-    public readonly createdAt!: Date;
+    public readonly created_at!: Date;
     @UpdatedAt
-    public readonly updatedAt!: Date;
+    public readonly updated_at!: Date;
 }
