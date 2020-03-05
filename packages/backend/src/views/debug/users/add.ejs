@@ -1,0 +1,77 @@
+<%- include('../../head'); %>
+
+<%- include('../navbar'); %>
+
+<div class="container-fluid">
+    <h2>Add User</h2>
+
+    <form id="signup-form">
+        <div class="form-group">
+            <label for="email">Email address</label>
+            <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter email">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="button" class="btn btn-secondary" onclick="populateRandomly();">Randomly Populate</button>
+        <button type="button" class="btn btn-secondary" onclick="reset();">Clear</button>
+    </form>
+</div>
+
+<script>
+
+    $(document).ready(() => {
+        reset();
+        $("#signup-form").on('submit', function () {
+            var email = $("#email").val();
+            var password = $("#password").val();
+
+            fetch("http://localhost:8081/api/v1/users/add", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email,
+                    password,
+                })
+            })
+                .then((resp) => resp.json())
+                .then((json) => {
+                    console.log("Created new user!");
+                    console.log(json);
+                })
+                .catch((err) => {
+                    console.error("Failed to create user!");
+                    console.error(err);
+                });
+
+            return false; // prevents redirect
+        });
+    });
+
+    function populateRandomly() {
+        $('#email').val(randomAlphaNumeric(10) + "@domain.ext");
+        $('#password').val(randomAlphaNumeric(15));
+    }
+
+    function reset() {
+        $("#email").val("");
+        $("#password").val("");
+    }
+
+    function randomAlphaNumeric(length) {
+        var result = '';
+        var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var charactersLength = characters.length;
+        for (var i = 0; i < length; i++) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
+    }
+
+</script>
+
+<%- include('../../tail'); %>

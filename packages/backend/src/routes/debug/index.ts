@@ -1,17 +1,15 @@
 import { Router, Response, Request } from "express";
-import apiRoute from './api/';
-import debugRoute from './debug/';
+import usersRoute from './users/';
 
 // Init router and path
 const router = Router();
 
 router.get("/", (_req: Request, res: Response) => {
-    res.send("base route");
+    res.render('debug/index', { title: 'Hey', message: 'Hello there!' })
 });
 
 // Add sub-routes
-router.use('/api', apiRoute);
-router.use('/debug', debugRoute);
+router.use('/users', usersRoute);
 
 // Export the base-router
 export default router;

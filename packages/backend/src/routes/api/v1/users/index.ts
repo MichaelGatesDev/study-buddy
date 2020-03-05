@@ -1,6 +1,8 @@
 import { Router, Response, Request } from "express";
 import { User } from '../../../../db/models/user';
 
+import addRoute from "./add";
+
 // Init router and path
 const router = Router();
 
@@ -21,6 +23,8 @@ router.get("/", async (_req: Request, res: Response): Promise<void> => {
         res.status(500).send(error);
     }
 });
+
+router.use("/add", addRoute);
 
 
 // Export the base-router

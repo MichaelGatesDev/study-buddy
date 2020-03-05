@@ -15,12 +15,6 @@ export class User extends Model<User> {
     public email!: string;
     @Column
     public password_hash!: string;
-    @Column
-    public password_salt!: string;
-    @Column
-    public preferred_name!: string;
-    @Column
-    public display_name!: string;
 
     @ForeignKey(() => School)
     @Column
