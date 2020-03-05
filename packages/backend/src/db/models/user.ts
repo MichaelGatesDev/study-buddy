@@ -14,6 +14,7 @@ export class User extends Model<User> {
     @Unique
     @Column
     public email!: string;
+    
     @Column
     public password_hash!: string;
 

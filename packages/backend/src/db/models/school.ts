@@ -1,16 +1,19 @@
-import { Table, Column, CreatedAt, UpdatedAt, HasMany, Model, PrimaryKey } from "sequelize-typescript";
+import { Table, Column, CreatedAt, UpdatedAt, HasMany, Model, PrimaryKey, AutoIncrement, Unique } from "sequelize-typescript";
 
 import { User } from "./user";
 import { Course } from './course';
 
 @Table
 export class School extends Model<School> {
+    @AutoIncrement
     @PrimaryKey
     @Column
     public id!: number;
 
     @Column
     public name!: string;
+
+    @Unique
     @Column
     public website!: string;
 

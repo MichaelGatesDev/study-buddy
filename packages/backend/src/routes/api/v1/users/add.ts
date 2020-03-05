@@ -9,6 +9,7 @@ const router = Router();
 
 router.post("/", async (_req: Request, res: Response): Promise<void> => {
     try {
+        const school_id = _req.body.school_id;
         const email = _req.body.email
         const password = _req.body.password
         const password_hash = bcrypt.hashSync(password, 8);
@@ -19,6 +20,7 @@ router.post("/", async (_req: Request, res: Response): Promise<void> => {
         }
 
         const createdUser = await User.create({
+            "school_id": school_id,
             "email": email,
             "password_hash": password_hash
         });

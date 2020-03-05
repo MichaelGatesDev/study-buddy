@@ -1,14 +1,24 @@
-<%- include('../../head'); %>
+<%- include("../../head"); %>
 
-<%- include('../navbar'); %>
+<%- include("../navbar"); %>
 
 <div class="container-fluid">
     <h2>Add User</h2>
 
     <form id="signup-form">
         <div class="form-group">
+            <label for="school">School</label>
+            <select class="custom-select" id="school" name="school">
+                <option selected>Choose...</option>
+                <% schools.forEach((school) => { %>
+                <option value="<%= school.id %>"><%= school.name %></option>
+                <% }); %>
+            </select>
+        </div>
+        <div class="form-group">
             <label for="email">Email address</label>
-            <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter email">
+            <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp"
+                placeholder="Enter email">
         </div>
         <div class="form-group">
             <label for="password">Password</label>
@@ -24,16 +34,18 @@
 
     $(document).ready(() => {
         reset();
-        $("#signup-form").on('submit', function () {
+        $("#signup-form").on("submit", function () {
+            var school_id = $("#school").val();
             var email = $("#email").val();
             var password = $("#password").val();
 
             fetch("http://localhost:8081/api/v1/users/add", {
                 method: "POST",
                 headers: {
-                    'Content-Type': 'application/json'
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
+                    school_id,
                     email,
                     password,
                 })
@@ -56,19 +68,22 @@
     });
 
     function populateRandomly() {
-        $('#email').val(faker.internet.email().toLowerCase());
-        //$('#email').val(randomAlphaNumeric(10) + "@domain.ext");
-        $('#password').val(randomAlphaNumeric(12));
+        const schoolOptions = $("#school").find("option");
+        $("#school").val(schoolOptions[Math.floor(Math.random() * schoolOptions.length)].value);
+        $("#email").val(faker.internet.email().toLowerCase());
+        $("#password").val(randomAlphaNumeric(12));
     }
 
     function reset() {
+        const schoolOptions = $("#school").find("option");
+        $("#school").val(schoolOptions[0].value);
         $("#email").val("");
         $("#password").val("");
     }
 
     function randomAlphaNumeric(length) {
-        var result = '';
-        var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var result = "";
+        var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         var charactersLength = characters.length;
         for (var i = 0; i < length; i++) {
             result += characters.charAt(Math.floor(Math.random() * charactersLength));
@@ -78,4 +93,4 @@
 
 </script>
 
-<%- include('../../tail'); %>
+<%- include("../../tail"); %>

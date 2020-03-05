@@ -8,7 +8,8 @@
     <form id="signup-form">
         <div class="form-group">
             <label for="name">Name</label>
-            <input type="name" class="form-control" id="name" name="name" aria-describedby="nameHelp" placeholder="Enter name">
+            <input type="name" class="form-control" id="name" name="name" aria-describedby="nameHelp"
+                placeholder="Enter name">
         </div>
         <div class="form-group">
             <label for="website">Website</label>
@@ -38,8 +39,11 @@
                     website,
                 })
             })
-                .then((resp) => resp.json())
+                .then((response) => response.json())
                 .then((json) => {
+                    if (json.error) {
+                        throw json.error;
+                    }
                     console.log("Created new school!");
                     console.log(json);
                 })
@@ -53,8 +57,9 @@
     });
 
     function populateRandomly() {
-        $('#name').val(randomString(10, false, false) + "@domain.ext");
-        $('#website').val("https://" + randomString(8, false, false) + ".edu");
+        const city = faker.address.city();
+        $('#name').val(city + " University");
+        $('#website').val("https://" + city.replace(/\s/gi, "-").toLowerCase() + ".edu");
     }
 
     function reset() {
