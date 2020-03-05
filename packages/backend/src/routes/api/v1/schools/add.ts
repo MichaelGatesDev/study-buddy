@@ -13,19 +13,14 @@ router.post("/", async (_req: Request, res: Response): Promise<void> => {
         const password = _req.body.password
         const password_hash = bcrypt.hashSync(password, 8);
 
-        const count = await User.count({ where: { email } });
-        if (count > 0) {
-            throw "A user with that email already exists in the database!";
-        }
-
-        const createdUser = await User.create({
+        const createdUser = User.create({
             "email": email,
             "password_hash": password_hash
         });
         res.status(200).json(createdUser);
     } catch (error) {
-        console.error("Error: " + error);
-        res.status(500).json({ error });
+        console.error("Error: " + error.parent.sqlMessage);
+        res.status(500).send(error);
     }
 });
 

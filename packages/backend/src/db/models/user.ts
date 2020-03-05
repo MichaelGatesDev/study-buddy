@@ -1,4 +1,4 @@
-import { Table, Column, Model, CreatedAt, UpdatedAt, ForeignKey, PrimaryKey, BelongsTo, AutoIncrement, BelongsToMany, HasMany } from 'sequelize-typescript';
+import { Table, Column, Model, CreatedAt, UpdatedAt, ForeignKey, PrimaryKey, BelongsTo, AutoIncrement, BelongsToMany, HasMany, Unique } from 'sequelize-typescript';
 
 import { School } from "./school";
 import { Course } from "./course";
@@ -11,6 +11,7 @@ export class User extends Model<User> {
     @Column
     public id!: number;
 
+    @Unique
     @Column
     public email!: string;
     @Column

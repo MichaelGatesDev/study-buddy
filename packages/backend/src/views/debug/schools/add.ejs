@@ -3,16 +3,16 @@
 <%- include('../navbar'); %>
 
 <div class="container-fluid">
-    <h2>Add User</h2>
+    <h2>Add School</h2>
 
     <form id="signup-form">
         <div class="form-group">
-            <label for="email">Email address</label>
-            <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter email">
+            <label for="name">Name</label>
+            <input type="name" class="form-control" id="name" name="name" aria-describedby="nameHelp" placeholder="Enter name">
         </div>
         <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+            <label for="website">Website</label>
+            <input type="website" class="form-control" id="website" name="website" placeholder="Website">
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
         <button type="button" class="btn btn-secondary" onclick="populateRandomly();">Randomly Populate</button>
@@ -25,29 +25,26 @@
     $(document).ready(() => {
         reset();
         $("#signup-form").on('submit', function () {
-            var email = $("#email").val();
-            var password = $("#password").val();
+            var name = $("#name").val();
+            var website = $("#website").val();
 
-            fetch("http://localhost:8081/api/v1/users/add", {
+            fetch("http://localhost:8081/api/v1/schools/add", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    email,
-                    password,
+                    name,
+                    website,
                 })
             })
-                .then((response) => response.json())
+                .then((resp) => resp.json())
                 .then((json) => {
-                    if (json.error) {
-                        throw json.error;
-                    }
-                    console.log("Created new user!");
+                    console.log("Created new school!");
                     console.log(json);
                 })
                 .catch((err) => {
-                    console.error("Failed to create user!");
+                    console.error("Failed to create school!");
                     console.error(err);
                 });
 
@@ -56,19 +53,22 @@
     });
 
     function populateRandomly() {
-        $('#email').val(faker.internet.email().toLowerCase());
-        //$('#email').val(randomAlphaNumeric(10) + "@domain.ext");
-        $('#password').val(randomAlphaNumeric(12));
+        $('#name').val(randomString(10, false, false) + "@domain.ext");
+        $('#website').val("https://" + randomString(8, false, false) + ".edu");
     }
 
     function reset() {
-        $("#email").val("");
-        $("#password").val("");
+        $("#name").val("");
+        $("#website").val("");
     }
 
-    function randomAlphaNumeric(length) {
+    function randomString(length, uppercaseAlso = true, numbersAlso = true) {
         var result = '';
-        var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let characters = 'abcdefghijklmnopqrstuvwxyz';
+        const lettersUpper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        if (uppercaseAlso) characters += lettersUpper;
+        const numbers = '0123456789';
+        if (numbersAlso) characters += numbers;
         var charactersLength = characters.length;
         for (var i = 0; i < length; i++) {
             result += characters.charAt(Math.floor(Math.random() * charactersLength));
