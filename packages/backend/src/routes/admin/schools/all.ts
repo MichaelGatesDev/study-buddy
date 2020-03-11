@@ -1,14 +1,14 @@
 import { Router, Response, Request } from "express";
 
-import { User } from '../../../db/models/user';
+import { School } from "../../../db/models/school";
 
 // Init router and path
 const router = Router();
 
 router.get("/", async (_req: Request, res: Response) => {
     try {
-        const users = await User.findAll();
-        res.status(200).render('debug/users/all', { users });
+        const schools = await School.findAll();
+        res.status(200).render('admin/schools/all', { schools });
     } catch (error) {
         console.error("Error: " + error.parent.sqlMessage);
         res.status(500).send(error);

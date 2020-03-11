@@ -1,6 +1,6 @@
 import { Sequelize } from 'sequelize-typescript';
 
-import dbConfig from "../../db-config.json";
+import dbConfig from "../db-config.json";
 import { User } from "./models/user";
 import { School } from "./models/school";
 import { Course } from './models/course';

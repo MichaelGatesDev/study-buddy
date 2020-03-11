@@ -1,12 +1,12 @@
 import { Router, Response, Request } from "express";
-import usersRoute from './users/';
-import schoolsRoute from './schools/';
+import usersRoute from './users';
+import schoolsRoute from './schools';
 
 // Init router and path
 const router = Router();
 
 router.get("/", (_req: Request, res: Response) => {
-    res.render('debug/index', { title: 'Hey', message: 'Hello there!' })
+    res.render('admin/index', { title: 'Hey', message: 'Hello there!' })
 });
 
 // Add sub-routes
