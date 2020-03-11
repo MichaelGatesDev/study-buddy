@@ -1,96 +1,115 @@
-<%- include("../../head"); %>
-
-<%- include("../navbar"); %>
+<%- include("../../head"); %> <%- include("../navbar"); %>
 
 <div class="container-fluid">
-    <h2>Add User</h2>
+  <h2>Add User</h2>
 
-    <form id="signup-form">
-        <div class="form-group">
-            <label for="school">School</label>
-            <select class="custom-select" id="school" name="school">
-                <option selected>Choose...</option>
-                <% schools.forEach((school) => { %>
-                <option value="<%= school.id %>"><%= school.name %></option>
-                <% }); %>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="email">Email address</label>
-            <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp"
-                placeholder="Enter email">
-        </div>
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" class="form-control" id="password" name="password" placeholder="Password">
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-        <button type="button" class="btn btn-secondary" onclick="populateRandomly();">Randomly Populate</button>
-        <button type="button" class="btn btn-secondary" onclick="reset();">Clear</button>
-    </form>
+  <form id="signup-form">
+    <div class="form-group">
+      <label for="school">School</label>
+      <select class="custom-select" id="school" name="school">
+        <option selected>Choose...</option>
+        <% schools.forEach((school) => { %>
+        <option value="<%= school.id %>"><%= school.name %></option>
+        <% }); %>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="email">Email address</label>
+      <input
+        type="email"
+        class="form-control"
+        id="email"
+        name="email"
+        aria-describedby="emailHelp"
+        placeholder="Enter email"
+      />
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        type="password"
+        class="form-control"
+        id="password"
+        name="password"
+        placeholder="Password"
+      />
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <button
+      type="button"
+      class="btn btn-secondary"
+      onclick="populateRandomly();"
+    >
+      Randomly Populate
+    </button>
+    <button type="button" class="btn btn-secondary" onclick="reset();">
+      Clear
+    </button>
+  </form>
 </div>
 
 <script>
+  $(document).ready(() => {
+    reset();
+    $("#signup-form").on("submit", function() {
+      var school_id = $("#school").val();
+      var email = $("#email").val();
+      var password = $("#password").val();
 
-    $(document).ready(() => {
-        reset();
-        $("#signup-form").on("submit", function () {
-            var school_id = $("#school").val();
-            var email = $("#email").val();
-            var password = $("#password").val();
-
-            fetch("http://localhost:8081/api/v1/users/add", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    school_id,
-                    email,
-                    password,
-                })
-            })
-                .then((response) => response.json())
-                .then((json) => {
-                    if (json.error) {
-                        throw json.error;
-                    }
-                    console.log("Created new user!");
-                    console.log(json);
-                })
-                .catch((err) => {
-                    console.error("Failed to create user!");
-                    console.error(err);
-                });
-
-            return false; // prevents redirect
+      fetch("http://localhost:8081/api/v1/users/add", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          school_id,
+          email,
+          password,
+        }),
+      })
+        .then(response => response.json())
+        .then(json => {
+          if (json.error) {
+            throw json.error;
+          }
+          console.log("Created new user!");
+          console.log(json);
+        })
+        .catch(err => {
+          console.error("Failed to create user!");
+          console.error(err);
         });
+
+      return false; // prevents redirect
     });
+  });
 
-    function populateRandomly() {
-        const schoolOptions = $("#school").find("option");
-        $("#school").val(schoolOptions[Math.floor(Math.random() * schoolOptions.length)].value);
-        $("#email").val(faker.internet.email().toLowerCase());
-        $("#password").val(randomAlphaNumeric(12));
+  function populateRandomly() {
+    const schoolOptions = $("#school").find("option");
+    $("#school").val(
+      schoolOptions[Math.floor(Math.random() * schoolOptions.length)].value
+    );
+    $("#email").val(faker.internet.email().toLowerCase());
+    $("#password").val(randomAlphaNumeric(12));
+  }
+
+  function reset() {
+    const schoolOptions = $("#school").find("option");
+    $("#school").val(schoolOptions[0].value);
+    $("#email").val("");
+    $("#password").val("");
+  }
+
+  function randomAlphaNumeric(length) {
+    var result = "";
+    var characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
-
-    function reset() {
-        const schoolOptions = $("#school").find("option");
-        $("#school").val(schoolOptions[0].value);
-        $("#email").val("");
-        $("#password").val("");
-    }
-
-    function randomAlphaNumeric(length) {
-        var result = "";
-        var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        var charactersLength = characters.length;
-        for (var i = 0; i < length; i++) {
-            result += characters.charAt(Math.floor(Math.random() * charactersLength));
-        }
-        return result;
-    }
-
+    return result;
+  }
 </script>
 
 <%- include("../../tail"); %>

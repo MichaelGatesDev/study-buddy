@@ -5,8 +5,8 @@ import { School } from "../../../db/models/school";
 const router = Router();
 
 router.get("/", async (_req: Request, res: Response) => {
-    const schools = await School.findAll();
-    res.status(200).render('admin/users/add', { schools });
+  const schools = await School.findAll();
+  res.status(200).render("admin/users/add", { schools });
 });
 
 // Export the base-router

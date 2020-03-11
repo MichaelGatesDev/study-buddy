@@ -4,7 +4,7 @@ import { Router, Response, Request } from "express";
 const router = Router();
 
 router.get("/", async (_req: Request, res: Response) => {
-    res.status(200).render('admin/schools/add', {});
+  res.status(200).render("admin/schools/add", {});
 });
 
 // Export the base-router

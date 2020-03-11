@@ -1,42 +1,61 @@
-import { Table, Column, Model, CreatedAt, UpdatedAt, ForeignKey, PrimaryKey, BelongsTo, AutoIncrement, BelongsToMany, HasMany, Unique } from 'sequelize-typescript';
+import {
+  Table,
+  Column,
+  Model,
+  CreatedAt,
+  UpdatedAt,
+  ForeignKey,
+  PrimaryKey,
+  BelongsTo,
+  AutoIncrement,
+  BelongsToMany,
+  Unique,
+} from "sequelize-typescript";
 
 import { School } from "./school";
 import { Course } from "./course";
-import { CourseUser } from './course-user';
+import { CourseUser } from "./course-user";
 
 @Table
 export class User extends Model<User> {
-    @AutoIncrement
-    @PrimaryKey
-    @Column
-    public id!: number;
+  @AutoIncrement
+  @PrimaryKey
+  @Column
+  public id!: number;
 
-    @Unique
-    @Column
-    public email!: string;
-    
-    @Column
-    public password_hash!: string;
+  @Unique
+  @Column
+  public email!: string;
 
-    @ForeignKey(() => School)
-    @Column
-    school_id!: number;
+  @Column
+  public password_hash!: string;
 
-    @BelongsTo(() => School, "school_id")
-    school!: School;
+  @ForeignKey(() => School)
+  @Column
+  school_id!: number;
 
-    @BelongsToMany(() => Course, () => CourseUser)
-    courses_taking!: Course[];
+  @BelongsTo(() => School, "school_id")
+  school!: School;
 
-    @BelongsToMany(() => Course, () => CourseUser, "course_id", "user_id")
-    courses_taken!: Course[];
+  @BelongsToMany(
+    () => Course,
+    () => CourseUser
+  )
+  courses_taking!: Course[];
 
-    @CreatedAt
-    @Column
-    created_at!: Date;
+  @BelongsToMany(
+    () => Course,
+    () => CourseUser,
+    "course_id",
+    "user_id"
+  )
+  courses_taken!: Course[];
 
-    @UpdatedAt
-    @Column
-    updated_at!: Date;
+  @CreatedAt
+  @Column
+  created_at!: Date;
 
+  @UpdatedAt
+  @Column
+  updated_at!: Date;
 }

@@ -1,86 +1,104 @@
-<%- include('../../head'); %>
-
-<%- include('../navbar'); %>
+<%- include('../../head'); %> <%- include('../navbar'); %>
 
 <div class="container-fluid">
-    <h2>Add School</h2>
+  <h2>Add School</h2>
 
-    <form id="signup-form">
-        <div class="form-group">
-            <label for="name">Name</label>
-            <input type="name" class="form-control" id="name" name="name" aria-describedby="nameHelp"
-                placeholder="Enter name">
-        </div>
-        <div class="form-group">
-            <label for="website">Website</label>
-            <input type="website" class="form-control" id="website" name="website" placeholder="Website">
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-        <button type="button" class="btn btn-secondary" onclick="populateRandomly();">Randomly Populate</button>
-        <button type="button" class="btn btn-secondary" onclick="reset();">Clear</button>
-    </form>
+  <form id="signup-form">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input
+        type="name"
+        class="form-control"
+        id="name"
+        name="name"
+        aria-describedby="nameHelp"
+        placeholder="Enter name"
+      />
+    </div>
+    <div class="form-group">
+      <label for="website">Website</label>
+      <input
+        type="website"
+        class="form-control"
+        id="website"
+        name="website"
+        placeholder="Website"
+      />
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <button
+      type="button"
+      class="btn btn-secondary"
+      onclick="populateRandomly();"
+    >
+      Randomly Populate
+    </button>
+    <button type="button" class="btn btn-secondary" onclick="reset();">
+      Clear
+    </button>
+  </form>
 </div>
 
 <script>
+  $(document).ready(() => {
+    reset();
+    $("#signup-form").on("submit", function() {
+      var name = $("#name").val();
+      var website = $("#website").val();
 
-    $(document).ready(() => {
-        reset();
-        $("#signup-form").on('submit', function () {
-            var name = $("#name").val();
-            var website = $("#website").val();
-
-            fetch("http://localhost:8081/api/v1/schools/add", {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    name,
-                    website,
-                })
-            })
-                .then((response) => response.json())
-                .then((json) => {
-                    if (json.error) {
-                        throw json.error;
-                    }
-                    console.log("Created new school!");
-                    console.log(json);
-                })
-                .catch((err) => {
-                    console.error("Failed to create school!");
-                    console.error(err);
-                });
-
-            return false; // prevents redirect
+      fetch("http://localhost:8081/api/v1/schools/add", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          website,
+        }),
+      })
+        .then(response => response.json())
+        .then(json => {
+          if (json.error) {
+            throw json.error;
+          }
+          console.log("Created new school!");
+          console.log(json);
+        })
+        .catch(err => {
+          console.error("Failed to create school!");
+          console.error(err);
         });
+
+      return false; // prevents redirect
     });
+  });
 
-    function populateRandomly() {
-        const city = faker.address.city();
-        $('#name').val(city + " University");
-        $('#website').val("https://" + city.replace(/\s/gi, "-").toLowerCase() + ".edu");
+  function populateRandomly() {
+    const city = faker.address.city();
+    $("#name").val(city + " University");
+    $("#website").val(
+      "https://" + city.replace(/\s/gi, "-").toLowerCase() + ".edu"
+    );
+  }
+
+  function reset() {
+    $("#name").val("");
+    $("#website").val("");
+  }
+
+  function randomString(length, uppercaseAlso = true, numbersAlso = true) {
+    var result = "";
+    let characters = "abcdefghijklmnopqrstuvwxyz";
+    const lettersUpper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    if (uppercaseAlso) characters += lettersUpper;
+    const numbers = "0123456789";
+    if (numbersAlso) characters += numbers;
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
-
-    function reset() {
-        $("#name").val("");
-        $("#website").val("");
-    }
-
-    function randomString(length, uppercaseAlso = true, numbersAlso = true) {
-        var result = '';
-        let characters = 'abcdefghijklmnopqrstuvwxyz';
-        const lettersUpper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        if (uppercaseAlso) characters += lettersUpper;
-        const numbers = '0123456789';
-        if (numbersAlso) characters += numbers;
-        var charactersLength = characters.length;
-        for (var i = 0; i < length; i++) {
-            result += characters.charAt(Math.floor(Math.random() * charactersLength));
-        }
-        return result;
-    }
-
+    return result;
+  }
 </script>
 
 <%- include('../../tail'); %>
