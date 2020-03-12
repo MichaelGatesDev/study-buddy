@@ -1,0 +1,27 @@
+.ProfileSection{
+    img#logo{
+        width: 12%;
+        height: auto;
+        margin: 5px;
+    }
+    a#navbarDropdown{
+        border: 1px solid #b9bbbd;
+        border-radius: 50px;
+        text-decoration: none;
+    }
+    img#profilePhoto{
+        width: 30%;
+        height: auto;
+        border: 1px solid #b9bbbd;
+        border-radius: 70%;
+        text-decoration: none;
+    }
+
+    .container{
+        padding-top: 15px;
+    }
+    .col{
+        justify-content: center;
+    }
+
+}
