@@ -1,6 +1,8 @@
 <%- include('../../head'); %> <%- include('../navbar'); %>
 
 <div class="container-fluid">
+  <div id="alert-container"></div>
+
   <h2>Add School</h2>
 
   <form id="signup-form">
@@ -61,10 +63,16 @@
           if (json.error) {
             throw json.error;
           }
+          showAlert("success", [
+            "Added new school!",
+            "Name: " + json["name"],
+            "Website: " + json["website"],
+          ]);
           console.log("Created new school!");
           console.log(json);
         })
         .catch(err => {
+          showAlert("danger", ["Failed to add school!", err]);
           console.error("Failed to create school!");
           console.error(err);
         });
@@ -86,18 +94,16 @@
     $("#website").val("");
   }
 
-  function randomString(length, uppercaseAlso = true, numbersAlso = true) {
-    var result = "";
-    let characters = "abcdefghijklmnopqrstuvwxyz";
-    const lettersUpper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    if (uppercaseAlso) characters += lettersUpper;
-    const numbers = "0123456789";
-    if (numbersAlso) characters += numbers;
-    var charactersLength = characters.length;
-    for (var i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
+  function showAlert(alertType, contents) {
+    const alert = `
+<div class="alert alert-${alertType} alert-dismissible fade show" role="alert">
+  ${contents.map(msg => msg + "<br>").join("")}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+    `.trim();
+    $("#alert-container").prepend(alert);
   }
 </script>
 

@@ -2,6 +2,7 @@ import { Router, Response, Request } from "express";
 import { User } from "../../../../db/models/user";
 
 import addRoute from "./add";
+import deleteRoute from "./delete";
 
 // Init router and path
 const router = Router();
@@ -23,7 +24,20 @@ router.get(
   }
 );
 
+router.param("userID", async function(req, res, next, id) {
+  try {
+    const user = await User.findOne({
+      where: { id },
+    });
+    req.user = user;
+    next();
+  } catch (error) {
+    next(new Error(error.parent.sqlMessage));
+  }
+});
+
 router.use("/add", addRoute);
+router.use("/delete/:userID", deleteRoute);
 
 // Export the base-router
 export default router;

@@ -11,7 +11,7 @@ import { sequelize } from "./db/database";
   });
 
   // Force create creation (i.e. clears data every load, should be used in dev only)
-  await sequelize.sync({ force: true });
+  await sequelize.sync({ force: false });
 
   // Connect ot the database
   sequelize
