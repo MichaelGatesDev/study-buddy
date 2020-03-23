@@ -17,7 +17,7 @@ const ProfileSection = () => {
                         </form>
                         <ul className="navbar-nav mr-auto">
                             <li className="nav-item active">
-                                <a className="nav-link" href="#">Home <span className="sr-only">(current)</span></a>
+                                <a className="nav-link" href="#/home">Home <span className="sr-only">(current)</span></a>
                             </li>
                             <li className="nav-item dropdown">
                                 <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -71,6 +71,11 @@ const ProfileSection = () => {
                     </div>
                 </div>
             </div>
+            <footer className="footer mt-auto py-3 navbar-dark bg-dark">
+                    <div className="container text-center">
+                        <span className="text-muted">&copy; 2020 Copyright EdYOU </span>
+                    </div>
+            </footer>
         </section>
     );
 };
