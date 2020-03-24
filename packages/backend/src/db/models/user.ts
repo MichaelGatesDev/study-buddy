@@ -1,53 +1,61 @@
-import { sequelize } from '../database';
-import { Model, DataTypes } from 'sequelize';
+import {
+  Table,
+  Column,
+  Model,
+  CreatedAt,
+  UpdatedAt,
+  ForeignKey,
+  PrimaryKey,
+  BelongsTo,
+  AutoIncrement,
+  BelongsToMany,
+  Unique,
+} from "sequelize-typescript";
 
-export class User extends Model {
-    public id!: number;
-    public schoolID!: number;
-    public email!: string;
-    public passwordHash!: string;
-    public passwordSalt!: string;
-    public preferredName!: string;
-    public displayName!: string;
+import { School } from "./school";
+import { Course } from "./course";
+import { CourseUser } from "./course-user";
 
-    // timestamps!
-    public readonly createdAt!: Date;
-    public readonly updatedAt!: Date;
+@Table
+export class User extends Model<User> {
+  @AutoIncrement
+  @PrimaryKey
+  @Column
+  public id!: number;
+
+  @Unique
+  @Column
+  public email!: string;
+
+  @Column
+  public password_hash!: string;
+
+  @ForeignKey(() => School)
+  @Column
+  school_id!: number;
+
+  @BelongsTo(() => School, "school_id")
+  school!: School;
+
+  @BelongsToMany(
+    () => Course,
+    () => CourseUser
+  )
+  courses_taking!: Course[];
+
+  @BelongsToMany(
+    () => Course,
+    () => CourseUser,
+    "course_id",
+    "user_id"
+  )
+  courses_taken!: Course[];
+
+  @CreatedAt
+  @Column
+  created_at!: Date;
+
+  @UpdatedAt
+  @Column
+  updated_at!: Date;
 }
-
-User.init({
-    id: {
-        type: DataTypes.INTEGER.UNSIGNED,
-        autoIncrement: true,
-        primaryKey: true,
-    },
-    schoolID: {
-        type: DataTypes.INTEGER.UNSIGNED,
-        allowNull: true,
-    },
-    email: {
-        type: new DataTypes.STRING(320),
-        allowNull: false,
-    },
-    passwordHash: {
-        type: new DataTypes.STRING(),
-        allowNull: false,
-    },
-    passwordSalt: {
-        type: new DataTypes.STRING(),
-        allowNull: false,
-    },
-    preferredName: {
-        type: new DataTypes.STRING(30),
-        allowNull: false,
-    },
-    displayName: {
-        type: new DataTypes.STRING(30),
-        allowNull: false,
-    },
-}, {
-    tableName: 'users',
-    sequelize: sequelize, // this bit is important
-});
-
-User.sync({ force: true });

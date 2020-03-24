@@ -1,11 +1,14 @@
 import { Router } from "express";
-import v1Route from "./v1/";
+
+import addRoute from "./add";
+import allRoute from "./all";
 
 // Init router and path
 const router = Router();
 
 // Add sub-routes
-router.use("/v1", v1Route);
+router.use("/", allRoute);
+router.use("/add", addRoute);
 
 // Export the base-router
 export default router;
