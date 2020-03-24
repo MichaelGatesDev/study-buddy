@@ -29,7 +29,7 @@ router.param("userID", async function(req, res, next, id) {
     const user = await User.findOne({
       where: { id },
     });
-    req.user = user;
+    req.body.user = user;
     next();
   } catch (error) {
     next(new Error(error.parent.sqlMessage));

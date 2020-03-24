@@ -8,7 +8,7 @@ const router = Router();
 router.post(
   "/",
   async (_req: Request, res: Response): Promise<void> => {
-    const user: User = _req.user;
+    const user: User = _req.body.user;
     try {
       await user.destroy();
       res.status(200).json(user);
