@@ -10,17 +10,17 @@ import { sequelize } from "./db/database";
     logger.info("Express server started on port: " + port);
   });
 
-  // Force create creation (i.e. clears data every load, should be used in dev only)
-  await sequelize.sync({ force: false });
+  try {
+    // Force create creation (i.e. clears data every load, should be used in dev only)
+    await sequelize.sync({ force: false });
 
-  // Connect ot the database
-  sequelize
-    .authenticate()
-    .then(() => {
-      console.log("Database connection has been established successfully.");
-      return null;
-    })
-    .catch((err: any) => {
-      console.error("Unable to connect to the database:", err);
-    });
+    // Connect ot the database
+    await sequelize.authenticate();
+    logger.info("Database connection has been established successfully.");
+  } catch (error) {
+    // console.error(error);
+    logger.error(
+      "Unable to connect to the database! Reason: " + error?.message
+    );
+  }
 })();
