@@ -1,5 +1,6 @@
-import React from "react";
 import "./style.scss";
+
+import React from "react";
 
 interface Props {
   title: string; // this is a mandatory property
@@ -7,9 +8,7 @@ interface Props {
 }
 
 const ExampleComponent = (props: Props) => {
-  return (
-    <div className="ExampleComponent">
-    </div>
-  );
-}
+  return <div className="ExampleComponent"></div>;
+};
+
 export default ExampleComponent;

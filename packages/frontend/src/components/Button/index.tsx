@@ -1,5 +1,6 @@
-import React from "react";
 import "./style.scss";
+
+import React from "react";
 
 interface Props {
   title: string; // this is a mandatory property
@@ -8,11 +9,10 @@ interface Props {
 }
 
 const Button = (props: Props) => {
-  
   return (
     <div className="Button">
-      <input type= 'button' value ={props.value}></input>
+      <input type="button" value={props.value}></input>
     </div>
   );
-}
+};
 export default Button;

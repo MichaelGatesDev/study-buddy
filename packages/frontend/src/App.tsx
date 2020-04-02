@@ -1,6 +1,8 @@
-import React from "react";
 import "./App.css";
+
+import React from "react";
 import { HashRouter, Switch, Route } from "react-router-dom";
+
 import AuthSection from "./sections/AuthSection";
 import LandingSection from "./sections/Landing";
 import ProfileSection from "./sections/ProfileSection";
