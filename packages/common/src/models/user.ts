@@ -1,15 +1,9 @@
-export class User {
-    public name: string;
-
-    constructor(name: string) {
-        this.name = name;
-    }
-
-    public doSomething() { }
-
-    public eat() { }
-    public drink(){}
-    public asdf(){}
+export interface User {
+  id: number;
+  schoolID: number;
+  email: string;
+  passwordHash: string;
+  passwordSalt: string;
+  preferredName: string;
+  displayName: string;
 }
-
-

@@ -14,11 +14,14 @@
     "strict": true,
     "skipLibCheck": true,
     "target": "es2019",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "lib": [
       "ES2019",
       "DOM",
       "DOM.Iterable"
-    ]
+    ],
+    "resolveJsonModule": true
   },
   "exclude": [
     "node_modules",

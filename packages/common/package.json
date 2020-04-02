@@ -11,5 +11,10 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
+    "chalk": "^3.0.0",
+    "moment": "^2.24.0"
+  },
+  "devDependencies": {
+    "@types/chalk": "^2.2.0"
   }
 }
