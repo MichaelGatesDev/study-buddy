@@ -21,7 +21,13 @@ export class School extends Model<School> {
   public id!: number;
 
   @Column
+  public ipeds!: string;
+
+  @Column
   public name!: string;
+
+  @Column
+  public verified!: boolean;
 
   @Unique
   @Column
