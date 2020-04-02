@@ -7,24 +7,31 @@
   "scripts": {
     "start:backend": "yarn workspace @study-buddy/backend run dev",
     "start:frontend": "yarn workspace @study-buddy/frontend run start",
+    "start": "concurrently \"yarn start:backend\" \"wait-on http://localhost:3001\" \"yarn start:frontend\" \"wait-on http://localhost:3000\"",
     "tsc": "lerna run tsc",
     "clean": "lerna clean && lerna run clean",
-    "lint": "eslint . --ext .js,.ts",
-    "lint-fix": "eslint . --ext .js,.ts --fix",
     "postinstall": "lerna bootstrap && yarn tsc && lerna link",
     "test": "lerna run test --concurrency 1"
   },
   "devDependencies": {
     "@types/jest": "^25.1.0",
-    "@types/node": "^13.5.0",
+    "@types/node": "^13.11.0",
+    "@types/rimraf": "^3.0.0",
     "@typescript-eslint/eslint-plugin": "^2.23.0",
     "@typescript-eslint/parser": "^2.23.0",
+    "concurrently": "^5.1.0",
+    "cross-env": "^7.0.2",
     "eslint": "^6.8.0",
+    "fs-extra": "^9.0.0",
     "jest": "^25.1.0",
     "lerna": "^3.20.2",
+    "rimraf": "^3.0.2",
+    "ts-node": "^8.8.1",
     "ts-node-dev": "^1.0.0-pre.44",
     "tsconfig-paths": "^3.9.0",
-    "typescript": "^3.7.5"
+    "tslib": "^1.11.1",
+    "typescript": "^3.8.3",
+    "wait-on": "^4.0.1"
   },
   "resolutions": {
     "typescript": "^3.7.5"
