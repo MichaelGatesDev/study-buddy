@@ -1,13 +1,10 @@
 .HomeSection{
-    div#Container{
-        display: flex;
-        flex-direction: row;
-    }
+
     * {
         box-sizing: border-box;
       }
-    form{
-        flex-direction: column;
+    div.row form{
+        flex-direction: row;
         text-align: left; 
         width: 450px;
         margin: 0 3em;
@@ -26,20 +23,14 @@
         justify-content: center;
         margin: 10px;
     }
-    body{
-        min-height: 100vh;
-        display: block;
-        font-weight: 400;
-    }
-    body, html, .App, #root{
-        width: 100%;
-        height: 100%;
-    }
 
     img{
-        width: 20%;
+        width: 10%;
         height: auto;
         margin: 5px;
+    }
+    .btn-secondary{
+        width: max-content;
     }
    
     
