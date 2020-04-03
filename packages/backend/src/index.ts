@@ -1,7 +1,8 @@
-import "./LoadEnv"; // Must be the first import
 import app from "./Server";
 import { sequelize } from "./db/database";
 import { Logger } from "@study-buddy/common";
+
+// i2YuoFnmtPE4_8TjLgAUO4YB
 
 (async (): Promise<void> => {
   // Start the server
@@ -19,8 +20,6 @@ import { Logger } from "@study-buddy/common";
     Logger.info("Database connection has been established successfully.");
   } catch (error) {
     // console.error(error);
-    Logger.error(
-      "Unable to connect to the database! Reason: " + error?.message
-    );
+    Logger.error("Unable to connect to the database! Reason: " + error?.message);
   }
 })();
