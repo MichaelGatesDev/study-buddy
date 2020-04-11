@@ -12,9 +12,10 @@ import "bootstrap/dist/js/bootstrap.min";
 import "jquery/dist/jquery.slim";
 // -- END BOOTSTRAP --
 
-import AuthSection from "./sections/AuthSection";
 import LandingSection from "./sections/Landing";
 import ProfileSection from "./sections/ProfileSection";
+import { AuthSection } from "./sections/AuthSection";
+import { HomeSection } from "./sections/HomeSection";
 
 const App: React.FC = () => {
   return (
@@ -22,6 +23,7 @@ const App: React.FC = () => {
       <HashRouter basename="/">
         <Switch>
           <Route exact path="/" component={LandingSection} />
+          <Route path="/home" component={HomeSection} />
           <Route path="/auth" component={AuthSection} />
           <Route path="/profile" component={ProfileSection} />
         </Switch>

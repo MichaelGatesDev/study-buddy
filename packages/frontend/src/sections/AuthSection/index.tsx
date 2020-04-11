@@ -12,7 +12,7 @@ interface AuthSuccessResponse {
   user?: User;
 }
 
-const AuthSection = () => {
+export const AuthSection = () => {
   const [authedUser, setAuthedUser] = useState<User | undefined>(undefined);
 
   const isAuthed = (): boolean => authedUser !== undefined;
@@ -171,5 +171,3 @@ const AuthSection = () => {
     </section>
   );
 };
-
-export default AuthSection;
