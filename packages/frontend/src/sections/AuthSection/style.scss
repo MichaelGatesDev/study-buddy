@@ -1,34 +1,13 @@
-.HomeSection {
-  * {
-    box-sizing: border-box;
-  }
-  div.row form {
-    flex-direction: row;
-    text-align: left;
-    width: 450px;
-    margin: 0 3em;
-    width: max-content;
-    align-content: center;
-    background-origin: padding-box;
-    border-radius: 2em;
-    background-color: #ffffff;
-    box-shadow: 20px 20px 80px rgba(34, 35, 58, 0.2);
-    padding: 40px 55px 45px 55px;
-    border-radius: 15px;
-    transition: all 0.3s;
-  }
+#auth-section {
+  width: 100vw;
+  height: 100vh;
+  background-color: #ffffff;
+}
 
-  div {
-    justify-content: center;
-    margin: 10px;
-  }
+.connect-card {
+  padding: 1em;
 
-  img {
-    width: 10%;
-    height: auto;
-    margin: 5px;
-  }
-  .btn-secondary {
-    width: max-content;
-  }
+  -webkit-box-shadow: 0px 10px 20px -7px rgba(0, 0, 0, 0.21);
+  -moz-box-shadow: 0px 10px 20px -7px rgba(0, 0, 0, 0.21);
+  box-shadow: 0px 10px 20px -7px rgba(0, 0, 0, 0.21);
 }

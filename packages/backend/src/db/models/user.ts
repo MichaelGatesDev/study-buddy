@@ -1,16 +1,4 @@
-import {
-  Table,
-  Column,
-  Model,
-  CreatedAt,
-  UpdatedAt,
-  ForeignKey,
-  PrimaryKey,
-  BelongsTo,
-  AutoIncrement,
-  BelongsToMany,
-  Unique,
-} from "sequelize-typescript";
+import { Table, Column, Model, CreatedAt, UpdatedAt, ForeignKey, PrimaryKey, BelongsTo, AutoIncrement, BelongsToMany, Unique } from "sequelize-typescript";
 
 import { School } from "./school";
 import { Course } from "./course";
@@ -27,8 +15,9 @@ export class User extends Model<User> {
   @Column
   public email!: string;
 
+  @Unique
   @Column
-  public password_hash!: string;
+  public google_id!: string;
 
   @ForeignKey(() => School)
   @Column
