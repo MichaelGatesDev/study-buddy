@@ -1,50 +1,29 @@
 import "./style.scss";
+
 import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
 import { GoogleLogin, GoogleLogout } from "react-google-login";
-import { Col, Container } from "react-bootstrap";
+import { Col, Container, Row, Alert } from "react-bootstrap";
 
 import { User } from "@study-buddy/common";
 
+import logo from "../../images/logo.png";
+import { performAuth } from "../../redux/auth/actions";
+import { AppState } from "../../redux/store";
 import SimpleAccordion from "../../components/SimpleAccordion";
+import { AuthState } from "../../redux/auth/types";
 
-interface AuthSuccessResponse {
-  error?: string;
-  user?: User;
+interface Props {
+  authState: AuthState;
+  performAuth: (tokenID: string) => void;
 }
 
-export const AuthSection = () => {
+const ConnectSection = (props: Props) => {
+  const [errorMessage, setErrorMessage] = useState<string | undefined>(
+    undefined
+  );
+
   const [authedUser, setAuthedUser] = useState<User | undefined>(undefined);
-
-  const isAuthed = (): boolean => authedUser !== undefined;
-
-  const performConnect = (tokenID: string): Promise<void> => {
-    return fetch("http://localhost:3000/api/v1/auth/connect", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        token: tokenID,
-      }),
-    })
-      .then(resp => resp.json())
-      .then((json: AuthSuccessResponse) => {
-        if (json.error !== undefined) {
-          console.error("Failed to authenticate with server!");
-          console.error(json.error);
-          return;
-        }
-        console.log("Succesfully connected account!");
-        console.log(json);
-        setAuthedUser(json.user);
-        localStorage.setItem("idToken", tokenID);
-      })
-      .catch((err: Error) => {
-        console.error("Failed to authenticate with server!");
-        console.error(err.message);
-      });
-  };
 
   const performDisconnect = () => {
     localStorage.removeItem("idToken");
@@ -52,11 +31,13 @@ export const AuthSection = () => {
     console.log("Disconnected account!");
   };
 
+  const { performAuth } = props;
+
   useEffect(() => {
     const idToken = localStorage.getItem("idToken");
     if (idToken) {
       // console.log("Found cached id token");
-      performConnect(idToken);
+      performAuth(idToken);
     }
   }, []);
 
@@ -70,15 +51,14 @@ export const AuthSection = () => {
     // Token ID: ${tokenID}
     // Access Token: ${accessToken}
     //     `);
-    performConnect(tokenID);
+    performAuth(tokenID);
   };
 
   const onConnectFailure = (response: any): void => {
-    const details = response.details;
-
+    const error = response.error;
     console.error("Failed to login!");
-    console.error(details);
-    alert(details);
+    console.error(error);
+    setErrorMessage(error);
   };
 
   const onDisconnectSuccess = (): void => {
@@ -90,40 +70,46 @@ export const AuthSection = () => {
   };
 
   return (
-    <section id="auth-section">
-      <Container fluid>
-        <Col>
-          <div className="connect-card">
-            <h2>Connect your Account</h2>
-            <p>
-              Whether you are new here or a returning user, you can connect to
-              your account by pressing the connect button.
-            </p>
-
-            <div>
-              {!isAuthed() ? (
-                <GoogleLogin
-                  className="mb-4"
-                  clientId="518840326133-s2tmf5d49tpkg32iac1ag6rvrsdudcfg.apps.googleusercontent.com"
-                  buttonText="Connect"
-                  onSuccess={onConnectSuccess}
-                  onFailure={onConnectFailure}
-                  cookiePolicy={"single_host_origin"}
-                />
-              ) : (
-                <>
-                  <GoogleLogout
-                    clientId="518840326133-s2tmf5d49tpkg32iac1ag6rvrsdudcfg.apps.googleusercontent.com"
-                    buttonText="Disconnect"
-                    onFailure={onDisconnectFailure}
-                    onLogoutSuccess={onDisconnectSuccess}
-                  />
-                  <p>Currently connected as {authedUser?.email}</p>
-                </>
-              )}
-            </div>
-
-            <h3>Account Connection FAQ</h3>
+    <>
+      <section id="notifications-section" className="container-fluid">
+        <Row>
+          <Col>
+            {props.authState.error !== undefined && (
+              <Alert variant={"danger"}>
+                <Alert.Heading>Whoops!</Alert.Heading>
+                <p> Error: {props.authState.error.toString()}</p>
+              </Alert>
+            )}
+            {errorMessage !== undefined && (
+              <Alert variant={"danger"}>
+                <Alert.Heading>Whoops!</Alert.Heading>
+                <p> Error: {errorMessage}</p>
+              </Alert>
+            )}
+          </Col>
+        </Row>
+      </section>
+      <section id="connect-section" className="container-fluid">
+        <Row>
+          <Col>
+            <form className="form-signin">
+              <img className="mb-4" src={logo} alt="edYou" height="72" />
+              <h1 className="h3 mb-3 font-weight-normal">
+                Connect Your Account
+              </h1>
+              <GoogleLogin
+                className="mb-4 w-100"
+                clientId="518840326133-s2tmf5d49tpkg32iac1ag6rvrsdudcfg.apps.googleusercontent.com"
+                buttonText="Connect your Google Account"
+                onSuccess={onConnectSuccess}
+                onFailure={onConnectFailure}
+                cookiePolicy={"single_host_origin"}
+              />
+            </form>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
             <SimpleAccordion
               cards={[
                 {
@@ -165,9 +151,17 @@ export const AuthSection = () => {
                 },
               ]}
             />
-          </div>
-        </Col>
-      </Container>
-    </section>
+          </Col>
+        </Row>
+      </section>
+    </>
   );
 };
+
+const mapStateToProps = (state: AppState) => ({
+  authState: state.auth,
+});
+
+export default connect(mapStateToProps, {
+  performAuth,
+})(ConnectSection);
