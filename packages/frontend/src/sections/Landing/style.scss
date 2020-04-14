@@ -1,17 +1,39 @@
-.landing-section {
+#landing-section {
     height: 100vh;
-    
-    background-image:linear-gradient(to top,  #a2cddd, #ffffff); 
-
+   
+    .landingImg{
+ 
+        background-image: url("/../../images/landingImg.png");
+        height: 720px;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        margin-bottom: 15px;
+    }
+    img#logo{
+        width: 10%;
+        height: auto;
+        margin: 5px;
+        
+    }
+    #learnMore{
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+  
     .card{
        width: 18rem;
        margin-left: 10px;
-       margin-bottom: 10px;
+       margin-bottom: 20px;
     }
     #layout{
         display: flex;
-        width: 80%;
+        width: 100%;
         height: auto;
+    }
+    #learnmore{
+        justify-content: center;
+        border: none;
     }
     .footer {
         background-color: #f5f5f5;
