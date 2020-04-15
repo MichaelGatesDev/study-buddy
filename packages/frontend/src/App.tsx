@@ -20,26 +20,15 @@ import ConnectSection from "./sections/ConnectSection";
 import { HomeSection } from "./sections/HomeSection";
 import { NavBarTop } from "./components/NavBarTop";
 import { Footer } from "./components/Footer";
-
-import { store } from "./redux/store";
 import AutoAuthenticator from "./components/AutoAuthenticator";
+import AppBase from "./AppBase";
+import { store } from "./redux/store";
 
 const App: React.FC = () => {
   return (
     <Provider store={store}>
       <div className="App">
-        <AutoAuthenticator />
-        <HashRouter basename="/">
-          <NavBarTop />
-          <Switch>
-            <Route exact path="/" component={LandingTempSection} />
-            {/* <Route exact path="/" component={LandingSection} /> */}
-            <Route path="/home" component={HomeSection} />
-            <Route path="/connect" component={ConnectSection} />
-            <Route path="/profile" component={ProfileSection} />
-          </Switch>
-          <Footer />
-        </HashRouter>
+        <AppBase />
       </div>
     </Provider>
   );
