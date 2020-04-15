@@ -22,13 +22,13 @@ import { NavBarTop } from "./components/NavBarTop";
 import { Footer } from "./components/Footer";
 
 import { store } from "./redux/store";
-import Authenticator from "./components/Authenticator";
+import AutoAuthenticator from "./components/AutoAuthenticator";
 
 const App: React.FC = () => {
   return (
     <Provider store={store}>
       <div className="App">
-        <Authenticator />
+        <AutoAuthenticator />
         <HashRouter basename="/">
           <NavBarTop />
           <Switch>

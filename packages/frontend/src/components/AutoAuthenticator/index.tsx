@@ -10,7 +10,7 @@ interface Props {
   performAuth: (tokenID: string) => void;
 }
 
-const Authenticator = (props: Props) => {
+const AutoAuthenticator = (props: Props) => {
   useEffect(() => {
     const idToken = localStorage.getItem("idToken");
     if (idToken) {
@@ -29,4 +29,4 @@ const mapStateToProps = (state: AppState) => ({
 
 export default connect(mapStateToProps, {
   performAuth,
-})(Authenticator);
+})(AutoAuthenticator);
