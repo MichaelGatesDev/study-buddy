@@ -1,5 +1,8 @@
 import React from "react";
 
+import { Nav } from "react-bootstrap";
+import { Link } from "react-router-dom";
+
 import logo from "../../images/logo.png";
 
 export const Footer = () => {
@@ -8,9 +11,11 @@ export const Footer = () => {
       <div className="container">
         <div className="row">
           <div className="col-12 col-md">
-            <img className="mb-2" src={logo} alt="" height="24" />
+            <Nav.Link as={Link} to={"/"} className="navbar-brand">
+              <img className="mb-2" src={logo} alt="" height="24" />
+            </Nav.Link>
             <small className="d-block mb-3 text-muted">
-              &copy; {new Date().getFullYear()}
+              Copyright edYou &copy; {new Date().getFullYear()}
             </small>
           </div>
           <div className="col-6 col-md">
