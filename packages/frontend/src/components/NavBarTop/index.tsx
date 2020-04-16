@@ -3,6 +3,7 @@ import "./style.scss";
 import React from "react";
 import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { useHistory } from "react-router";
 
 import { User } from "@study-buddy/common";
 
@@ -57,6 +58,8 @@ interface AuthedNavBarProps {
 }
 
 const AuthedNavBar = (props: AuthedNavBarProps) => {
+  const history = useHistory();
+
   return (
     <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
       <Nav className="mr-auto">
@@ -77,7 +80,18 @@ const AuthedNavBar = (props: AuthedNavBarProps) => {
         >
           <NavDropdown.Item href="/settings">Settings</NavDropdown.Item>
           <NavDropdown.Divider />
-          <NavDropdown.Item href="">Disconnect</NavDropdown.Item>
+          <NavDropdown.Item
+            href="#"
+            onClick={() => {
+              localStorage.removeItem("google_id_token");
+              console.log("Disconnected!");
+              history.push("/");
+              window.location.reload();
+              return false;
+            }}
+          >
+            Disconnect
+          </NavDropdown.Item>
         </NavDropdown>
       </Nav>
     </Navbar.Collapse>

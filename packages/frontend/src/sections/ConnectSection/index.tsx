@@ -37,20 +37,6 @@ const ConnectSection = (props: Props) => {
 
   const history = useHistory();
 
-  // const performDisconnect = () => {
-  //   localStorage.removeItem("google_id_token");
-  //   setAuthedUser(undefined);
-  //   console.log("Disconnected account!");
-  // };
-  // const onDisconnectSuccess = (): void => {
-  //   performDisconnect();
-  // };
-  // const onDisconnectFailure = (): void => {
-  //   console.error("Failed to disconnect");
-  // };
-
-  // useEffect(() => {}, []);
-
   const onConnectSuccess = (
     response: GoogleLoginResponse | GoogleLoginResponseOffline
   ): void => {
