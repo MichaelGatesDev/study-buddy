@@ -1,21 +1,33 @@
 import "./style.scss";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
-import { GoogleLogin, GoogleLogout } from "react-google-login";
-import { Col, Container, Row, Alert } from "react-bootstrap";
-
-import { User } from "@study-buddy/common";
+import {
+  GoogleLogin,
+  GoogleLoginResponse,
+  GoogleLoginResponseOffline,
+} from "react-google-login";
+import { Col, Row, Alert } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
+import { ThunkDispatch } from "redux-thunk";
+import { Action } from "redux";
 
 import logo from "../../images/logo.png";
-import { performAuth } from "../../redux/auth/actions";
 import { AppState } from "../../redux/store";
 import SimpleAccordion from "../../components/SimpleAccordion";
-import { AuthState } from "../../redux/auth/types";
+import {
+  AuthState,
+  AuthFailurePayload,
+  AuthSuccessPayload,
+  AUTH_SUCCESS,
+} from "../../redux/auth/types";
+import { performAuth } from "../../redux/auth/actions";
 
 interface Props {
-  authState: AuthState;
-  performAuth: (tokenID: string) => void;
+  authState?: AuthState;
+  onPerformAuth?: (
+    idToken: string
+  ) => Promise<AuthSuccessPayload | AuthFailurePayload>;
 }
 
 const ConnectSection = (props: Props) => {
@@ -23,35 +35,47 @@ const ConnectSection = (props: Props) => {
     undefined
   );
 
-  const [authedUser, setAuthedUser] = useState<User | undefined>(undefined);
+  const history = useHistory();
 
-  const performDisconnect = () => {
-    localStorage.removeItem("idToken");
-    setAuthedUser(undefined);
-    console.log("Disconnected account!");
-  };
+  // const performDisconnect = () => {
+  //   localStorage.removeItem("google_id_token");
+  //   setAuthedUser(undefined);
+  //   console.log("Disconnected account!");
+  // };
+  // const onDisconnectSuccess = (): void => {
+  //   performDisconnect();
+  // };
+  // const onDisconnectFailure = (): void => {
+  //   console.error("Failed to disconnect");
+  // };
 
-  const { performAuth } = props;
+  // useEffect(() => {}, []);
 
-  useEffect(() => {
-    const idToken = localStorage.getItem("idToken");
-    if (idToken) {
-      // console.log("Found cached id token");
-      performAuth(idToken);
+  const onConnectSuccess = (
+    response: GoogleLoginResponse | GoogleLoginResponseOffline
+  ): void => {
+    if ((response as GoogleLoginResponseOffline).code !== undefined) {
+      console.error("Why are we receiving an offline response?");
+      return;
     }
-  }, []);
 
-  const onConnectSuccess = (response: any): void => {
-    const googleID = response.googleId;
-    const tokenID = response.tokenId;
-    const accessToken = response.accessToken;
+    const responseOk = response as GoogleLoginResponse;
 
-    // console.log(`
-    // Google ID: ${googleID}
-    // Token ID: ${tokenID}
-    // Access Token: ${accessToken}
-    //     `);
-    performAuth(tokenID);
+    const idToken = responseOk.tokenId;
+    props
+      .onPerformAuth?.(idToken)
+      .then((payload: AuthSuccessPayload | AuthFailurePayload) => {
+        if (payload.type === AUTH_SUCCESS) {
+          const checkedPayload = payload as AuthSuccessPayload;
+          console.log("Authenticated as " + checkedPayload.data.email);
+          localStorage.setItem("google_id_token", idToken);
+          history.push("/home");
+        } else {
+          const checkedPayload = payload as AuthFailurePayload;
+          console.error("Failed to authenticate!");
+          console.error(checkedPayload.error);
+        }
+      });
   };
 
   const onConnectFailure = (response: any): void => {
@@ -61,20 +85,12 @@ const ConnectSection = (props: Props) => {
     setErrorMessage(error);
   };
 
-  const onDisconnectSuccess = (): void => {
-    performDisconnect();
-  };
-
-  const onDisconnectFailure = (): void => {
-    console.error("Failed to disconnect");
-  };
-
   return (
     <>
       <section id="notifications-section" className="container-fluid">
         <Row>
           <Col>
-            {props.authState.error !== undefined && (
+            {props.authState?.error !== undefined && (
               <Alert variant={"danger"}>
                 <Alert.Heading>Whoops!</Alert.Heading>
                 <p> Error: {props.authState.error.toString()}</p>
@@ -162,6 +178,14 @@ const mapStateToProps = (state: AppState) => ({
   authState: state.auth,
 });
 
-export default connect(mapStateToProps, {
-  performAuth,
-})(ConnectSection);
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<AuthState, void, Action>
+) => ({
+  onPerformAuth(
+    idToken: string
+  ): Promise<AuthSuccessPayload | AuthFailurePayload> {
+    return dispatch(performAuth(idToken));
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ConnectSection);

@@ -1,7 +1,6 @@
 import "./App.css";
 
 import React from "react";
-import { HashRouter, Switch, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 
 // -- START BOOTSTRAP --
@@ -11,16 +10,6 @@ import "bootstrap/dist/css/bootstrap-grid.min.css";
 import "bootstrap/dist/css/bootstrap-reboot.min.css";
 import "bootstrap/dist/js/bootstrap.min";
 import "jquery/dist/jquery.slim";
-// -- END BOOTSTRAP --
-
-import LandingSection from "./sections/Landing";
-import { LandingTempSection } from "./sections/LandingTemp";
-import ProfileSection from "./sections/ProfileSection";
-import ConnectSection from "./sections/ConnectSection";
-import { HomeSection } from "./sections/HomeSection";
-import { NavBarTop } from "./components/NavBarTop";
-import { Footer } from "./components/Footer";
-import AutoAuthenticator from "./components/AutoAuthenticator";
 import AppBase from "./AppBase";
 import { store } from "./redux/store";
 

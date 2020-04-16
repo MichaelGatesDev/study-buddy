@@ -1,6 +1,7 @@
 import { Request, Response, Router } from "express";
 import { OAuth2Client } from "google-auth-library";
 import { User } from "../../../../db/models/user";
+import { ActionSuccessResponse, ActionErrorResponse } from "@study-buddy/common";
 
 interface AuthRequest extends Request {
   token?: string;
@@ -13,7 +14,7 @@ const router: Router = Router({
 const CLIENT_ID = "518840326133-s2tmf5d49tpkg32iac1ag6rvrsdudcfg.apps.googleusercontent.com";
 const client = new OAuth2Client(CLIENT_ID);
 
-async function verifyLogin(idToken: string) {
+async function verifyLogin(idToken: string): Promise<User | undefined> {
   const loginTicket = await client.verifyIdToken({
     idToken: idToken,
     audience: CLIENT_ID,
@@ -43,8 +44,13 @@ async function verifyLogin(idToken: string) {
         email,
       },
     });
-    console.log("Found user!");
-    return found;
+    if (found) {
+      console.log("Found user!");
+      // console.log(found);
+      return found;
+    } else {
+      return undefined;
+    }
   } else {
     const createdUser = await User.create({
       email,
@@ -65,9 +71,13 @@ router.post("/connect", async (req: AuthRequest, res: Response) => {
 
   try {
     const user = await verifyLogin(token);
-    res.status(200).send({ user });
+    if (user !== undefined) {
+      res.status(200).send({ result: user } as ActionSuccessResponse<User>);
+    } else {
+      res.status(500).send({ error: "User not found" } as ActionErrorResponse);
+    }
   } catch (error) {
-    res.status(500).send({ error: error.message });
+    res.status(500).send({ error: error.message } as ActionErrorResponse);
   }
 });
 

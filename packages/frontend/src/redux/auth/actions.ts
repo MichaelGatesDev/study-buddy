@@ -1,8 +1,21 @@
 import { Dispatch } from "redux";
-import { AUTH_REQUEST, AUTH_SUCCESS, AUTH_FAILURE } from "./types";
+import {
+  AUTH_REQUEST,
+  AUTH_SUCCESS,
+  AUTH_FAILURE,
+  AuthSuccessPayload,
+  AuthFailurePayload,
+} from "./types";
 
-export const performAuth = (tokenID: string) => async (dispatch: Dispatch) => {
-  console.log("Performing auth");
+import {
+  ActionSuccessResponse,
+  User,
+  ActionErrorResponse,
+} from "@study-buddy/common";
+
+export const performAuth = (idToken: string) => async (
+  dispatch: Dispatch
+): Promise<AuthSuccessPayload | AuthFailurePayload> => {
   dispatch({
     type: AUTH_REQUEST,
   });
@@ -14,38 +27,29 @@ export const performAuth = (tokenID: string) => async (dispatch: Dispatch) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        token: tokenID,
+        token: idToken,
       }),
     });
 
-    // Bad response (error)
-    if (!response.ok) {
-      const error = await response.text();
-      dispatch({
-        type: AUTH_FAILURE,
-        error,
-      });
-      return;
-    }
-
-    // Success response
     const json = await response.json();
-    if (json.error !== undefined) {
-      dispatch({
+
+    if (!response.ok) {
+      const respErr = json as ActionErrorResponse;
+      return dispatch({
         type: AUTH_FAILURE,
-        error: json.error,
+        error: respErr.error,
       });
-      return;
     }
 
-    dispatch({
+    const respOk = json as ActionSuccessResponse<User>;
+    return dispatch({
       type: AUTH_SUCCESS,
-      data: json,
+      data: respOk.result,
     });
   } catch (error) {
-    dispatch({
+    return dispatch({
       type: AUTH_FAILURE,
-      error,
+      error: error,
     });
   }
 };

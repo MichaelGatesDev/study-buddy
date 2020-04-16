@@ -2,6 +2,7 @@ import { User } from "@study-buddy/common";
 
 export interface AuthState {
   authenticating: boolean;
+  authenticated: boolean;
   authedUser?: User;
   error?: string;
 }
@@ -9,6 +10,7 @@ export interface AuthState {
 export const AUTH_REQUEST = "PERFORM_AUTH";
 export const AUTH_SUCCESS = "PERFORM_AUTH_SUCCESS";
 export const AUTH_FAILURE = "PERFORM_AUTH_FAILURE";
+
 interface AuthRequestAction {
   type: typeof AUTH_REQUEST;
 }
@@ -16,30 +18,21 @@ interface AuthSuccessAction {
   type: typeof AUTH_SUCCESS;
   data: User;
 }
+export interface AuthSuccessPayload {
+  type: string;
+  data: User;
+}
 interface AuthFailureAction {
   type: typeof AUTH_FAILURE;
   error: string;
 }
-
-export const PERFORM_UNAUTH = "PERFORM_UNAUTH";
-export const PERFORM_UNAUTH_SUCCESS = "PERFORM_UNAUTH_SUCCESS";
-export const PERFORM_UNAUTH_FAILURE = "PERFORM_UNAUTH_FAILURE";
-interface PerformUnauthAction {
-  type: typeof PERFORM_UNAUTH;
-}
-interface PerformUnauthActionSuccess {
-  type: typeof PERFORM_UNAUTH_SUCCESS;
-  data: User;
-}
-interface PerformUnauthActionFailure {
-  type: typeof PERFORM_UNAUTH_FAILURE;
+export interface AuthFailurePayload {
+  type: string;
   error: string;
 }
 
+// type Types = "PERFORM_AUTH" | "PERFORM_AUTH_SUCCESS" | "PERFORM_AUTH_FAILURE";
 export type AuthActionTypes =
   | AuthRequestAction
   | AuthSuccessAction
-  | AuthFailureAction
-  | PerformUnauthAction
-  | PerformUnauthActionSuccess
-  | PerformUnauthActionFailure;
+  | AuthFailureAction;

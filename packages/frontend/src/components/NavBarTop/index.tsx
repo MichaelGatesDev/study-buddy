@@ -2,7 +2,7 @@ import "./style.scss";
 
 import React from "react";
 import { Navbar, Nav, NavDropdown } from "react-bootstrap";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { User } from "@study-buddy/common";
 
@@ -13,7 +13,6 @@ interface Props {
 }
 
 export const NavBarTop = (props: Props) => {
-  const currentLoc = useLocation();
   return (
     <div className="NavBarTop">
       <Navbar bg="light">
@@ -30,7 +29,11 @@ export const NavBarTop = (props: Props) => {
           </h1>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        {props.authedUser === undefined ? <UnauthedNavBar /> : <AuthedNavBar />}
+        {props.authedUser === undefined ? (
+          <UnauthedNavBar />
+        ) : (
+          <AuthedNavBar user={props.authedUser} />
+        )}
       </Navbar>
     </div>
   );
@@ -49,7 +52,11 @@ const UnauthedNavBar = () => {
   );
 };
 
-const AuthedNavBar = () => {
+interface AuthedNavBarProps {
+  user: User;
+}
+
+const AuthedNavBar = (props: AuthedNavBarProps) => {
   return (
     <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
       <Nav className="mr-auto">
@@ -64,12 +71,13 @@ const AuthedNavBar = () => {
         </Nav.Link>
       </Nav>
       <Nav>
-        <NavDropdown title="Not Connected" id="basic-nav-dropdown">
-          <NavDropdown.Item href="">Not Connected</NavDropdown.Item>
-          <NavDropdown.Item href="">Another action</NavDropdown.Item>
-          <NavDropdown.Item href="">Something</NavDropdown.Item>
+        <NavDropdown
+          title={"Connected as " + props.user.email}
+          id="basic-nav-dropdown"
+        >
+          <NavDropdown.Item href="/settings">Settings</NavDropdown.Item>
           <NavDropdown.Divider />
-          <NavDropdown.Item href="">Separated link</NavDropdown.Item>
+          <NavDropdown.Item href="">Disconnect</NavDropdown.Item>
         </NavDropdown>
       </Nav>
     </Navbar.Collapse>

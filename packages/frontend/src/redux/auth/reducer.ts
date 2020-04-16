@@ -1,13 +1,14 @@
 import {
-  AuthActionTypes,
   AuthState,
   AUTH_REQUEST,
   AUTH_SUCCESS,
   AUTH_FAILURE,
+  AuthActionTypes,
 } from "./types";
 
 const initialState: AuthState = {
   authenticating: false,
+  authenticated: false,
   authedUser: undefined,
   error: undefined,
 };
@@ -28,6 +29,7 @@ export function authReducer(
       return {
         ...state,
         authenticating: false,
+        authenticated: true,
         authedUser: action.data,
       };
     case AUTH_FAILURE:
