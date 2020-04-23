@@ -7,33 +7,41 @@ const LandingSection = () => {
   return (
     
     <section id="landing-section">
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        
-        <div className="d-flex "> 
-          <img src={"/../../images/logo.png"} id ="logo"/>
-          <div className="ml-auto p-2">
-           
-          <button type="button" className="btn btn-secondary btn-sm"id="button" > 
-            {" "}
-            LOGIN / SIGN UP
-          </button>
-          </div>
-        </div>
-      </nav>
-       
-        <div className= "landingImg d-flex align-content-end flex-wrap"> 
-        
-          <div className= "container-fluid d-flex justify-content-center">
-            <button type="button" className="btn btn-secondary btn-lg" id="learnMore">Learn More</button>
-          </div>  
+       <main>
+         <div id="myCarousel" className="carousel slide" data-ride="carousel">
+          <div className="carousel-inner">
+              <div className="carousel-item active landingImg">
+                
+                <div className="container">
+                  <div className="carousel-caption text-center">
+                    <h1 id="slogan"></h1>
+                    <p id="slogan">
+                     edYou is a platform for students to learn more from their <br/>
+                     peers without the fear fo being called dumb.
+                    </p>
+                    <p>
+                      <a
+                        className="btn btn-lg btn-dark"
+                        href="#"
+                        role="button"
+                      >
+                        Sign up 
+                      </a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          
         </div>
 
-        <div className ="container-fluid">
-        <h1 className="display-2" >Educate You</h1>
-       
-        <h2> Slogan would go here</h2>
+        <div className ="container">
+        <h1 className="display-2" >edYou</h1>
+        <h2> Study Better</h2>
         <hr></hr>
-        <div className= "row d-flex justify-content-center"> 
+        </div>
+        <div className ="container d-flex justify-content-center">
+        <div className= "row d-flex justify-content-between "> 
         <div className= "row justify-content-start">
           <div className="col-4">
             <div className="card">
@@ -79,20 +87,9 @@ const LandingSection = () => {
         </div>
 
       </div>
-        <div className= "row justify-content-center ">
-        <div className="col-8">
-          <img src={"/../../images/layout.png"} id="layout" alt="" />
-        </div>
-        </div>
       </div>
-     
-
-    </div>
-    <footer className="footer mt-auto py-3 navbar-dark bg-dark">
-        <div className="container-fluid text-center">
-          <span className="text-muted">&copy; 2020 Copyright EdYOU </span>
-        </div>
-    </footer>
+      </div>
+    </main>
     </section>
   );
 };

@@ -1,45 +1,72 @@
 #landing-section {
-    height: 100vh;
-   
-    .landingImg{
- 
-        background-image: url("/../../images/landingImg.png");
-        height: 720px;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-        margin-bottom: 15px;
-    }
-    img#logo{
-        width: 10%;
-        height: auto;
-        margin: 5px;
-        
-    }
-    #learnMore{
-        justify-content: center;
-        margin-bottom: 20px;
-    }
   
-    .card{
-       width: 18rem;
-       margin-left: 10px;
-       margin-bottom: 20px;
+  
+  .carousel {
+    margin-bottom: 4rem;
+  }
+  .carousel-caption {
+    bottom: 0rem;
+    z-index: 10;
+  }
+  
+  .carousel-item {
+    height: 32rem;
+  }
+  .carousel-item > img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    height: 32rem;
+  }
+  
+  .landingImg{
+      background-image: url("/../../images/landingImg.png");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+  }
+  img#logo{
+      width: 10%;
+      height: auto;
+      margin: 5px;
+      
+  }
+  #learnMore{
+      justify-content: center;
+      margin-bottom: 20px;
+  }
+
+  .card{
+      width: 22rem;
+      margin-left: 10px;
+      margin-bottom: 20px;
+      
+      box-shadow: 0 8px 20px 0 rgba(0, 0, 0, .15);
+  }
+  #slogan{
+    color: grayscale($color: #514e4e);
+  }
+  .card-title, .card-subtitle{
+    color: #42a4d6
+  }
+  .card-link{
+    color: grey;
+  }
+  #layout{
+      display: flex;
+      width: 100%;
+      height: auto;
+  }
+  #learnmore{
+      justify-content: center;
+      border: none;
+  }
+  .footer {
+      background-color: #f5f5f5;
+      margin-top: auto !important;
+      padding-top: 1rem !important;
+      padding-bottom: 1rem !important;
+      display: block;
     }
-    #layout{
-        display: flex;
-        width: 100%;
-        height: auto;
-    }
-    #learnmore{
-        justify-content: center;
-        border: none;
-    }
-    .footer {
-        background-color: #f5f5f5;
-        margin-top: auto !important;
-        padding-top: 1rem !important;
-        padding-bottom: 1rem !important;
-        display: block;
-      }
 }
