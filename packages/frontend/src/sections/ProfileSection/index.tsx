@@ -1,132 +1,97 @@
 import React from "react";
 import "./style.scss";
-
+import penguin from "../../images/penguin.png";
 const ProfileSection = () => {
   return (
     <section>
       <div className="ProfileSection">
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-          <a className="navbar-brand" href="#">
-            <h1>
-              <img src={"/../../images/logo.png"} id="logo" alt="" />
-            </h1>
-          </a>
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <form className="form-inline my-2 my-lg-0">
-              <input
-                className="form-control mr-sm-2"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
-              ></input>
-            </form>
-            <ul className="navbar-nav mr-auto">
-              <li className="nav-item active">
-                <a className="nav-link" href="#/home">
-                  Home <span className="sr-only">(current)</span>
-                </a>
-              </li>
-              <li className="nav-item dropdown">
-                <a
-                  className="nav-link dropdown-toggle"
-                  href="#"
-                  id="navbarDropdown"
-                  role="button"
-                  data-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  Profile
-                </a>
-                <div className="container-fluid">
-                  <div
-                    className="dropdown-menu dropdown-menu-right"
-                    aria-labelledby="navbarDropdown"
-                  >
-                    <a className="dropdown-item" href="#">
-                      View Profile
-                    </a>
-                    <a className="dropdown-item" href="#">
-                      Another Thing
-                    </a>
-                    <div className="dropdown-divider"></div>
-                    <a className="dropdown-item" href="#">
-                      Log Out
-                    </a>
-                  </div>
+
+      <div className="container mt-5">
+        <div className="row">
+        <div className="col-lg-4 pb-5">
+          <div className="author-card pb-3"> 
+             <div className="author-card-profile">
+              <div className="author-card-avatar"><img src={penguin} alt="User"/></div>
+                <div className="author-card-details">
+                  <h5 className="author-card-name text-lg">Jane Doe</h5>
                 </div>
-              </li>
-            </ul>
+              </div>
           </div>
-        </nav>
-        <div className="container">
-          <div className="row">
-            <div className="col-4">
-              <img src={"/../../images/penguin.png"} id="profilePhoto" alt="" />
-            </div>
-            <div className="col-8">
-              <p className="h2"> Display Name</p>
-              <hr></hr>
-              <form>
-                <fieldset disabled>
-                  <div className="form-group">
-                    <label className="exampleInputEmail1">Username</label>
-                    <input
-                      type="text"
-                      id="disabledInput"
-                      className="form-control"
-                      placeholder="Username"
-                      aria-label="Username"
-                      aria-describedby="basic-addon1"
-                    />
-                    <small className="form-text text-muted">
-                      Username cannot be changed.
-                    </small>
+          <div className="author-card wizard">
+              <nav className="list-group list-group-flush">
+                <a className="list-group-item active" href="#"><i className="fe-icon-user text-muted"></i>Profile Settings</a>
+                <a className="list-group-item" href="#"><i className="fe-icon-map-pin text-muted"></i>My Buddies </a>
+                <a className="list-group-item" href="#">
+                  <div className="d-flex justify-content-between align-items-center">
+                    <div><i className="fe-icon-heart mr-1 text-muted"></i>
+                      <div className="d-inline-block font-weight-medium text-uppercase">My Quizzes</div>
+                    </div>
                   </div>
-                </fieldset>
-                <div className="form-group">
-                  <label>Password</label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    placeholder="Password"
-                    aria-label="Password"
-                  />
-                </div>
-                <div className="form-group">
-                  <label>Email</label>
-                  <input
-                    type="email"
-                    className="form-control"
-                    placeholder="Email"
-                    id="exampleInputEmail1"
-                    aria-label="Email"
-                    aria-describedby="emailHelp"
-                  />
-                </div>
-                <fieldset disabled>
-                  <div className="form-group">
-                    <label>School Id</label>
-                    <input
-                      type="text"
-                      id="disabledInput"
-                      className="form-control"
-                      placeholder="School Id"
-                      aria-label="School Id"
-                      aria-describedby="basic-addon1"
-                    />
+                </a>
+                <a className="list-group-item" href="#">
+                  <div className="d-flex justify-content-between align-items-center">
+                    <div><i className="fe-icon-tag m r-1 text-muted"></i>
+                      <div className="d-inline-block font-weight-medium text-uppercase">Settings</div>
+                    </div>
                   </div>
-                </fieldset>
-              </form>
+                </a>
+              </nav>
+          </div>
+      </div>
+      
+      <div className="col-lg-8 pb-5">
+          <form className="row">
+              <div className="col-md-6">
+                  <div className="form-group">
+                      <label id="account-fn">First Name</label>
+                      <input className="form-control" type="text" id="account-fn" value=" ex. Jane" />
+                  </div>
+              </div>
+              <div className="col-md-6">
+                  <div className="form-group">
+                      <label id="account-ln">Last Name</label>
+                      <input className="form-control" type="text" id="account-ln" value="ex. Doe"/>
+                  </div>
+              </div>
+              <div className="col-md-6">
+                  <div className="form-group">
+                      <label id="account-email">E-mail Address</label>
+                      <input className="form-control" type="email" id="account-email" value="janedoe@example.com" disabled/>
+                  </div>
+              </div>
+              <div className="col-md-6">
+                  <div className="form-group">
+                      <label id="account-phone">Phone Number</label>
+                      <input className="form-control" type="text" id="account-phone" value="ex. 123-456-7890"/>
+                  </div>
+              </div>
+              <div className="col-md-6">
+                  <div className="form-group">
+                      <label id="account-pass">New Password</label>
+                      <input className="form-control" type="password" id="account-pass"/>
+                  </div>
+              </div>
+              <div className="col-md-6">
+                  <div className="form-group">
+                      <label id="account-confirm-pass">Confirm Password</label>
+                      <input className="form-control" type="password" id="account-confirm-pass"/>
+                  </div>
+              </div>
+              <div className="col-12">
+                  <hr className="mt-2 mb-3"/>
+                  <div className="d-flex flex-wrap justify-content-between align-items-center">
+                      <div className="custom-control custom-checkbox d-block">
+                         
+                      </div>
+                      <button className="btn btn-style-1 btn-primary" type="button" data-toast="" data-toast-position="topRight" data-toast-type="success" 
+                      data-toast-icon="fe-icon-check-circle" data-toast-title="Success!" data-toast-message="Your profile updated successfuly.">Update Profile</button>
+                  </div>
+              </div>
+            </form>
             </div>
           </div>
         </div>
       </div>
-      <footer className="footer mt-auto py-3 navbar-dark bg-dark">
-        <div className="container text-center">
-          <span className="text-muted">&copy; 2020 Copyright EdYOU </span>
-        </div>
-      </footer>
     </section>
   );
 };
