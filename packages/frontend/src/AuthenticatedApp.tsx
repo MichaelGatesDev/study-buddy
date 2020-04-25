@@ -8,6 +8,7 @@ import { HomeSection } from "./sections/HomeSection";
 import ProfileSection from "./sections/ProfileSection";
 import { Footer } from "./components/Footer";
 import { AuthState } from "./redux/auth/types";
+import {ChatSection} from "./sections/ChatSection"
 
 interface Props {
   authState: AuthState;
@@ -21,6 +22,7 @@ const AuthenticatedApp = (props: Props) => {
         <Route exact path="/" component={HomeSection} />
         <Route path="/home" component={HomeSection} />
         <Route path="/profile" component={ProfileSection} />
+        <Route path ="/conversations" component={ChatSection}/>
       </Switch>
       <Footer />
     </HashRouter>
