@@ -28,11 +28,7 @@
         <td><%= user.updated_at %></td>
         <td>
           <div class="btn-group">
-            <button
-              type="button"
-              class="btn btn-danger"
-              onclick="deleteUser(<%= user.id %>);"
-            >
+            <button type="button" class="btn btn-danger" onclick="deleteUser(<%= user.id %>);">
               Delete
             </button>
           </div>
@@ -47,7 +43,7 @@
   $(document).ready(() => {});
 
   const deleteUser = id => {
-    fetch("http://localhost:8081/api/v1/users/delete/" + id, {
+    fetch("http://localhost:3000/api/v1/users/delete/" + id, {
       method: "POST",
     })
       .then(response => response.json())
@@ -55,13 +51,7 @@
         if (json.error) {
           throw json.error;
         }
-        showAlert("success", [
-          "Deleted user!",
-          "ID: " + json["id"],
-          "School ID: " + json["school_id"],
-          "Email: " + json["email"],
-          "Password hash: " + json["password_hash"],
-        ]);
+        showAlert("success", ["Deleted user!", "ID: " + json["id"], "School ID: " + json["school_id"], "Email: " + json["email"], "Password hash: " + json["password_hash"]]);
         $("#user-" + json["id"]).remove();
         console.log("Deleted user!");
         console.log(json);
