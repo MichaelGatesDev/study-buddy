@@ -17,31 +17,10 @@
     </div>
     <div class="form-group">
       <label for="email">Email address</label>
-      <input
-        type="email"
-        class="form-control"
-        id="email"
-        name="email"
-        aria-describedby="emailHelp"
-        placeholder="Enter email"
-      />
-    </div>
-    <div class="form-group">
-      <label for="password">Password</label>
-      <input
-        type="password"
-        class="form-control"
-        id="password"
-        name="password"
-        placeholder="Password"
-      />
+      <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter email" />
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
-    <button
-      type="button"
-      class="btn btn-secondary"
-      onclick="populateRandomly();"
-    >
+    <button type="button" class="btn btn-secondary" onclick="populateRandomly();">
       Randomly Populate
     </button>
     <button type="button" class="btn btn-secondary" onclick="reset();">
@@ -53,10 +32,9 @@
 <script>
   $(document).ready(() => {
     reset();
-    $("#signup-form").on("submit", function() {
+    $("#signup-form").on("submit", function () {
       var school_id = $("#school").val();
       var email = $("#email").val();
-      var password = $("#password").val();
 
       // basic validation
       if (school_id == -1) {
@@ -67,12 +45,8 @@
         showAlert("danger", ["You must specify a valid email!"]);
         return false;
       }
-      if (password === "") {
-        showAlert("danger", ["You must specify a password!"]);
-        return false;
-      }
 
-      fetch("http://localhost:8081/api/v1/users/add", {
+      fetch("http://localhost:3000/api/v1/users/add", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -80,7 +54,6 @@
         body: JSON.stringify({
           school_id,
           email,
-          password,
         }),
       })
         .then(response => response.json())
@@ -88,12 +61,7 @@
           if (json.error) {
             throw json.error;
           }
-          showAlert("success", [
-            "Added new user!",
-            "School ID: " + json["school_id"],
-            "Email: " + json["email"],
-            "Password hash: " + json["password_hash"],
-          ]);
+          showAlert("success", ["Added new user!", "School ID: " + json["school_id"], "Email: " + json["email"]]);
           console.log("Created new user!");
           console.log(json);
         })
@@ -109,29 +77,15 @@
 
   function populateRandomly() {
     const schoolOptions = $("#school").find("option");
-    $("#school").val(
-      schoolOptions[Math.floor(Math.random() * schoolOptions.length)].value
-    );
+    const randIdx = Math.floor(Math.random() * schoolOptions.length);
+    $("#school").val(schoolOptions[randIdx !== 0 ? randIdx : 1].value);
     $("#email").val(faker.internet.email().toLowerCase());
-    $("#password").val(randomAlphaNumeric(12));
   }
 
   function reset() {
     const schoolOptions = $("#school").find("option");
     $("#school").val(schoolOptions[0].value);
     $("#email").val("");
-    $("#password").val("");
-  }
-
-  function randomAlphaNumeric(length) {
-    var result = "";
-    var characters =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    var charactersLength = characters.length;
-    for (var i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
   }
 
   function showAlert(alertType, contents) {

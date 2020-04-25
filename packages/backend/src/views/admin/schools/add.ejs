@@ -8,31 +8,14 @@
   <form id="signup-form">
     <div class="form-group">
       <label for="name">Name</label>
-      <input
-        type="name"
-        class="form-control"
-        id="name"
-        name="name"
-        aria-describedby="nameHelp"
-        placeholder="Enter name"
-      />
+      <input type="name" class="form-control" id="name" name="name" aria-describedby="nameHelp" placeholder="Enter name" />
     </div>
     <div class="form-group">
       <label for="website">Website</label>
-      <input
-        type="website"
-        class="form-control"
-        id="website"
-        name="website"
-        placeholder="Website"
-      />
+      <input type="website" class="form-control" id="website" name="website" placeholder="Website" />
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
-    <button
-      type="button"
-      class="btn btn-secondary"
-      onclick="populateRandomly();"
-    >
+    <button type="button" class="btn btn-secondary" onclick="populateRandomly();">
       Randomly Populate
     </button>
     <button type="button" class="btn btn-secondary" onclick="reset();">
@@ -44,11 +27,11 @@
 <script>
   $(document).ready(() => {
     reset();
-    $("#signup-form").on("submit", function() {
+    $("#signup-form").on("submit", function () {
       var name = $("#name").val();
       var website = $("#website").val();
 
-      fetch("http://localhost:8081/api/v1/schools/add", {
+      fetch("http://localhost:3000/api/v1/schools/add", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -63,11 +46,7 @@
           if (json.error) {
             throw json.error;
           }
-          showAlert("success", [
-            "Added new school!",
-            "Name: " + json["name"],
-            "Website: " + json["website"],
-          ]);
+          showAlert("success", ["Added new school!", "Name: " + json["name"], "Website: " + json["website"]]);
           console.log("Created new school!");
           console.log(json);
         })
@@ -84,9 +63,7 @@
   function populateRandomly() {
     const city = faker.address.city();
     $("#name").val(city + " University");
-    $("#website").val(
-      "https://" + city.replace(/\s/gi, "-").toLowerCase() + ".edu"
-    );
+    $("#website").val("https://" + city.replace(/\s/gi, "-").toLowerCase() + ".edu");
   }
 
   function reset() {
