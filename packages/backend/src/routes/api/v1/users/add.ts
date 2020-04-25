@@ -1,5 +1,4 @@
 import { Router, Response, Request } from "express";
-import bcrypt from "bcryptjs";
 
 import { User } from "../../../../db/models/user";
 
@@ -12,8 +11,6 @@ router.post(
     try {
       const school_id = _req.body.school_id;
       const email = _req.body.email;
-      const password = _req.body.password;
-      const password_hash = bcrypt.hashSync(password, 8);
 
       const count = await User.count({ where: { email } });
       if (count > 0) {
@@ -23,7 +20,6 @@ router.post(
       const createdUser = await User.create({
         school_id: school_id,
         email: email,
-        password_hash: password_hash,
       });
       res.status(200).json(createdUser);
     } catch (error) {
