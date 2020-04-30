@@ -1,8 +1,8 @@
+import { Logger } from "@study-buddy/common";
 import app from "./Server";
 import { sequelize } from "./db/database";
-import { Logger } from "@study-buddy/common";
+import School from "./db/models/School";
 import { add_course } from "./db/models/Course";
-import { School } from "./db/models/School";
 
 // i2YuoFnmtPE4_8TjLgAUO4YB
 

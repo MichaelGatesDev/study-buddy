@@ -1,10 +1,10 @@
 import { Table, Column, CreatedAt, UpdatedAt, HasMany, Model, PrimaryKey, AutoIncrement, Unique } from "sequelize-typescript";
 
-import { User } from "./User";
-import { Course } from "./Course";
+import User from "./User";
+import Course from "./Course";
 
 @Table
-export class School extends Model<School> {
+export default class School extends Model<School> {
   @AutoIncrement
   @PrimaryKey
   @Column
