@@ -1,6 +1,6 @@
 import { Router, Response, Request } from "express";
 
-import { School } from "../../../../db/models/School";
+import School from "../../../../db/models/School";
 
 // Init router and path
 const router = Router();
