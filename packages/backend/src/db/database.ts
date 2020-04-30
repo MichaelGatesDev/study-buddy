@@ -1,10 +1,5 @@
-import { Sequelize } from "sequelize-typescript";
 import fs from "fs";
-
-import { User } from "./models/user";
-import { School } from "./models/school";
-import { Course } from "./models/course";
-import { CourseUser } from "./models/course-user";
+import { Sequelize } from "sequelize-typescript";
 
 interface DatabaseConfig {
   host: string;
@@ -33,5 +28,5 @@ const dbConfig = JSON.parse(fs.readFileSync("./db-config.json", "UTF-8")) as Dat
 export const sequelize = new Sequelize(dbConfig["database"], dbConfig["username"], dbConfig["password"], {
   host: dbConfig["host"],
   dialect: "mysql",
-  models: [School, User, Course, CourseUser],
+  models: [__dirname + "/models"],
 });

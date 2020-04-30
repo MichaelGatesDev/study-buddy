@@ -1,5 +1,5 @@
 import { Router, Response, Request } from "express";
-import { School } from "../../../../db/models/school";
+import { School } from "../../../../db/models/School";
 
 import addRoute from "./add";
 import deleteRoute from "./delete";

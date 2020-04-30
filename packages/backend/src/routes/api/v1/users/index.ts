@@ -1,5 +1,5 @@
 import { Router, Response, Request } from "express";
-import { User } from "../../../../db/models/user";
+import { User } from "../../../../db/models/User";
 
 import addRoute from "./add";
 import deleteRoute from "./delete";
@@ -24,7 +24,7 @@ router.get(
   }
 );
 
-router.param("userID", async function(req, res, next, id) {
+router.param("userID", async function (req, res, next, id) {
   try {
     const user = await User.findOne({
       where: { id },

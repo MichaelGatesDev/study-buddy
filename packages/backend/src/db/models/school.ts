@@ -1,17 +1,7 @@
-import {
-  Table,
-  Column,
-  CreatedAt,
-  UpdatedAt,
-  HasMany,
-  Model,
-  PrimaryKey,
-  AutoIncrement,
-  Unique,
-} from "sequelize-typescript";
+import { Table, Column, CreatedAt, UpdatedAt, HasMany, Model, PrimaryKey, AutoIncrement, Unique } from "sequelize-typescript";
 
-import { User } from "./user";
-import { Course } from "./course";
+import { User } from "./User";
+import { Course } from "./Course";
 
 @Table
 export class School extends Model<School> {
@@ -20,6 +10,7 @@ export class School extends Model<School> {
   @Column
   public id!: number;
 
+  @Unique
   @Column
   public ipeds!: string;
 
@@ -47,3 +38,13 @@ export class School extends Model<School> {
   @UpdatedAt
   public readonly updated_at!: Date;
 }
+
+export const add_school = async (ipeds: string, name: string, website: string): Promise<boolean> => {
+  const match = await School.findOne({ where: { ipeds, name, website } });
+  if (match) return false;
+  return School.upsert({
+    ipeds,
+    name,
+    website,
+  });
+};
