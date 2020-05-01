@@ -1,8 +1,8 @@
 import { Logger } from "@study-buddy/common";
 import app from "./Server";
 import { sequelize } from "./db/database";
-import School from "./db/models/School";
-import { add_course } from "./db/models/Course";
+import School from "./db/models/school";
+import { add_course } from "./db/models/course";
 
 // i2YuoFnmtPE4_8TjLgAUO4YB
 
@@ -27,8 +27,8 @@ import { add_course } from "./db/models/Course";
   School.findOrCreate({
     where: {
       ipeds: "196246",
-      name: "SUNY Plattsburgh",
-      verified: true,
+      display_name: "SUNY Plattsburgh",
+      is_verified: true,
       website: "https://www.plattsburgh.edu/",
     },
   }).then(async (result: [School, boolean]) => {

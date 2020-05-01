@@ -1,8 +1,8 @@
 import { Table, Column, Model, CreatedAt, UpdatedAt, ForeignKey, PrimaryKey, BelongsTo, AutoIncrement, BelongsToMany, Unique } from "sequelize-typescript";
 
-import School from "./School";
-import Course from "./Course";
-import CourseUser from "./CourseUser";
+import School from "./school";
+import Course from "./course";
+import CourseUser from "./course-user";
 
 @Table
 export default class User extends Model<User> {
@@ -26,11 +26,8 @@ export default class User extends Model<User> {
   @BelongsTo(() => School, "school_id")
   school!: School;
 
-  @BelongsToMany(() => Course, () => CourseUser)
-  courses_taking!: Course[];
-
   @BelongsToMany(() => Course, () => CourseUser, "course_id", "user_id")
-  courses_taken!: Course[];
+  courses!: Course[];
 
   @CreatedAt
   @Column

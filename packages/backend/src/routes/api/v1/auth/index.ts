@@ -1,6 +1,6 @@
 import { Request, Response, Router } from "express";
 import { OAuth2Client } from "google-auth-library";
-import User from "../../../../db/models/User";
+import User from "../../../../db/models/user";
 import { ActionSuccessResponse, ActionErrorResponse } from "@study-buddy/common";
 
 interface AuthRequest extends Request {

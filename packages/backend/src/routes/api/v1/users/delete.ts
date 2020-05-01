@@ -1,6 +1,6 @@
 import { Router, Response, Request } from "express";
 
-import User from "../../../../db/models/User";
+import User from "../../../../db/models/user";
 
 // Init router and path
 const router = Router();

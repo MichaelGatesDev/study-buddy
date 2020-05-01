@@ -1,6 +1,6 @@
 import { Table, ForeignKey, Column, Model, PrimaryKey, BelongsTo } from "sequelize-typescript";
-import User from "./User";
-import Course from "./Course";
+import User from "./user";
+import Course from "./course";
 
 @Table
 export default class CourseUser extends Model<CourseUser> {
