@@ -30,7 +30,7 @@ interface Props {
   ) => Promise<AuthSuccessPayload | AuthFailurePayload>;
 }
 
-const ConnectSection = (props: Props) => {
+const ConnectSection = (props: Props): JSX.Element => {
   const [errorMessage, setErrorMessage] = useState<string | undefined>(
     undefined
   );

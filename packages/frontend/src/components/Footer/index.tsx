@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 import logo from "../../images/logo.png";
 
-export const Footer = () => {
+export const Footer = (): JSX.Element => {
   return (
     <footer className="footer mt-auto py-3 border-top">
       <div className="container">

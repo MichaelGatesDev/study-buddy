@@ -10,7 +10,7 @@ interface AccordionProps {
   cards: AccordionCard[];
 }
 
-const SimpleAccordion = (props: AccordionProps) => {
+const SimpleAccordion = (props: AccordionProps): JSX.Element => {
   return (
     <Accordion>
       {props.cards.map((card, index) => {

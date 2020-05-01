@@ -1,7 +1,7 @@
 import "./style.scss";
 import React from "react";
 
-export const LandingTempSection = () => {
+export const LandingTempSection = (): JSX.Element => {
   return (
     <section id="landing-temp">
       <main role="main">

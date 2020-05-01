@@ -13,7 +13,7 @@ interface Props {
   authedUser?: User;
 }
 
-export const NavBarTop = (props: Props) => {
+export const NavBarTop = (props: Props): JSX.Element => {
   return (
     <div className="NavBarTop">
       <Navbar bg="light">

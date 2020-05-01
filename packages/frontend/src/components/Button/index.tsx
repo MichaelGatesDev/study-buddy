@@ -8,7 +8,7 @@ interface Props {
   rounded?: boolean; // this is an optional property (may be undefined)
 }
 
-const Button = (props: Props) => {
+const Button = (props: Props): JSX.Element => {
   return (
     <div className="Button">
       <input type="button" value={props.value}></input>
