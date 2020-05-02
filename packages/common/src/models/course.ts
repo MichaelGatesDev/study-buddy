@@ -1,14 +1,13 @@
 import { School } from "./school";
-import { Course } from "./course";
+import { User } from "./user";
 
-export interface User {
+export interface Course {
   // mandatory
   id: number;
   created_at: Date;
   updated_at: Date;
   //
-  email: string;
-  google_id: string;
   school_id: number;
-  school?: School | null;
+  course_number: string;
+  course_title: string;
 }

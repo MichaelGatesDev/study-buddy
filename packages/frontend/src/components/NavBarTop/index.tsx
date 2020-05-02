@@ -63,7 +63,7 @@ const AuthedNavBar = (props: AuthedNavBarProps) => {
   return (
     <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
       <Nav className="mr-auto">
-        <Nav.Link as={Link} to={"/home"}>
+        <Nav.Link as={Link} to={"/"}>
           Home
         </Nav.Link>
         <Nav.Link as={Link} to={"/conversations"}>
@@ -78,7 +78,9 @@ const AuthedNavBar = (props: AuthedNavBarProps) => {
           title={"Connected as " + props.user.email}
           id="basic-nav-dropdown"
         >
-          <NavDropdown.Item href="/settings">Settings</NavDropdown.Item>
+          <NavDropdown.Item as={Link} to="/settings">
+            Settings
+          </NavDropdown.Item>
           <NavDropdown.Divider />
           <NavDropdown.Item
             href="#"

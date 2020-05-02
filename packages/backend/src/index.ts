@@ -26,6 +26,22 @@ import { add_course } from "./db/models/course";
 
   School.findOrCreate({
     where: {
+      display_name: "Fake University",
+      is_verified: false,
+    },
+  }).then(async (result: [School, boolean]) => {
+    const school = result[0];
+    const created = result[1];
+    if (created) {
+      console.log("Created entry for Fake University");
+    }
+    await add_course(school.id, "ABC 123", "Boring Course");
+    await add_course(school.id, "ABC 456", "Another Boring Course");
+    await add_course(school.id, "ABC 789", "The Most Boring Course");
+  });
+
+  School.findOrCreate({
+    where: {
       ipeds: "196246",
       display_name: "SUNY Plattsburgh",
       is_verified: true,

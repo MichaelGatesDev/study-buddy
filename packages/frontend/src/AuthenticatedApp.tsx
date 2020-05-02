@@ -1,36 +1,42 @@
 import React from "react";
-import { HashRouter, Switch, Route } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { AppState } from "./redux/store";
-import { NavBarTop } from "./components/NavBarTop";
-import { HomeSection } from "./sections/HomeSection";
-import ProfileSection from "./sections/ProfileSection";
-import { Footer } from "./components/Footer";
 import { AuthState } from "./redux/auth/types";
-import {ChatSection} from "./sections/ChatSection"
+import { SchoolState } from "./redux/schools/types";
+import HomeSection from "./sections/HomeSection";
+import ProfileSection from "./sections/ProfileSection";
+import { ChatSection } from "./sections/ChatSection";
+import SettingsSection from "./sections/SettingsSection";
+import UserCheck from "./components/UserCheck";
 
 interface Props {
-  authState: AuthState;
+  authState?: AuthState;
+  schoolsState?: SchoolState;
 }
 
 const AuthenticatedApp = (props: Props) => {
+  if (props.authState === undefined || props.schoolsState === undefined) {
+    return <p>Loading...</p>;
+  }
+
   return (
-    <HashRouter basename="/">
-      <NavBarTop authedUser={props.authState.authedUser} />
+    <>
+      <UserCheck />
       <Switch>
         <Route exact path="/" component={HomeSection} />
-        <Route path="/home" component={HomeSection} />
+        <Route path="/settings" component={SettingsSection} />
         <Route path="/profile" component={ProfileSection} />
-        <Route path ="/conversations" component={ChatSection}/>
+        <Route path="/conversations" component={ChatSection} />
       </Switch>
-      <Footer />
-    </HashRouter>
+    </>
   );
 };
 
 const mapStateToProps = (state: AppState) => ({
   authState: state.auth,
+  schoolsState: state.schools,
 });
 
 export default connect(mapStateToProps, {})(AuthenticatedApp);

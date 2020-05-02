@@ -1,28 +1,12 @@
-import { Router, Response, Request } from "express";
+import { Router } from "express";
 import School from "../../../../db/models/school";
 
+import allRoute from "./all";
+import singleRoute from "./single";
 import addRoute from "./add";
-import deleteRoute from "./delete";
 
 // Init router and path
 const router = Router();
-
-router.get(
-  "/",
-  async (_req: Request, res: Response): Promise<void> => {
-    try {
-      const schools = await School.findAll({
-        attributes: {
-          exclude: [],
-        },
-      });
-      res.status(200).json(schools);
-    } catch (error) {
-      console.error("Error: " + error.parent.sqlMessage);
-      res.status(500).send(error);
-    }
-  }
-);
 
 router.param("schoolID", async function (req, res, next, id) {
   try {
@@ -36,8 +20,9 @@ router.param("schoolID", async function (req, res, next, id) {
   }
 });
 
+router.use("/", allRoute);
+router.use("/:schoolID", singleRoute);
 router.use("/add", addRoute);
-router.use("/delete/:schoolID", deleteRoute);
 
 // Export the base-router
 export default router;
