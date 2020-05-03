@@ -69,6 +69,9 @@ const AuthedNavBar = (props: AuthedNavBarProps) => {
         <Nav.Link as={Link} to={"/conversations"}>
           Conversations
         </Nav.Link>
+        <Nav.Link as={Link} to={"/forum"}>
+          Forum
+        </Nav.Link>
         <Nav.Link as={Link} to={"/notifications"}>
           Notifications (-1)
         </Nav.Link>
