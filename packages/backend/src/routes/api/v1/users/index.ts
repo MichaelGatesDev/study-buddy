@@ -2,6 +2,7 @@ import { Router } from "express";
 
 import User from "../../../../db/models/user";
 import School from "../../../../db/models/school";
+import Course from "../../../../db/models/course";
 
 import allRoute from "./all";
 import singleRoute from "./single";
@@ -14,7 +15,7 @@ router.param("userID", async function (req, res, next, id) {
   try {
     const user = await User.findOne({
       where: { id },
-      include: [School],
+      include: [School, { model: Course, as: "courses" }],
     });
     if (user === null) {
       next(new Error("No user exists with ID " + id));

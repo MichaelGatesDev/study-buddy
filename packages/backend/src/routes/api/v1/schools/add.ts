@@ -1,7 +1,10 @@
 import { Router, Response, Request } from "express";
 
-import School from "../../../../db/models/school";
 import { ActionSuccessResponse } from "@study-buddy/common";
+
+import School from "../../../../db/models/school";
+import User from "../../../../db/models/user";
+import Course from "../../../../db/models/course";
 
 // Init router and path
 const router = Router();
@@ -18,10 +21,15 @@ router.post(
         throw "A school with that website already exists in the database!";
       }
 
-      const createdSchool = await School.create({
-        name: name,
-        website: website,
-      });
+      const createdSchool = await School.create(
+        {
+          name: name,
+          website: website,
+        },
+        {
+          include: [User, Course],
+        }
+      );
       res.status(200).json({ result: createdSchool } as ActionSuccessResponse<School>);
     } catch (error) {
       console.error("Error: " + error);

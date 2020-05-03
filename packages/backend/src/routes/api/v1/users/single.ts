@@ -9,7 +9,6 @@ router.get(
   "/",
   async (_req: Request, res: Response): Promise<void> => {
     const user = _req.body.user as User;
-    console.log(user.school);
     res.status(200).json({ result: user } as ActionSuccessResponse<User>);
   }
 );

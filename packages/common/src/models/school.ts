@@ -11,4 +11,6 @@ export interface School {
   display_name: string;
   is_verified: boolean;
   website: string;
+  enrolled_users?: User[] | null;
+  courses?: Course[] | null;
 }

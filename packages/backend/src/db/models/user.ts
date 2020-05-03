@@ -22,7 +22,6 @@ export default class User extends Model<User> {
   @ForeignKey(() => School)
   @Column
   school_id!: number;
-
   @BelongsTo(() => School, "school_id")
   school!: School;
 
@@ -30,10 +29,7 @@ export default class User extends Model<User> {
   courses!: Course[];
 
   @CreatedAt
-  @Column
-  created_at!: Date;
-
+  public readonly created_at!: Date;
   @UpdatedAt
-  @Column
-  updated_at!: Date;
+  public readonly updated_at!: Date;
 }

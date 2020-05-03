@@ -5,6 +5,7 @@ import { ActionSuccessResponse, ActionErrorResponse } from "@study-buddy/common"
 
 import User from "../../../../db/models/user";
 import School from "../../../../db/models/school";
+import Course from "../../../../db/models/course";
 
 interface AuthRequest extends Request {
   token?: string;
@@ -43,7 +44,7 @@ async function verifyLogin(idToken: string): Promise<User | undefined> {
   try {
     const user = await User.findOne({
       where: { google_id: userID, email },
-      include: [School],
+      include: [School, Course],
     });
     // if no user exists, create one
     if (user === null) {

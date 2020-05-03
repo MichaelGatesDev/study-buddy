@@ -14,7 +14,7 @@ import { add_course } from "./db/models/course";
   });
 
   try {
-    await sequelize.sync({ force: true });
+    await sequelize.sync({ force: false });
 
     // Connect to the database
     await sequelize.authenticate();
