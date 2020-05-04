@@ -1,4 +1,4 @@
-import { Table, Column, ForeignKey, CreatedAt, UpdatedAt, HasMany, Model, PrimaryKey, BelongsTo, AutoIncrement } from "sequelize-typescript";
+import { Table, Column, ForeignKey, CreatedAt, UpdatedAt, HasMany, Model, PrimaryKey, BelongsTo, AutoIncrement, Default } from "sequelize-typescript";
 
 import School from "./school";
 import CourseUser from "./course-user";
@@ -17,8 +17,13 @@ export default class Course extends Model<Course> {
 
   @Column
   public course_number!: string;
+
   @Column
   public course_title!: string;
+
+  @Default(true)
+  @Column
+  public course_is_active!: boolean;
 
   @HasMany(() => CourseUser)
   enrolled_users!: CourseUser[];

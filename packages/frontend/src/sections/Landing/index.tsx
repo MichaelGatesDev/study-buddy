@@ -1,7 +1,6 @@
-import React from "react";
-
 import "./style.scss";
-import Button from "../../components/Button";
+
+import React from "react";
 
 const LandingSection = (): JSX.Element => {
   return (

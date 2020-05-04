@@ -27,10 +27,7 @@ export default class School extends Model<School> {
   enrolled_users!: User[];
 
   @HasMany(() => Course)
-  active_courses!: Course[];
-
-  @HasMany(() => Course)
-  inactive_Courses!: Course[];
+  courses!: Course[];
 
   @CreatedAt
   public readonly created_at!: Date;

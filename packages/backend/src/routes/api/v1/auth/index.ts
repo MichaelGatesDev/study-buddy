@@ -1,7 +1,11 @@
 import { Request, Response, Router } from "express";
 import { OAuth2Client } from "google-auth-library";
-import User from "../../../../db/models/user";
+
 import { ActionSuccessResponse, ActionErrorResponse } from "@study-buddy/common";
+
+import User from "../../../../db/models/user";
+import School from "../../../../db/models/school";
+import Course from "../../../../db/models/course";
 
 interface AuthRequest extends Request {
   token?: string;
@@ -36,28 +40,24 @@ async function verifyLogin(idToken: string): Promise<User | undefined> {
     throw new Error("Invalid email! Email should not be blank and should end with .edu");
   }
 
-  const count = await User.count({ where: { email } });
-  if (count > 0) {
-    const found = await User.findOne({
-      where: {
-        google_id: userID,
+  // find connected user
+  try {
+    const user = await User.findOne({
+      where: { google_id: userID, email },
+      include: [School, Course],
+    });
+    // if no user exists, create one
+    if (user === null) {
+      const createdUser = await User.create({
         email,
-      },
-    });
-    if (found) {
-      console.log("Found user!");
-      // console.log(found);
-      return found;
-    } else {
-      return undefined;
+        google_id: userID,
+      });
+      console.log("Created new user!");
+      return createdUser;
     }
-  } else {
-    const createdUser = await User.create({
-      email,
-      google_id: userID,
-    });
-    console.log("Created new user!");
-    return createdUser;
+    return user;
+  } catch (error) {
+    throw new Error(error.parent.sqlMessage);
   }
 }
 
@@ -72,12 +72,12 @@ router.post("/connect", async (req: AuthRequest, res: Response) => {
   try {
     const user = await verifyLogin(token);
     if (user !== undefined) {
-      res.status(200).send({ result: user } as ActionSuccessResponse<User>);
+      res.status(200).json({ result: user } as ActionSuccessResponse<User>);
     } else {
-      res.status(500).send({ error: "User not found" } as ActionErrorResponse);
+      res.status(500).json({ error: "User not found" } as ActionErrorResponse);
     }
   } catch (error) {
-    res.status(500).send({ error: error.message } as ActionErrorResponse);
+    res.status(500).json({ error: error.message } as ActionErrorResponse);
   }
 });
 

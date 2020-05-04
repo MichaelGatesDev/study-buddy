@@ -14,7 +14,7 @@ import { add_course } from "./db/models/course";
   });
 
   try {
-    await sequelize.sync({ force: true });
+    await sequelize.sync({ force: false });
 
     // Connect to the database
     await sequelize.authenticate();
@@ -23,6 +23,22 @@ import { add_course } from "./db/models/course";
     // console.error(error);
     Logger.error("Unable to connect to the database! Reason: " + error?.message);
   }
+
+  School.findOrCreate({
+    where: {
+      display_name: "Fake University",
+      is_verified: false,
+    },
+  }).then(async (result: [School, boolean]) => {
+    const school = result[0];
+    const created = result[1];
+    if (created) {
+      console.log("Created entry for Fake University");
+    }
+    await add_course(school.id, "ABC 123", "Boring Course");
+    await add_course(school.id, "ABC 456", "Another Boring Course");
+    await add_course(school.id, "ABC 789", "The Most Boring Course");
+  });
 
   School.findOrCreate({
     where: {
