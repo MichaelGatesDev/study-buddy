@@ -5,11 +5,14 @@ import { connect } from "react-redux";
 import { AppState } from "./redux/store";
 import { AuthState } from "./redux/auth/types";
 import { SchoolState } from "./redux/schools/types";
+
+import UserCheck from "./components/UserCheck";
+
+import ForumSection from "./sections/ForumSection";
 import HomeSection from "./sections/HomeSection";
 import ProfileSection from "./sections/ProfileSection";
 import { ChatSection } from "./sections/ChatSection";
 import SettingsSection from "./sections/SettingsSection";
-import UserCheck from "./components/UserCheck";
 
 interface Props {
   authState?: AuthState;
@@ -28,6 +31,7 @@ const AuthenticatedApp = (props: Props) => {
         <Route exact path="/" component={HomeSection} />
         <Route path="/settings" component={SettingsSection} />
         <Route path="/profile" component={ProfileSection} />
+        <Route path="/forum" component={ForumSection}/>
         <Route path="/conversations" component={ChatSection} />
       </Switch>
     </>
