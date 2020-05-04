@@ -1,8 +1,9 @@
 import { Logger } from "@study-buddy/common";
+
 import app from "./Server";
 import { sequelize } from "./db/database";
 import School from "./db/models/school";
-import { add_course } from "./db/models/course";
+import Course from "./db/models/course";
 
 // i2YuoFnmtPE4_8TjLgAUO4YB
 
@@ -14,7 +15,7 @@ import { add_course } from "./db/models/course";
   });
 
   try {
-    await sequelize.sync({ force: false });
+    await sequelize.sync({ force: true });
 
     // Connect to the database
     await sequelize.authenticate();
@@ -22,39 +23,43 @@ import { add_course } from "./db/models/course";
   } catch (error) {
     // console.error(error);
     Logger.error("Unable to connect to the database! Reason: " + error?.message);
+    return;
   }
 
-  School.findOrCreate({
+  // create uni
+  const [sampleUniFake] = await School.findOrCreate({
     where: {
       display_name: "Fake University",
-      is_verified: false,
     },
-  }).then(async (result: [School, boolean]) => {
-    const school = result[0];
-    const created = result[1];
-    if (created) {
-      console.log("Created entry for Fake University");
-    }
-    await add_course(school.id, "ABC 123", "Boring Course");
-    await add_course(school.id, "ABC 456", "Another Boring Course");
-    await add_course(school.id, "ABC 789", "The Most Boring Course");
+  });
+  // add courses
+  await Course.findOrCreate({
+    where: { school_id: sampleUniFake.id, course_number: "ABC 123", course_title: "A Boring Course", is_active: true },
+  });
+  await Course.findOrCreate({
+    where: { school_id: sampleUniFake.id, course_number: "DEF 456", course_title: "Another Boring Course", is_active: true },
+  });
+  await Course.findOrCreate({
+    where: { school_id: sampleUniFake.id, course_number: "GHI 789", course_title: "The Most Boring Course", is_active: true },
   });
 
-  School.findOrCreate({
+  // create uni
+  const [sampleUniPSU] = await School.findOrCreate({
     where: {
       ipeds: "196246",
       display_name: "SUNY Plattsburgh",
       is_verified: true,
       website: "https://www.plattsburgh.edu/",
     },
-  }).then(async (result: [School, boolean]) => {
-    const school = result[0];
-    const created = result[1];
-    if (created) {
-      console.log("Created entry for SUNY Plattsburgh");
-    }
-    await add_course(school.id, "CSC 152", "Computer Security and Society");
-    await add_course(school.id, "CSC 123", "Discrete Math & Computer Applications");
-    await add_course(school.id, "CSC 221", "Intro to Programming");
+  });
+  // add courses
+  await Course.findOrCreate({
+    where: { school_id: sampleUniPSU.id, course_number: "CSC 152", course_title: "Computer Security and Society", is_active: true },
+  });
+  await Course.findOrCreate({
+    where: { school_id: sampleUniPSU.id, course_number: "CSC 123", course_title: "Discrete Math & Computer Applications", is_active: true },
+  });
+  await Course.findOrCreate({
+    where: { school_id: sampleUniPSU.id, course_number: "CSC 221", course_title: "Intro to Programming", is_active: true },
   });
 })();

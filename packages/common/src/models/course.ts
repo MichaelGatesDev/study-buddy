@@ -1,16 +1,17 @@
-import { School } from "./school";
-import { User } from "./user";
+import { ISchool } from "./school";
+import { IUser } from "./user";
 
-export interface Course {
-  // mandatory
-  id: number;
-  created_at: Date;
-  updated_at: Date;
-  //
-  school_id: number;
-  school?: School | null;
-  course_number: string;
-  course_title: string;
-  course_is_active: boolean;
-  enrolled_users?: User[] | null;
+export interface ICourse {
+  id?: number;
+  created_at?: Date;
+  updated_at?: Date;
+
+  course_number?: string;
+  course_title?: string;
+  is_active?: boolean;
+
+  school_id?: number | null;
+  school?: ISchool | null;
+
+  users?: IUser[] | null;
 }

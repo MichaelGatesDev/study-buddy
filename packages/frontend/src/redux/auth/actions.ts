@@ -9,7 +9,7 @@ import {
 
 import {
   ActionSuccessResponse,
-  User,
+  IUser,
   ActionErrorResponse,
 } from "@study-buddy/common";
 
@@ -41,7 +41,7 @@ export const performAuth = (idToken: string) => async (
       });
     }
 
-    const respOk = json as ActionSuccessResponse<User>;
+    const respOk = json as ActionSuccessResponse<IUser>;
     return dispatch({
       type: AUTH_SUCCESS,
       data: respOk.result,

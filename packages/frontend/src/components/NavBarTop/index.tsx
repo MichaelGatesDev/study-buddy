@@ -5,12 +5,12 @@ import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router";
 
-import { User } from "@study-buddy/common";
+import { IUser } from "@study-buddy/common";
 
 import logo from "../../images/logo.png";
 
 interface Props {
-  authedUser?: User;
+  authedUser?: IUser;
 }
 
 export const NavBarTop = (props: Props): JSX.Element => {
@@ -54,7 +54,7 @@ const UnauthedNavBar = () => {
 };
 
 interface AuthedNavBarProps {
-  user: User;
+  user: IUser;
 }
 
 const AuthedNavBar = (props: AuthedNavBarProps) => {

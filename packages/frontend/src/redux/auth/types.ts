@@ -1,9 +1,9 @@
-import { User } from "@study-buddy/common";
+import { IUser } from "@study-buddy/common";
 
 export interface AuthState {
   authenticating: boolean;
   authenticated: boolean;
-  authedUser?: User;
+  authedUser?: IUser;
   error?: string;
 }
 
@@ -16,11 +16,11 @@ interface AuthRequestAction {
 }
 interface AuthSuccessAction {
   type: typeof AUTH_SUCCESS;
-  data: User;
+  data: IUser;
 }
 export interface AuthSuccessPayload {
   type: string;
-  data: User;
+  data: IUser;
 }
 interface AuthFailureAction {
   type: typeof AUTH_FAILURE;

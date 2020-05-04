@@ -2,7 +2,7 @@ import { Dispatch } from "redux";
 
 import {
   ActionSuccessResponse,
-  User,
+  IUser,
   ActionErrorResponse,
 } from "@study-buddy/common";
 
@@ -52,7 +52,7 @@ export const fetchUser = (userID: number) => async (
       });
     }
 
-    const respOk = json as ActionSuccessResponse<User>;
+    const respOk = json as ActionSuccessResponse<IUser>;
     return dispatch({
       type: FETCH_USER_SUCCESS,
       data: respOk.result,
@@ -65,7 +65,7 @@ export const fetchUser = (userID: number) => async (
   }
 };
 
-export const updateUser = (user: User) => async (
+export const updateUser = (user: IUser) => async (
   dispatch: Dispatch
 ): Promise<UpdateUserSuccessPayload | UpdateUserFailurePayload> => {
   dispatch({
@@ -96,7 +96,7 @@ export const updateUser = (user: User) => async (
       });
     }
 
-    const respOk = json as ActionSuccessResponse<User>;
+    const respOk = json as ActionSuccessResponse<IUser>;
     return dispatch({
       type: UPDATE_USER_SUCCESS,
       data: respOk.result,
@@ -134,7 +134,7 @@ export const fetchUsers = () => async (
       });
     }
 
-    const respOk = json as ActionSuccessResponse<User[]>;
+    const respOk = json as ActionSuccessResponse<IUser[]>;
     return dispatch({
       type: FETCH_USERS_SUCCESS,
       data: respOk.result,

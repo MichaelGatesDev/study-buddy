@@ -17,6 +17,10 @@ router.param("schoolID", async function (req, res, next, id) {
       where: { id },
       include: [User, Course],
     });
+    if (school === null) {
+      next(new Error("No school exists with ID " + id));
+      return;
+    }
     req.body.school = school;
     next();
   } catch (error) {

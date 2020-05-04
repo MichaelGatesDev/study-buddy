@@ -1,45 +1,44 @@
-import { Table, Column, ForeignKey, CreatedAt, UpdatedAt, HasMany, Model, PrimaryKey, BelongsTo, AutoIncrement, Default } from "sequelize-typescript";
+import { DataTypes, Model } from "sequelize";
 
-import School from "./school";
-import CourseUser from "./course-user";
+import { sequelize } from "../database";
 
-@Table
-export default class Course extends Model<Course> {
-  @AutoIncrement
-  @PrimaryKey
-  @Column
+export default class Course extends Model {
   public id!: number;
-
-  @ForeignKey(() => School)
-  school_id!: number;
-  @BelongsTo(() => School, "school_id")
-  school!: School;
-
-  @Column
-  public course_number!: string;
-
-  @Column
-  public course_title!: string;
-
-  @Default(true)
-  @Column
-  public course_is_active!: boolean;
-
-  @HasMany(() => CourseUser)
-  enrolled_users!: CourseUser[];
-
-  @CreatedAt
   public readonly created_at!: Date;
-  @UpdatedAt
   public readonly updated_at!: Date;
+
+  public course_number!: string;
+  public course_title!: string;
+  public is_active!: boolean;
+  public school_id!: number;
 }
 
-export const add_course = async (schoolID: number, courseNumber: string, courseTitle: string): Promise<boolean> => {
-  const match = await Course.findOne({ where: { school_id: schoolID, course_number: courseNumber } });
-  if (match) return false;
-  return Course.upsert({
-    school_id: schoolID,
-    course_number: courseNumber,
-    course_title: courseTitle,
-  });
-};
+Course.init(
+  {
+    id: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    course_number: {
+      type: new DataTypes.STRING(128),
+      allowNull: false,
+    },
+    course_title: {
+      type: new DataTypes.STRING(128),
+      allowNull: false,
+    },
+    is_active: {
+      type: DataTypes.TINYINT,
+      allowNull: false,
+      defaultValue: 0,
+    },
+  },
+  {
+    underscored: true,
+    sequelize: sequelize, // this bit is important
+  }
+);
+import School from "./school";
+Course.belongsTo(School, { foreignKey: "school_id" });
+// Course.hasMany(User);

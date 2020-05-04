@@ -1,5 +1,5 @@
 import fs from "fs";
-import { Sequelize } from "sequelize-typescript";
+import { Sequelize } from "sequelize";
 
 interface DatabaseConfig {
   host: string;
@@ -28,5 +28,10 @@ const dbConfig = JSON.parse(fs.readFileSync("./db-config.json", "UTF-8")) as Dat
 export const sequelize = new Sequelize(dbConfig["database"], dbConfig["username"], dbConfig["password"], {
   host: dbConfig["host"],
   dialect: "mysql",
-  models: [__dirname + "/models"],
+  logging: false,
 });
+
+export interface ModelAddResult<T> {
+  result: T;
+  wasCreated: boolean;
+}

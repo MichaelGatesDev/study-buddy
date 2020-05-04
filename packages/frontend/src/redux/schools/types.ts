@@ -1,10 +1,10 @@
-import { School } from "@study-buddy/common";
+import { ISchool } from "@study-buddy/common";
 
 export interface SchoolState {
   fetchingSingle: boolean;
   fetchingAll: boolean;
-  fetchedSchool?: School;
-  fetchedSchools?: School[];
+  fetchedSchool?: ISchool;
+  fetchedSchools?: ISchool[];
   error?: string;
 }
 
@@ -17,11 +17,11 @@ interface FetchSchoolRequestAction {
 }
 interface FetchSchoolSuccessAction {
   type: typeof FETCH_SCHOOL_SUCCESS;
-  data: School;
+  data: ISchool;
 }
 export interface FetchSchoolSuccessPayload {
   type: string;
-  data: School;
+  data: ISchool;
 }
 interface FetchSchoolFailureAction {
   type: typeof FETCH_SCHOOL_FAILURE;
@@ -41,11 +41,11 @@ interface FetchSchoolsRequestAction {
 }
 interface FetchSchoolsSuccessAction {
   type: typeof FETCH_SCHOOLS_SUCCESS;
-  data: School[];
+  data: ISchool[];
 }
 export interface FetchSchoolsSuccessPayload {
   type: string;
-  data: School[];
+  data: ISchool[];
 }
 interface FetchSchoolsFailureAction {
   type: typeof FETCH_SCHOOLS_FAILURE;

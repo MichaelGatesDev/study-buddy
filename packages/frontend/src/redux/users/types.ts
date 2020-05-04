@@ -1,14 +1,14 @@
-import { User } from "@study-buddy/common";
+import { IUser } from "@study-buddy/common";
 
 export interface UserState {
   fetchingSingle: boolean;
-  fetchedUser?: User;
+  fetchedUser?: IUser;
 
   updatingUser: boolean;
-  updatedUser?: User;
+  updatedUser?: IUser;
 
   fetchingAll: boolean;
-  fetchedUsers?: User[];
+  fetchedUsers?: IUser[];
 
   error?: string;
 }
@@ -22,11 +22,11 @@ interface FetchUserRequestAction {
 }
 interface FetchUserSuccessAction {
   type: typeof FETCH_USER_SUCCESS;
-  data: User;
+  data: IUser;
 }
 export interface FetchUserSuccessPayload {
   type: string;
-  data: User;
+  data: IUser;
 }
 interface FetchUserFailureAction {
   type: typeof FETCH_USER_FAILURE;
@@ -46,11 +46,11 @@ interface UpdateUserRequestAction {
 }
 interface UpdateUserSuccessAction {
   type: typeof UPDATE_USER_SUCCESS;
-  data: User;
+  data: IUser;
 }
 export interface UpdateUserSuccessPayload {
   type: string;
-  data: User;
+  data: IUser;
 }
 interface UpdateUserFailureAction {
   type: typeof UPDATE_USER_FAILURE;
@@ -70,11 +70,11 @@ interface FetchUsersRequestAction {
 }
 interface FetchUsersSuccessAction {
   type: typeof FETCH_USERS_SUCCESS;
-  data: User[];
+  data: IUser[];
 }
 export interface FetchUsersSuccessPayload {
   type: string;
-  data: User[];
+  data: IUser[];
 }
 interface FetchUsersFailureAction {
   type: typeof FETCH_USERS_FAILURE;

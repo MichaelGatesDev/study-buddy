@@ -24,7 +24,8 @@ const UserCheck = (props: Props): JSX.Element | null => {
       />
     );
   }
-  if (user.school === undefined || user.school === null) {
+  const school = (user as any).School;
+  if (school === undefined || school === null) {
     if (history.location.pathname !== "/settings") {
       console.warn(
         "User is not registered to a school! Redirecting to settings..."

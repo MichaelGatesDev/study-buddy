@@ -15,15 +15,20 @@ router.param("userID", async function (req, res, next, id) {
   try {
     const user = await User.findOne({
       where: { id },
-      include: [School, { model: Course, as: "courses" }],
+      include: [{ model: School }, { model: Course }],
     });
     if (user === null) {
       next(new Error("No user exists with ID " + id));
+      return;
     }
     req.body.user = user;
     next();
   } catch (error) {
-    next(new Error(error.parent.sqlMessage));
+    if (error.parent === undefined) {
+      next(error);
+    } else {
+      next(new Error(error.parent.sqlMessage));
+    }
   }
 });
 

@@ -2,7 +2,7 @@ import { Dispatch } from "redux";
 
 import {
   ActionSuccessResponse,
-  School,
+  ISchool,
   ActionErrorResponse,
 } from "@study-buddy/common";
 
@@ -47,7 +47,7 @@ export const fetchSchool = (schoolID: number) => async (
       });
     }
 
-    const respOk = json as ActionSuccessResponse<School>;
+    const respOk = json as ActionSuccessResponse<ISchool>;
     return dispatch({
       type: FETCH_SCHOOL_SUCCESS,
       data: respOk.result,
@@ -85,7 +85,7 @@ export const fetchSchools = () => async (
       });
     }
 
-    const respOk = json as ActionSuccessResponse<School[]>;
+    const respOk = json as ActionSuccessResponse<ISchool[]>;
     return dispatch({
       type: FETCH_SCHOOLS_SUCCESS,
       data: respOk.result,

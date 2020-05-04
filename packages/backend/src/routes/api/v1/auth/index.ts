@@ -18,49 +18,6 @@ const router: Router = Router({
 const CLIENT_ID = "518840326133-s2tmf5d49tpkg32iac1ag6rvrsdudcfg.apps.googleusercontent.com";
 const client = new OAuth2Client(CLIENT_ID);
 
-async function verifyLogin(idToken: string): Promise<User | undefined> {
-  const loginTicket = await client.verifyIdToken({
-    idToken: idToken,
-    audience: CLIENT_ID,
-  });
-
-  const payload = loginTicket.getPayload();
-
-  if (payload === undefined) {
-    throw Error("No payload associated with login ticket!");
-  }
-
-  const userID = payload.sub ?? ""; // 12893019340175940719402134
-  const email = payload.email ?? ""; // my.email@domain.ext
-
-  if (userID === "") {
-    throw new Error("Invalid userID!");
-  }
-  if (email === "" || !email.endsWith(".edu")) {
-    throw new Error("Invalid email! Email should not be blank and should end with .edu");
-  }
-
-  // find connected user
-  try {
-    const user = await User.findOne({
-      where: { google_id: userID, email },
-      include: [School, Course],
-    });
-    // if no user exists, create one
-    if (user === null) {
-      const createdUser = await User.create({
-        email,
-        google_id: userID,
-      });
-      console.log("Created new user!");
-      return createdUser;
-    }
-    return user;
-  } catch (error) {
-    throw new Error(error.parent.sqlMessage);
-  }
-}
-
 router.post("/connect", async (req: AuthRequest, res: Response) => {
   let token = req.body.token;
 
@@ -69,15 +26,59 @@ router.post("/connect", async (req: AuthRequest, res: Response) => {
     return;
   }
 
+  let payload;
   try {
-    const user = await verifyLogin(token);
-    if (user !== undefined) {
-      res.status(200).json({ result: user } as ActionSuccessResponse<User>);
-    } else {
-      res.status(500).json({ error: "User not found" } as ActionErrorResponse);
-    }
+    const loginTicket = await client.verifyIdToken({
+      idToken: token,
+      audience: CLIENT_ID,
+    });
+    payload = loginTicket.getPayload();
   } catch (error) {
-    res.status(500).json({ error: error.message } as ActionErrorResponse);
+    res.status(500).json({ error: error.message });
+    return;
+  }
+
+  if (payload === undefined) {
+    res.status(500).json({ error: "No payload associated with login ticket!" });
+    return;
+  }
+
+  const userID = payload.sub ?? ""; // 12893019340175940719402134
+  if (userID === "") {
+    res.status(500).json({ error: "Invalid user ID" });
+    return;
+  }
+
+  const email = payload.email ?? ""; // my.email@domain.ext
+  if (email === "" || !email.endsWith(".edu")) {
+    res.status(500).json({ error: "Invalid email! Email should not be blank and should end with .edu" });
+    return;
+  }
+
+  // find connected user
+  try {
+    let user = await User.findOne({
+      where: { google_id: userID },
+      include: [{ model: School }, { model: Course }],
+    });
+    if (user === null) {
+      user = await User.create(
+        {
+          email,
+          google_id: userID,
+        },
+        {
+          include: [{ model: School }, { model: Course }],
+        }
+      );
+    }
+    res.status(200).json({ result: user } as ActionSuccessResponse<User>);
+  } catch (error) {
+    if (error.parent === undefined) {
+      res.status(500).json({ error: error.message } as ActionErrorResponse);
+    } else {
+      res.status(500).json({ error: error.parent.sqlMessage } as ActionErrorResponse);
+    }
   }
 });
 

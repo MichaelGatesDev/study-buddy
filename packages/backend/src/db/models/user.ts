@@ -1,35 +1,41 @@
-import { Table, Column, Model, CreatedAt, UpdatedAt, ForeignKey, PrimaryKey, BelongsTo, AutoIncrement, BelongsToMany, Unique } from "sequelize-typescript";
+import { Model, DataTypes } from "sequelize";
 
+import { sequelize } from "../database";
+
+export default class User extends Model {
+  public id!: number;
+  public readonly created_at!: Date;
+  public readonly updated_at!: Date;
+
+  public email!: string;
+  public google_id!: string;
+  public school_id!: number;
+}
+User.init(
+  {
+    id: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    email: {
+      type: new DataTypes.STRING(),
+      unique: true,
+      allowNull: false,
+    },
+    google_id: {
+      type: new DataTypes.STRING(),
+      unique: true,
+      allowNull: false,
+    },
+  },
+  {
+    modelName: "user",
+    underscored: true,
+    sequelize: sequelize, // this bit is important
+  }
+);
 import School from "./school";
 import Course from "./course";
-import CourseUser from "./course-user";
-
-@Table
-export default class User extends Model<User> {
-  @AutoIncrement
-  @PrimaryKey
-  @Column
-  public id!: number;
-
-  @Unique
-  @Column
-  public email!: string;
-
-  @Unique
-  @Column
-  public google_id!: string;
-
-  @ForeignKey(() => School)
-  @Column
-  school_id!: number;
-  @BelongsTo(() => School, "school_id")
-  school!: School;
-
-  @BelongsToMany(() => Course, () => CourseUser, "course_id", "user_id")
-  courses!: Course[];
-
-  @CreatedAt
-  public readonly created_at!: Date;
-  @UpdatedAt
-  public readonly updated_at!: Date;
-}
+User.belongsTo(School, { foreignKey: "school_id" });
+User.belongsToMany(Course, { through: "UserCourse" });

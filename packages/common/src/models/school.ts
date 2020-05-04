@@ -1,16 +1,16 @@
-import { User } from ".";
-import { Course } from "./course";
+import { IUser } from ".";
+import { ICourse } from "./course";
 
-export interface School {
-  // mandatory
-  id: number;
-  created_at: Date;
-  updated_at: Date;
-  //
-  ipeds: string;
+export interface ISchool {
+  id?: number;
+  created_at?: Date;
+  updated_at?: Date;
+
+  ipeds?: string | null;
   display_name: string;
-  is_verified: boolean;
-  website: string;
-  enrolled_users?: User[] | null;
-  courses?: Course[] | null;
+  is_verified?: boolean;
+  website?: string | null;
+
+  users?: IUser[] | null;
+  courses?: ICourse[] | null;
 }

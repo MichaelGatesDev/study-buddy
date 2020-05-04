@@ -5,7 +5,7 @@ import { useHistory } from "react-router";
 import { ThunkDispatch } from "redux-thunk";
 import { Action } from "redux";
 
-import { User } from "@study-buddy/common";
+import { IUser, ISchool } from "@study-buddy/common";
 
 import { AppState } from "../../redux/store";
 import { AuthState } from "../../redux/auth/types";
@@ -24,7 +24,7 @@ interface Props {
   schoolsState: SchoolState;
   usersState: UserState;
   updateUser: (
-    user: User
+    user: IUser
   ) => Promise<UpdateUserSuccessPayload | UpdateUserFailurePayload>;
 }
 
@@ -34,8 +34,7 @@ const SettingsSection = (props: Props): JSX.Element => {
   const [validated, setValidated] = useState<boolean>(false);
 
   const user = props.authState?.authedUser;
-
-  const school = user?.school;
+  const school: ISchool = (user as any).School;
 
   const [settingSchool, setSettingSchool] = useState<number | undefined>(
     school !== undefined && school !== null ? school.id : -1
@@ -60,8 +59,7 @@ const SettingsSection = (props: Props): JSX.Element => {
       .updateUser({
         id: user?.id,
         school_id: settingSchool,
-        updated_at: new Date(),
-      } as User)
+      } as IUser)
       .then((payload: UpdateUserSuccessPayload | UpdateUserFailurePayload) => {
         if (payload.type === UPDATE_USER_SUCCESS) {
           // payload = payload as AuthSuccessPayload;
@@ -81,6 +79,8 @@ const SettingsSection = (props: Props): JSX.Element => {
         console.error(err);
       });
   };
+
+  console.log(user);
 
   return (
     <section>
@@ -121,7 +121,7 @@ const mapDispatchToProps = (
   dispatch: ThunkDispatch<AuthState, void, Action>
 ) => ({
   updateUser(
-    user: User
+    user: IUser
   ): Promise<UpdateUserSuccessPayload | UpdateUserFailurePayload> {
     return dispatch(updateUser(user));
   },

@@ -12,10 +12,7 @@ router.get(
   async (_req: Request, res: Response): Promise<void> => {
     try {
       const schools = await School.findAll({
-        include: [
-          { model: User, as: "enrolled_users" },
-          { model: Course, as: "courses" },
-        ],
+        include: [User, Course],
       });
       res.status(200).json({ result: schools } as ActionSuccessResponse<School[]>);
     } catch (error) {

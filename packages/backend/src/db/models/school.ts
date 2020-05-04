@@ -1,46 +1,53 @@
-import { Table, Column, CreatedAt, UpdatedAt, HasMany, Model, PrimaryKey, AutoIncrement, Unique } from "sequelize-typescript";
+import { DataTypes, Model, HasManyGetAssociationsMixin } from "sequelize";
+
+import { sequelize } from "../database";
+
+export default class School extends Model {
+  public id!: number;
+  public readonly created_at!: Date;
+  public readonly updated_at!: Date;
+
+  public ipeds!: string | null;
+  public display_name!: string;
+  public is_verified!: boolean;
+  public website!: string | null;
+
+  public getEnrolledUsers!: HasManyGetAssociationsMixin<User>;
+  public getCourses!: HasManyGetAssociationsMixin<Course>;
+}
+School.init(
+  {
+    id: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    ipeds: {
+      type: new DataTypes.STRING(128),
+      allowNull: true,
+    },
+    display_name: {
+      type: new DataTypes.STRING(128),
+      allowNull: false,
+    },
+    is_verified: {
+      type: DataTypes.TINYINT,
+      allowNull: false,
+      defaultValue: 0,
+    },
+    website: {
+      type: new DataTypes.STRING(256),
+      allowNull: true,
+    },
+  },
+  {
+    tableName: "schools",
+    underscored: true,
+    sequelize: sequelize, // this bit is important
+  }
+);
 
 import User from "./user";
 import Course from "./course";
-
-@Table
-export default class School extends Model<School> {
-  @AutoIncrement
-  @PrimaryKey
-  @Column
-  public id!: number;
-
-  @Unique
-  @Column
-  public ipeds!: string;
-
-  @Column
-  public display_name!: string;
-
-  @Column
-  public is_verified!: boolean;
-
-  @Column
-  public website!: string;
-
-  @HasMany(() => User)
-  enrolled_users!: User[];
-
-  @HasMany(() => Course)
-  courses!: Course[];
-
-  @CreatedAt
-  public readonly created_at!: Date;
-  @UpdatedAt
-  public readonly updated_at!: Date;
-}
-
-export const add_school = async (ipeds: string, name: string, website: string): Promise<boolean> => {
-  const match = await School.findOne({ where: { ipeds, name, website } });
-  if (match) return false;
-  return School.upsert({
-    ipeds,
-    name,
-    website,
-  });
-};
+School.hasMany(User, { foreignKey: "school_id" });
+School.hasMany(Course, { foreignKey: "school_id" });
