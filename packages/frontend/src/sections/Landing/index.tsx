@@ -11,14 +11,13 @@ const LandingSection = (): JSX.Element => {
             <div className="carousel-item active landingImg">
               <div className="container">
                 <div className="carousel-caption text-center">
-                  <h1 id="slogan"></h1>
                   <p id="slogan">
                     edYou is a platform for students to learn more from their{" "}
                     <br />
                     peers without the fear fo being called dumb.
                   </p>
                   <p>
-                    <a className="btn btn-lg btn-dark" href="#" role="button">
+                    <a className="btn btn-lg btn-dark" href="/" role="button">
                       Sign up
                     </a>
                   </p>
@@ -47,10 +46,10 @@ const LandingSection = (): JSX.Element => {
                       Some quick example text to build on the card title and
                       make up the bulk of the card's content.
                     </p>
-                    <a href="#" className="card-link">
+                    <a href="/" className="card-link">
                       Learn More
                     </a>
-                    <a href="#" className="card-link">
+                    <a href="/" className="card-link">
                       Another link
                     </a>
                   </div>
@@ -65,10 +64,10 @@ const LandingSection = (): JSX.Element => {
                       Some quick example text to build on the card title and
                       make up the bulk of the card's content.
                     </p>
-                    <a href="#" className="card-link">
+                    <a href="/" className="card-link">
                       Learn More
                     </a>
-                    <a href="#" className="card-link">
+                    <a href="/" className="card-link">
                       Another link
                     </a>
                   </div>
@@ -87,10 +86,10 @@ const LandingSection = (): JSX.Element => {
                       Some quick example text to build on the card title and
                       make up the bulk of the card's content.
                     </p>
-                    <a href="#" className="card-link">
+                    <a href="/" className="card-link">
                       Learn More
                     </a>
-                    <a href="#" className="card-link">
+                    <a href="/" className="card-link">
                       Another link
                     </a>
                   </div>
@@ -105,10 +104,10 @@ const LandingSection = (): JSX.Element => {
                       Some quick example text to build on the card title and
                       make up the bulk of the card's content.
                     </p>
-                    <a href="#" className="card-link">
+                    <a href="/" className="card-link">
                       Learn More
                     </a>
-                    <a href="#" className="card-link">
+                    <a href="/" className="card-link">
                       Another link
                     </a>
                   </div>

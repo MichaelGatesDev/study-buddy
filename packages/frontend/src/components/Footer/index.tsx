@@ -22,32 +22,32 @@ export const Footer = (): JSX.Element => {
             <h5>Support</h5>
             <ul className="list-unstyled text-small">
               <li>
-                <a className="text-muted" href="#">
+                <a className="text-muted" href="/">
                   Cool stuff
                 </a>
               </li>
               <li>
-                <a className="text-muted" href="#">
+                <a className="text-muted" href="/">
                   Random feature
                 </a>
               </li>
               <li>
-                <a className="text-muted" href="#">
+                <a className="text-muted" href="/">
                   Team feature
                 </a>
               </li>
               <li>
-                <a className="text-muted" href="#">
+                <a className="text-muted" href="/">
                   Stuff for developers
                 </a>
               </li>
               <li>
-                <a className="text-muted" href="#">
+                <a className="text-muted" href="/">
                   Another one
                 </a>
               </li>
               <li>
-                <a className="text-muted" href="#">
+                <a className="text-muted" href="/">
                   Last time
                 </a>
               </li>
@@ -57,22 +57,22 @@ export const Footer = (): JSX.Element => {
             <h5>Contact</h5>
             <ul className="list-unstyled text-small">
               <li>
-                <a className="text-muted" href="#">
+                <a className="text-muted" href="/">
                   Support Forum
                 </a>
               </li>
               <li>
-                <a className="text-muted" href="#">
+                <a className="text-muted" href="/">
                   Phone +1 (234)-567-8910
                 </a>
               </li>
               <li>
-                <a className="text-muted" href="#">
+                <a className="text-muted" href="/">
                   Live Chat
                 </a>
               </li>
               <li>
-                <a className="text-muted" href="#">
+                <a className="text-muted" href="/">
                   support@edyou.com
                 </a>
               </li>
@@ -82,22 +82,22 @@ export const Footer = (): JSX.Element => {
             <h5>About</h5>
             <ul className="list-unstyled text-small">
               <li>
-                <a className="text-muted" href="#">
+                <a className="text-muted" href="/">
                   Team
                 </a>
               </li>
               <li>
-                <a className="text-muted" href="#">
+                <a className="text-muted" href="/">
                   Locations
                 </a>
               </li>
               <li>
-                <a className="text-muted" href="#">
+                <a className="text-muted" href="/">
                   Privacy
                 </a>
               </li>
               <li>
-                <a className="text-muted" href="#">
+                <a className="text-muted" href="/">
                   Terms
                 </a>
               </li>

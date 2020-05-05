@@ -1,6 +1,7 @@
 import React from "react";
 import { Card } from "react-bootstrap";
 import { connect } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 import { ICourse, ISchool } from "@study-buddy/common";
 
@@ -14,12 +15,19 @@ interface Props {
 }
 
 const HomeSection = (props: Props): JSX.Element => {
+  const history = useHistory();
+
   const user = props.authState?.authedUser;
   if (user === undefined) {
     return <h1>Could not find the user object!</h1>;
   }
 
   const school: ISchool = (user as any).School;
+  if (school === undefined || school == null) {
+    history.push("/settings");
+    console.log("Redirecing to settings...");
+    return <p>Redirecting to settings...</p>;
+  }
 
   return (
     <section>
@@ -39,9 +47,9 @@ const HomeSection = (props: Props): JSX.Element => {
                   text={"dark"}
                   style={{ width: "18rem" }}
                 >
-                  <Card.Header>Header</Card.Header>
+                  <Card.Header>{course.course_number}</Card.Header>
                   <Card.Body>
-                    <Card.Title>Example Card Title </Card.Title>
+                    <Card.Title>{course.course_title}</Card.Title>
                     <Card.Text>
                       Some quick example text to build on the card title and
                       make up the bulk of the content.

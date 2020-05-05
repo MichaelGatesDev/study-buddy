@@ -1,8 +1,34 @@
-import React from "react";
 import "./style.scss";
-import chat from "../../images/chat.png"
+import React from "react";
+import { connect } from "react-redux";
 
-const ForumSection = (): JSX.Element => {
+import chat from "../../images/chat.png";
+import { AuthState } from "../../redux/auth/types";
+import { SchoolState } from "../../redux/schools/types";
+import { AppState } from "../../redux/store";
+import { useHistory } from "react-router";
+import { ISchool } from "@study-buddy/common";
+
+interface Props {
+  authState?: AuthState;
+  schoolsState?: SchoolState;
+}
+
+const ForumSection = (props: Props): JSX.Element => {
+  const history = useHistory();
+
+  const user = props.authState?.authedUser;
+  if (user === undefined) {
+    return <h1>Could not find the user object!</h1>;
+  }
+
+  const school: ISchool = (user as any).School;
+  if (school === undefined || school == null) {
+    history.push("/settings");
+    console.log("Redirecing to settings from forum list...");
+    return <p>Redirecting to settings...</p>;
+  }
+
   return (
     <section>
       <div className="ForumSection container">
@@ -11,87 +37,109 @@ const ForumSection = (): JSX.Element => {
         </div>
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb">
-            <li className="breadcrumb-item active" aria-current="page">FORUM</li>
+            <li className="breadcrumb-item active" aria-current="page">
+              FORUM
+            </li>
           </ol>
         </nav>
         <div className="row">
-          <div className ="col">
+          <div className="col">
             <ul className="list-group list-group-flush">
               <li className="list-group-item">
-                <div className="icon">
-                 
-                </div>
+                <div className="icon"></div>
                 <div className="card-body">
-                  <h5 className="card-title course"><a href="#" >Course Name</a></h5>
+                  <h5 className="card-title course">
+                    <a href="/">Course Name</a>
+                  </h5>
                   <h6 className="card-subtitle mb-2 text-muted">Description</h6>
                 </div>
               </li>
               <li className="list-group-item">
                 <div className="card-body">
-                  <h5 className="card-title course"><a href="#" >Course Name</a></h5>
+                  <h5 className="card-title course">
+                    <a href="/">Course Name</a>
+                  </h5>
                   <h6 className="card-subtitle mb-2 text-muted">Description</h6>
                 </div>
               </li>
               <li className="list-group-item">
                 <div className="card-body">
-                  <h5 className="card-title course"><a href="#" >Course Name</a></h5>
+                  <h5 className="card-title course">
+                    <a href="/">Course Name</a>
+                  </h5>
                   <h6 className="card-subtitle mb-2 text-muted">Description</h6>
                 </div>
               </li>
-            </ul> 
+            </ul>
           </div>
-          <div className ="col">
-            <ul className="list-group list-group-flush">
-              <li className="list-group-item">
-                <div className="card-body">
-                  <h5 className="card-title course"><a href="#" > Course Name</a></h5>
-                  <h6 className="card-subtitle mb-2 text-muted">Description</h6>
-                </div>
-              </li>
-              <li className="list-group-item">
-                <div className="card-body">
-                  <h5 className="card-title course"><a href="#" >Course Name</a></h5>
-                  <h6 className="card-subtitle mb-2 text-muted">Description</h6>
-                </div>
-              </li>
-              <li className="list-group-item">
-                <div className="card-body">
-                  <h5 className="card-title course"><a href="#">Course Name</a></h5>
-                  <h6 className="card-subtitle mb-2 text-muted">Description</h6>
-                </div>
-              </li>
-            </ul> 
-          </div>
-
-          <div className ="col">
+          <div className="col">
             <ul className="list-group list-group-flush">
               <li className="list-group-item">
                 <div className="card-body">
-                  <h5 className="card-title course"><a href="#" > Course Name</a></h5>
+                  <h5 className="card-title course">
+                    <a href="/"> Course Name</a>
+                  </h5>
                   <h6 className="card-subtitle mb-2 text-muted">Description</h6>
                 </div>
               </li>
               <li className="list-group-item">
                 <div className="card-body">
-                  <h5 className="card-title course"><a href="#" >Course Name</a></h5>
+                  <h5 className="card-title course">
+                    <a href="/">Course Name</a>
+                  </h5>
                   <h6 className="card-subtitle mb-2 text-muted">Description</h6>
                 </div>
               </li>
               <li className="list-group-item">
                 <div className="card-body">
-                  <h5 className="card-title course"><a href="#">Course Name</a></h5>
+                  <h5 className="card-title course">
+                    <a href="/">Course Name</a>
+                  </h5>
                   <h6 className="card-subtitle mb-2 text-muted">Description</h6>
                 </div>
               </li>
-            </ul> 
+            </ul>
           </div>
 
-
+          <div className="col">
+            <ul className="list-group list-group-flush">
+              <li className="list-group-item">
+                <div className="card-body">
+                  <h5 className="card-title course">
+                    <a href="/"> Course Name</a>
+                  </h5>
+                  <h6 className="card-subtitle mb-2 text-muted">Description</h6>
+                </div>
+              </li>
+              <li className="list-group-item">
+                <div className="card-body">
+                  <h5 className="card-title course">
+                    <a href="/">Course Name</a>
+                  </h5>
+                  <h6 className="card-subtitle mb-2 text-muted">Description</h6>
+                </div>
+              </li>
+              <li className="list-group-item">
+                <div className="card-body">
+                  <h5 className="card-title course">
+                    <a href="/">Course Name</a>
+                  </h5>
+                  <h6 className="card-subtitle mb-2 text-muted">Description</h6>
+                </div>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
-
     </section>
   );
 };
 
-export default ForumSection;
+const mapStateToProps = (state: AppState) => ({
+  authState: state.auth,
+  schoolsState: state.schools,
+});
+
+const mapDispatchToProps = () => ({});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ForumSection);

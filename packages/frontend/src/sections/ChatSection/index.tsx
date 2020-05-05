@@ -1,8 +1,36 @@
-import React from "react";
 import "./style.scss";
+import React from "react";
+import { useHistory } from "react-router";
+import { connect } from "react-redux";
+
+import { ISchool } from "@study-buddy/common";
+
 import Penguin from "../../images/penguin.png";
 import arrow from "../../images/arrow.png";
-export const ChatSection = (): JSX.Element => {
+import { AuthState } from "../../redux/auth/types";
+import { SchoolState } from "../../redux/schools/types";
+import { AppState } from "../../redux/store";
+
+interface Props {
+  authState?: AuthState;
+  schoolsState?: SchoolState;
+}
+
+const ChatSection = (props: Props): JSX.Element => {
+  const history = useHistory();
+
+  const user = props.authState?.authedUser;
+  if (user === undefined) {
+    return <h1>Could not find the user object!</h1>;
+  }
+
+  const school: ISchool = (user as any).School;
+  if (school === undefined || school == null) {
+    history.push("/settings");
+    console.log("Redirecing to settings from chat...");
+    return <p>Redirecting to settings...</p>;
+  }
+
   return (
     <section className="ChatSection">
       <div className="container">
@@ -234,3 +262,12 @@ export const ChatSection = (): JSX.Element => {
     </section>
   );
 };
+
+const mapStateToProps = (state: AppState) => ({
+  authState: state.auth,
+  schoolsState: state.schools,
+});
+
+const mapDispatchToProps = () => ({});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChatSection);

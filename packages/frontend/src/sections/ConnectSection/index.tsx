@@ -51,10 +51,20 @@ const ConnectSection = (props: Props): JSX.Element => {
       .onPerformAuth?.(tempAccessToken)
       .then((payload: AuthSuccessPayload | AuthFailurePayload) => {
         if (payload.type === AUTH_SUCCESS) {
-          // payload = payload as AuthSuccessPayload;
-          // const user = payload.data;
+          payload = payload as AuthSuccessPayload;
+          const user = payload.data;
           localStorage.setItem("google_id_token", tempAccessToken);
-          history.push("/");
+          if (
+            user.school_id === null ||
+            user.school === undefined ||
+            user.school === null
+          ) {
+            console.log("Redirecing to settings from connect...");
+            history.push("/settings");
+          } else {
+            console.log("Auth complete, redirecing to home...");
+            history.push("/");
+          }
         } else {
           payload = payload as AuthFailurePayload;
           console.error("Failed to authenticate!");
