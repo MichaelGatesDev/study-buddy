@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { connect } from "react-redux";
-import { useHistory } from "react-router";
+import { useHistory, withRouter } from "react-router";
 import { ThunkDispatch } from "redux-thunk";
 import { Action } from "redux";
 
@@ -34,10 +34,10 @@ const SettingsSection = (props: Props): JSX.Element => {
   const [validated, setValidated] = useState<boolean>(false);
 
   const user = props.authState?.authedUser;
-  const school: ISchool = (user as any).School;
+  const school = user?.school;
 
   const [settingSchool, setSettingSchool] = useState<number | undefined>(
-    school !== undefined && school !== null ? school.id : -1
+    school?.id ?? -1
   );
 
   const onFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -67,7 +67,7 @@ const SettingsSection = (props: Props): JSX.Element => {
           console.log("Succesfully Updated user!");
           // alert("Settings saved!");
           // history.push("/");
-          window.location.reload();
+          window.location.reload(); //TODO don't reload page, re-fetch user
         } else {
           payload = payload as UpdateUserFailurePayload;
           console.error("Failed to update user!");
@@ -127,4 +127,6 @@ const mapDispatchToProps = (
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SettingsSection);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(SettingsSection)
+);

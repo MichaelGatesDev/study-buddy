@@ -1,7 +1,7 @@
 import React from "react";
 import { Card } from "react-bootstrap";
 import { connect } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, withRouter } from "react-router-dom";
 
 import { ICourse, ISchool } from "@study-buddy/common";
 
@@ -22,7 +22,7 @@ const HomeSection = (props: Props): JSX.Element => {
     return <h1>Could not find the user object!</h1>;
   }
 
-  const school: ISchool = (user as any).School;
+  const school = user.school;
   if (school === undefined || school == null) {
     history.push("/settings");
     console.log("Redirecing to settings...");
@@ -72,4 +72,6 @@ const mapStateToProps = (state: AppState) => ({
 
 const mapDispatchToProps = () => ({});
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeSection);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(HomeSection)
+);

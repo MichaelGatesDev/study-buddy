@@ -6,7 +6,7 @@ import chat from "../../images/chat.png";
 import { AuthState } from "../../redux/auth/types";
 import { SchoolState } from "../../redux/schools/types";
 import { AppState } from "../../redux/store";
-import { useHistory } from "react-router";
+import { useHistory, withRouter } from "react-router";
 import { ISchool } from "@study-buddy/common";
 
 interface Props {
@@ -22,7 +22,7 @@ const ForumSection = (props: Props): JSX.Element => {
     return <h1>Could not find the user object!</h1>;
   }
 
-  const school: ISchool = (user as any).School;
+  const school = user.school;
   if (school === undefined || school == null) {
     history.push("/settings");
     console.log("Redirecing to settings from forum list...");
@@ -142,4 +142,6 @@ const mapStateToProps = (state: AppState) => ({
 
 const mapDispatchToProps = () => ({});
 
-export default connect(mapStateToProps, mapDispatchToProps)(ForumSection);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(ForumSection)
+);

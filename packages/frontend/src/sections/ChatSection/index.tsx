@@ -1,6 +1,6 @@
 import "./style.scss";
 import React from "react";
-import { useHistory } from "react-router";
+import { useHistory, withRouter } from "react-router";
 import { connect } from "react-redux";
 
 import { ISchool } from "@study-buddy/common";
@@ -24,7 +24,7 @@ const ChatSection = (props: Props): JSX.Element => {
     return <h1>Could not find the user object!</h1>;
   }
 
-  const school: ISchool = (user as any).School;
+  const school = user.school;
   if (school === undefined || school == null) {
     history.push("/settings");
     console.log("Redirecing to settings from chat...");
@@ -270,4 +270,6 @@ const mapStateToProps = (state: AppState) => ({
 
 const mapDispatchToProps = () => ({});
 
-export default connect(mapStateToProps, mapDispatchToProps)(ChatSection);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(ChatSection)
+);

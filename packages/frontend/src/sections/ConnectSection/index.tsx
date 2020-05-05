@@ -8,7 +8,7 @@ import {
   GoogleLoginResponseOffline,
 } from "react-google-login";
 import { Col, Row, Alert } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
+import { useHistory, withRouter } from "react-router-dom";
 import { ThunkDispatch } from "redux-thunk";
 import { Action } from "redux";
 
@@ -190,4 +190,6 @@ const mapDispatchToProps = (
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ConnectSection);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(ConnectSection)
+);
