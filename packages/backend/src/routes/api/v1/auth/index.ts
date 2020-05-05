@@ -1,7 +1,7 @@
 import { Request, Response, Router } from "express";
 import { OAuth2Client } from "google-auth-library";
 
-import { ActionSuccessResponse, ActionErrorResponse } from "@study-buddy/common";
+import { ActionSuccessResponse, ActionErrorResponse, IUser } from "@study-buddy/common";
 
 import User from "../../../../db/models/user";
 import School from "../../../../db/models/school";
@@ -72,7 +72,16 @@ router.post("/connect", async (req: AuthRequest, res: Response) => {
         }
       );
     }
-    res.status(200).json({ result: user } as ActionSuccessResponse<User>);
+    const renamedUser = {
+      id: user.id,
+      created_at: user.created_at,
+      updated_at: user.updated_at,
+      email: user.email,
+      google_id: user.google_id,
+      school_id: user.school_id,
+      school: (user as any).School,
+    } as IUser;
+    res.status(200).json({ result: renamedUser } as ActionSuccessResponse<User>);
   } catch (error) {
     if (error.parent === undefined) {
       res.status(500).json({ error: error.message } as ActionErrorResponse);
