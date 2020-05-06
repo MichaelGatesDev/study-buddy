@@ -31,6 +31,7 @@ const HomeSection = (props: Props): JSX.Element => {
 
   const school = user.school;
   if (school === undefined || school == null) {
+    // wrapped in a timeout to prevent state update error
     setTimeout(() => {
       console.log("Redirecting to settings...");
       history.push("/settings");
