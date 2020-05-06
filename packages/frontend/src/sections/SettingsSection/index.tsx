@@ -66,8 +66,7 @@ const SettingsSection = (props: Props): JSX.Element => {
           // const user = payload.data;
           console.log("Succesfully Updated user!");
           // alert("Settings saved!");
-          // history.push("/");
-          window.location.reload(); //TODO don't reload page, re-fetch user
+          history.push("/settings");
         } else {
           payload = payload as UpdateUserFailurePayload;
           console.error("Failed to update user!");

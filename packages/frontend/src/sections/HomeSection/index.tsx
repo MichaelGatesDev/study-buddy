@@ -8,24 +8,33 @@ import { ICourse, ISchool } from "@study-buddy/common";
 import { AppState } from "../../redux/store";
 import { AuthState } from "../../redux/auth/types";
 import { SchoolState } from "../../redux/schools/types";
+import { SimpleAlert } from "../../components/SimpleAlert";
 
 interface Props {
-  authState?: AuthState;
-  schoolsState?: SchoolState;
+  authState: AuthState;
+  schoolsState: SchoolState;
 }
 
 const HomeSection = (props: Props): JSX.Element => {
   const history = useHistory();
 
-  const user = props.authState?.authedUser;
+  const user = props.authState.authedUser;
   if (user === undefined) {
-    return <h1>Could not find the user object!</h1>;
+    return (
+      <SimpleAlert
+        title="Failed to find the user object!"
+        variant="danger"
+        content="This probably occurred because the web client thinks that it is authenticated when infact it is not.. at least not properly."
+      />
+    );
   }
 
   const school = user.school;
   if (school === undefined || school == null) {
-    history.push("/settings");
-    console.log("Redirecing to settings...");
+    setTimeout(() => {
+      console.log("Redirecting to settings...");
+      history.push("/settings");
+    }, 0);
     return <p>Redirecting to settings...</p>;
   }
 

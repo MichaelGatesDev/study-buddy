@@ -18,6 +18,7 @@ import {
   FETCH_AUTHENTICATED_USER_SUCCESS,
   FETCH_AUTHENTICATED_USER_REQUEST,
   FETCH_AUTHENTICATED_USER_FAILURE,
+  UNAUTH,
 } from "./types";
 
 export const authenticate = (idToken: string) => async (
@@ -60,6 +61,14 @@ export const authenticate = (idToken: string) => async (
       error: error,
     });
   }
+};
+
+export const unauthenticate = () => async (
+  dispatch: Dispatch
+): Promise<void> => {
+  dispatch({
+    type: UNAUTH,
+  });
 };
 
 export const fetchAuthenticatedUser = (

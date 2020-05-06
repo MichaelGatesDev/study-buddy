@@ -32,31 +32,22 @@ interface Props {
 }
 
 const ConnectSection = (props: Props): JSX.Element => {
+  const { authState, authenticate } = props;
   const history = useHistory();
-
   const [errorMessage, setErrorMessage] = useState<string | undefined>(
     undefined
   );
 
-  const performAuth = async (tempAccessToken: string): Promise<void> => {
-    try {
-      let authPayload = await props.authenticate(tempAccessToken);
-      if (authPayload.type !== AUTH_SUCCESS) {
-        authPayload = authPayload as AuthFailurePayload;
-        throw new Error(authPayload.error);
-      }
-
-      authPayload = authPayload as AuthSuccessPayload;
-      const authInfo = authPayload.data as IAuthInfo;
-
-      // cache the id token so we can auto-login later
-      localStorage.setItem("google_id_token", tempAccessToken);
-
-      console.log(`Authenticated as ${authInfo.email} (${authInfo.google_id})`);
-    } catch (error) {
-      console.error(error);
-      return;
+  const performAuth = async (tempAccessToken: string): Promise<IAuthInfo> => {
+    let payload = await authenticate(tempAccessToken);
+    if (payload.type !== AUTH_SUCCESS) {
+      payload = payload as AuthFailurePayload;
+      throw new Error(payload.error);
     }
+
+    payload = payload as AuthSuccessPayload;
+    const authInfo = payload.data as IAuthInfo;
+    return authInfo;
   };
 
   const onConnectSuccess = (
@@ -70,7 +61,13 @@ const ConnectSection = (props: Props): JSX.Element => {
     const responseOk = response as GoogleLoginResponse;
     const tempAccessToken = responseOk.tokenId;
     performAuth(tempAccessToken)
-      .then(() => {
+      .then((authInfo: IAuthInfo) => {
+        console.log(`Connected as ${authInfo.email} (${authInfo.google_id})`);
+
+        // cache the id token so we can auto-login later
+        localStorage.setItem("google_id_token", tempAccessToken);
+
+        // redirect to home
         history.push("/");
       })
       .catch(err => {

@@ -7,6 +7,7 @@ import {
   FETCH_AUTHENTICATED_USER_REQUEST,
   FETCH_AUTHENTICATED_USER_SUCCESS,
   FETCH_AUTHENTICATED_USER_FAILURE,
+  UNAUTH,
 } from "./types";
 
 const initialState: AuthState = {
@@ -45,6 +46,16 @@ export function authReducer(
         ...state,
         authenticating: false,
         error: action.error,
+      };
+    // unauth
+    case UNAUTH:
+      return {
+        ...state,
+        authenticating: false,
+        authenticated: false,
+        authInfo: undefined,
+        authedUser: undefined,
+        fetchingAuthedUser: false,
       };
     // fetch authed user
     case FETCH_AUTHENTICATED_USER_REQUEST:

@@ -35,6 +35,12 @@ export interface AuthFailurePayload {
   error: string;
 }
 
+// ---- UNAUTHENTICATE ---- \\
+export const UNAUTH = "UNAUTH";
+interface UnauthAction {
+  type: typeof UNAUTH;
+}
+
 // ---- FETCH AUTHENTICATED USER ---- \\
 export const FETCH_AUTHENTICATED_USER_REQUEST =
   "PERFORM_FETCH_AUTHENTICATED_USER";
@@ -62,12 +68,13 @@ export interface FetchAuthenticatedUserFailurePayload {
   error: string;
 }
 
-// type Types = "PERFORM_AUTH" | "PERFORM_AUTH_SUCCESS" | "PERFORM_AUTH_FAILURE";
 export type AuthActionTypes =
   // auth
   | AuthRequestAction
   | AuthSuccessAction
   | AuthFailureAction
+  // unauth
+  | UnauthAction
   // fetch authed user
   | FetchAuthenticatedUserRequestAction
   | FetchAuthenticatedUserSuccessAction
