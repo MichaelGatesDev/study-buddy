@@ -106,6 +106,7 @@ const AuthedNavBar = (props: AuthedNavBarProps): JSX.Element => {
               unauthenticate().then(() => {
                 console.log("Disconnected!");
                 history.push("/");
+                window.location.reload();
               });
               return false;
             }}
