@@ -22,12 +22,12 @@ const AuthenticatedApp = (props: Props): JSX.Element => {
   }
 
   return (
-    <>
+    <Switch>
       <Route exact path="/" component={HomeSection} />
       <Route path="/settings" component={SettingsSection} />
       <Route path="/forum" component={ForumSection} />
       <Route path="/conversations" component={ChatSection} />
-    </>
+    </Switch>
   );
 };
 

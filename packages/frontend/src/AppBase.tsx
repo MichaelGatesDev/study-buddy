@@ -92,13 +92,7 @@ const AppBase = (props: Props): JSX.Element => {
   return (
     <>
       <NavBarTop />
-      <Switch>
-        {authState?.authenticated ? (
-          <AuthenticatedApp />
-        ) : (
-          <UnauthenticatedApp />
-        )}
-      </Switch>
+      {authState?.authenticated ? <AuthenticatedApp /> : <UnauthenticatedApp />}
       <Footer />
     </>
   );
