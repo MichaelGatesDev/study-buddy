@@ -4,6 +4,7 @@ import { Request, Response } from "express";
 import logger from "morgan";
 import path from "path";
 import cors from "cors";
+import session from "express-session";
 
 import BaseRouter from "./routes";
 
@@ -15,8 +16,27 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(cors());
-app.options("*", cors());
+app.use(
+  session({
+    secret: "super secure secret here",
+    cookie: { secure: false },
+    resave: true,
+    saveUninitialized: true,
+  })
+);
+const whitelist = ["http://localhost:3000", "http://localhost:3001", "https://localhost:3000", "https://localhost:3001"];
+const configuredCors = cors({
+  credentials: true,
+  origin: (origin, callback) => {
+    if ((origin !== undefined && whitelist.indexOf(origin)) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+});
+app.use(configuredCors);
+app.options("*", configuredCors);
 app.use("/", BaseRouter);
 app.use(express.static("public"));
 

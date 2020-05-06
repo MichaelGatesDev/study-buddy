@@ -1,14 +1,14 @@
 import { Request, Response, Router } from "express";
 import { OAuth2Client } from "google-auth-library";
 
-import { ActionSuccessResponse, ActionErrorResponse, IUser } from "@study-buddy/common";
+import { ActionSuccessResponse, IAuthInfo, ActionErrorResponse } from "@study-buddy/common";
 
-import User from "../../../../db/models/user";
+import User, { normalize } from "../../../../db/models/user";
 import School from "../../../../db/models/school";
 import Course from "../../../../db/models/course";
 
 interface AuthRequest extends Request {
-  token?: string;
+  session?: any;
 }
 
 const router: Router = Router({
@@ -18,76 +18,78 @@ const router: Router = Router({
 const CLIENT_ID = "518840326133-s2tmf5d49tpkg32iac1ag6rvrsdudcfg.apps.googleusercontent.com";
 const client = new OAuth2Client(CLIENT_ID);
 
-router.post("/connect", async (req: AuthRequest, res: Response) => {
-  let token = req.body.token;
-
-  if (token === undefined) {
-    res.status(500).json({ error: "No token was associated with the account connect request" });
-    return;
-  }
-
-  let payload;
+router.post("/", async (req: AuthRequest, res: Response) => {
   try {
-    const loginTicket = await client.verifyIdToken({
-      idToken: token,
-      audience: CLIENT_ID,
-    });
-    payload = loginTicket.getPayload();
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-    return;
-  }
+    // check if session is authenticated before doing lookup
+    if (!req.session.authenticated) {
+      throw new Error("Not authenticated!");
+    }
 
-  if (payload === undefined) {
-    res.status(500).json({ error: "No payload associated with login ticket!" });
-    return;
-  }
+    let email = req.body.email;
+    let google_id = req.body.google_id;
+    if (email === undefined) {
+      res.status(500).json({ error: "Missing email/google_id from user lookup" });
+      return;
+    }
 
-  const userID = payload.sub ?? ""; // 12893019340175940719402134
-  if (userID === "") {
-    res.status(500).json({ error: "Invalid user ID" });
-    return;
-  }
-
-  const email = payload.email ?? ""; // my.email@domain.ext
-  if (email === "" || !email.endsWith(".edu")) {
-    res.status(500).json({ error: "Invalid email! Email should not be blank and should end with .edu" });
-    return;
-  }
-
-  // find connected user
-  try {
+    // find connected user
     let user = await User.findOne({
-      where: { google_id: userID },
+      where: { email, google_id },
       include: [{ model: School }, { model: Course }],
     });
+    // if user does not exist, create a new one
     if (user === null) {
       user = await User.create(
         {
           email,
-          google_id: userID,
+          google_id,
         },
         {
           include: [{ model: School }, { model: Course }],
         }
       );
     }
-    const renamedUser = {
-      id: user.id,
-      created_at: user.created_at,
-      updated_at: user.updated_at,
-      email: user.email,
-      google_id: user.google_id,
-      school_id: user.school_id,
-      school: (user as any).School,
-    } as IUser;
-    res.status(200).json({ result: renamedUser } as ActionSuccessResponse<User>);
+
+    res.status(200).json({ result: normalize(user) } as ActionSuccessResponse<User>);
   } catch (error) {
     if (error.parent === undefined) {
       res.status(500).json({ error: error.message } as ActionErrorResponse);
     } else {
       res.status(500).json({ error: error.parent.sqlMessage } as ActionErrorResponse);
     }
+  }
+});
+
+router.post("/connect", async (req: AuthRequest, res: Response) => {
+  let token = req.body.token;
+  if (token === undefined) {
+    res.status(500).json({ error: "No token was associated with the account connect request" });
+    return;
+  }
+
+  try {
+    const loginTicket = await client.verifyIdToken({
+      idToken: token,
+      audience: CLIENT_ID,
+    });
+    const payload = loginTicket.getPayload();
+
+    if (payload === undefined) throw new Error("No payload associated with login ticket!");
+
+    const userID = payload.sub ?? ""; // 12893019340175940719402134
+    if (userID === "") if (payload === undefined) throw new Error("Invalid user ID");
+
+    const email = payload.email ?? ""; // my.email@domain.ext
+    if (email === "" || !email.endsWith(".edu")) throw new Error("Invalid email! Email should not be blank and should end with .edu");
+
+    req.session.authenticated = true;
+
+    // return authenticated info here
+    res.status(200).json({ result: { email, google_id: userID } } as ActionSuccessResponse<IAuthInfo>);
+    return;
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+    return;
   }
 });
 

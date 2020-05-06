@@ -37,5 +37,18 @@ User.init(
 );
 import School from "./school";
 import Course from "./course";
+import { IUser } from "@study-buddy/common";
 User.belongsTo(School, { foreignKey: "school_id" });
 User.belongsToMany(Course, { through: "UserCourse" });
+
+export const normalize = (user: User) => {
+  let resultUser = user as IUser;
+
+  resultUser.school = (user as any).School;
+  delete (user as any).School;
+
+  resultUser.courses = (user as any).Courses;
+  delete (user as any).Courses;
+
+  return resultUser;
+};

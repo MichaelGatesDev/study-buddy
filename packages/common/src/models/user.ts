@@ -11,4 +11,6 @@ export interface IUser {
 
   school_id?: number | null;
   school?: ISchool | null;
+
+  courses?: ICourse[] | null;
 }

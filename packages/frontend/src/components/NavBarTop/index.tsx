@@ -5,12 +5,12 @@ import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router";
 
-import { IUser } from "@study-buddy/common";
+import { IUser, IAuthInfo } from "@study-buddy/common";
 
 import logo from "../../images/logo.png";
 
 interface Props {
-  authedUser?: IUser;
+  authInfo?: IAuthInfo;
 }
 
 export const NavBarTop = (props: Props): JSX.Element => {
@@ -30,17 +30,17 @@ export const NavBarTop = (props: Props): JSX.Element => {
           </h1>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        {props.authedUser === undefined ? (
+        {props.authInfo === undefined ? (
           <UnauthedNavBar />
         ) : (
-          <AuthedNavBar user={props.authedUser} />
+          <AuthedNavBar user={props.authInfo} />
         )}
       </Navbar>
     </div>
   );
 };
 
-const UnauthedNavBar = () => {
+const UnauthedNavBar = (): JSX.Element => {
   return (
     <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
       <Nav className="mr-auto"></Nav>
@@ -57,7 +57,7 @@ interface AuthedNavBarProps {
   user: IUser;
 }
 
-const AuthedNavBar = (props: AuthedNavBarProps) => {
+const AuthedNavBar = (props: AuthedNavBarProps): JSX.Element => {
   const history = useHistory();
 
   return (
@@ -87,10 +87,10 @@ const AuthedNavBar = (props: AuthedNavBarProps) => {
           <NavDropdown.Divider />
           <NavDropdown.Item
             href="#"
-            onClick={() => {
+            onClick={(): boolean => {
               localStorage.removeItem("google_id_token");
               console.log("Disconnected!");
-              history.push("/");
+              // history.push("/");
               window.location.reload();
               return false;
             }}

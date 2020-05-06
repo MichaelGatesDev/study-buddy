@@ -21,21 +21,43 @@ import {
   AuthSuccessPayload,
   AUTH_SUCCESS,
 } from "../../redux/auth/types";
-import { performAuth } from "../../redux/auth/actions";
+import { authenticate } from "../../redux/auth/actions";
+import { IAuthInfo } from "@study-buddy/common";
 
 interface Props {
-  authState?: AuthState;
-  onPerformAuth?: (
+  authState: AuthState;
+  authenticate: (
     idToken: string
   ) => Promise<AuthSuccessPayload | AuthFailurePayload>;
 }
 
 const ConnectSection = (props: Props): JSX.Element => {
+  const history = useHistory();
+
   const [errorMessage, setErrorMessage] = useState<string | undefined>(
     undefined
   );
 
-  const history = useHistory();
+  const performAuth = async (tempAccessToken: string): Promise<void> => {
+    try {
+      let authPayload = await props.authenticate(tempAccessToken);
+      if (authPayload.type !== AUTH_SUCCESS) {
+        authPayload = authPayload as AuthFailurePayload;
+        throw new Error(authPayload.error);
+      }
+
+      authPayload = authPayload as AuthSuccessPayload;
+      const authInfo = authPayload.data as IAuthInfo;
+
+      // cache the id token so we can auto-login later
+      localStorage.setItem("google_id_token", tempAccessToken);
+
+      console.log(`Authenticated as ${authInfo.email} (${authInfo.google_id})`);
+    } catch (error) {
+      console.error(error);
+      return;
+    }
+  };
 
   const onConnectSuccess = (
     response: GoogleLoginResponse | GoogleLoginResponseOffline
@@ -47,32 +69,11 @@ const ConnectSection = (props: Props): JSX.Element => {
 
     const responseOk = response as GoogleLoginResponse;
     const tempAccessToken = responseOk.tokenId;
-    props
-      .onPerformAuth?.(tempAccessToken)
-      .then((payload: AuthSuccessPayload | AuthFailurePayload) => {
-        if (payload.type === AUTH_SUCCESS) {
-          payload = payload as AuthSuccessPayload;
-          const user = payload.data;
-          localStorage.setItem("google_id_token", tempAccessToken);
-          if (
-            user.school_id === null ||
-            user.school === undefined ||
-            user.school === null
-          ) {
-            console.log("Redirecing to settings from connect...");
-            history.push("/settings");
-          } else {
-            console.log("Auth complete, redirecing to home...");
-            history.push("/");
-          }
-        } else {
-          payload = payload as AuthFailurePayload;
-          console.error("Failed to authenticate!");
-          console.error(payload.error);
-        }
+    performAuth(tempAccessToken)
+      .then(() => {
+        history.push("/");
       })
-      .catch((err: any) => {
-        console.error("Failed to authenticate!");
+      .catch(err => {
         console.error(err);
       });
   };
@@ -183,10 +184,10 @@ const mapStateToProps = (state: AppState) => ({
 const mapDispatchToProps = (
   dispatch: ThunkDispatch<AuthState, void, Action>
 ) => ({
-  onPerformAuth(
+  authenticate(
     idToken: string
   ): Promise<AuthSuccessPayload | AuthFailurePayload> {
-    return dispatch(performAuth(idToken));
+    return dispatch(authenticate(idToken));
   },
 });
 

@@ -4,16 +4,16 @@ export interface UserState {
   fetchingSingle: boolean;
   fetchedUser?: IUser;
 
-  updatingUser: boolean;
-  updatedUser?: IUser;
-
   fetchingAll: boolean;
   fetchedUsers?: IUser[];
+
+  updatingUser: boolean;
+  updatedUser?: IUser;
 
   error?: string;
 }
 
-// ---- FETCH USER ---- \\
+// ---- FETCH SINGLE USER ---- \\
 export const FETCH_USER_REQUEST = "PERFORM_FETCH_USER";
 export const FETCH_USER_SUCCESS = "PERFORM_FETCH_USER_SUCCESS";
 export const FETCH_USER_FAILURE = "PERFORM_FETCH_USER_FAILURE";
@@ -33,6 +33,30 @@ interface FetchUserFailureAction {
   error: string;
 }
 export interface FetchUserFailurePayload {
+  type: string;
+  error: string;
+}
+
+// ---- FETCH ALL USERS ---- \\
+export const FETCH_USERS_REQUEST = "PERFORM_FETCH_USERS";
+export const FETCH_USERS_SUCCESS = "PERFORM_FETCH_USERS_SUCCESS";
+export const FETCH_USERS_FAILURE = "PERFORM_FETCH_USERS_FAILURE";
+interface FetchUsersRequestAction {
+  type: typeof FETCH_USERS_REQUEST;
+}
+interface FetchUsersSuccessAction {
+  type: typeof FETCH_USERS_SUCCESS;
+  data: IUser[];
+}
+export interface FetchUsersSuccessPayload {
+  type: string;
+  data: IUser[];
+}
+interface FetchUsersFailureAction {
+  type: typeof FETCH_USERS_FAILURE;
+  error: string;
+}
+export interface FetchUsersFailurePayload {
   type: string;
   error: string;
 }
@@ -57,30 +81,6 @@ interface UpdateUserFailureAction {
   error: string;
 }
 export interface UpdateUserFailurePayload {
-  type: string;
-  error: string;
-}
-
-// ---- FETCH USERS ---- \\
-export const FETCH_USERS_REQUEST = "PERFORM_FETCH_USERS";
-export const FETCH_USERS_SUCCESS = "PERFORM_FETCH_USERS_SUCCESS";
-export const FETCH_USERS_FAILURE = "PERFORM_FETCH_USERS_FAILURE";
-interface FetchUsersRequestAction {
-  type: typeof FETCH_USERS_REQUEST;
-}
-interface FetchUsersSuccessAction {
-  type: typeof FETCH_USERS_SUCCESS;
-  data: IUser[];
-}
-export interface FetchUsersSuccessPayload {
-  type: string;
-  data: IUser[];
-}
-interface FetchUsersFailureAction {
-  type: typeof FETCH_USERS_FAILURE;
-  error: string;
-}
-export interface FetchUsersFailurePayload {
   type: string;
   error: string;
 }

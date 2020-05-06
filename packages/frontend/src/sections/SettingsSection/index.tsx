@@ -80,7 +80,7 @@ const SettingsSection = (props: Props): JSX.Element => {
       });
   };
 
-  console.log(user);
+  // console.log(user);
 
   return (
     <section>
