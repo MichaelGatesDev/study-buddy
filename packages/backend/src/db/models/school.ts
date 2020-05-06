@@ -41,7 +41,7 @@ School.init(
     },
   },
   {
-    tableName: "schools",
+    modelName: "school",
     underscored: true,
     sequelize: sequelize, // this bit is important
   }

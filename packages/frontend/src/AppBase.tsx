@@ -75,13 +75,17 @@ const AppBase = (props: Props): JSX.Element => {
     const checkAuth = async (): Promise<void> => {
       const idToken = localStorage.getItem("google_id_token");
       if (idToken && idToken !== "") {
-        const authInfo = await performAuth(idToken);
-        console.log(
-          `Authenticated as ${authInfo.email} (${authInfo.google_id})`
-        );
+        try {
+          const authInfo = await performAuth(idToken);
+          console.log(
+            `Authenticated as ${authInfo.email} (${authInfo.google_id})`
+          );
 
-        const user = performFetchUser(authInfo.email, authInfo.google_id);
-        console.log("Fetched user!");
+          const user = performFetchUser(authInfo.email, authInfo.google_id);
+          console.log("Fetched user!");
+        } catch (error) {
+          console.error(error);
+        }
       } else {
         console.log("No id token found! Logged out or cleared storage..");
       }

@@ -1,9 +1,9 @@
 import { Request, Response, Router } from "express";
 import { OAuth2Client } from "google-auth-library";
 
-import { ActionSuccessResponse, IAuthInfo, ActionErrorResponse } from "@study-buddy/common";
+import { ActionSuccessResponse, IAuthInfo, ActionErrorResponse, IUser } from "@study-buddy/common";
 
-import User, { normalize } from "../../../../db/models/user";
+import User from "../../../../db/models/user";
 import School from "../../../../db/models/school";
 import Course from "../../../../db/models/course";
 
@@ -50,7 +50,7 @@ router.post("/", async (req: AuthRequest, res: Response) => {
       );
     }
 
-    res.status(200).json({ result: normalize(user) } as ActionSuccessResponse<User>);
+    res.status(200).json({ result: user } as ActionSuccessResponse<IUser>);
   } catch (error) {
     if (error.parent === undefined) {
       res.status(500).json({ error: error.message } as ActionErrorResponse);

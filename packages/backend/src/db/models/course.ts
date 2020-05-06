@@ -35,6 +35,7 @@ Course.init(
     },
   },
   {
+    modelName: "course",
     underscored: true,
     sequelize: sequelize, // this bit is important
   }
