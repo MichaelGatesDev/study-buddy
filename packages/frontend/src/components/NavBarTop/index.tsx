@@ -106,7 +106,6 @@ const AuthedNavBar = (props: AuthedNavBarProps): JSX.Element => {
               unauthenticate().then(() => {
                 console.log("Disconnected!");
                 history.push("/");
-                window.location.reload(); // needed until this PR is merged https://github.com/anthonyjgrove/react-google-login/pull/247
               });
               return false;
             }}

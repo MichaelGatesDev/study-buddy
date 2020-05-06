@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, Route, Redirect, withRouter } from "react-router-dom";
+import { Route, Redirect, withRouter } from "react-router-dom";
 
 import LandingSection from "./sections/Landing";
 import ConnectSection from "./sections/ConnectSection";
@@ -10,8 +10,7 @@ const UnauthenticatedApp = (): JSX.Element => {
     <>
       <Route exact path="/" component={LandingSection} />
       <Route path="/connect" component={ConnectSection} />
-      <Route path="/404" component={GenericNotFoundSection} />
-      <Redirect to="/404" />
+      <Route component={GenericNotFoundSection} />
     </>
   );
 };
