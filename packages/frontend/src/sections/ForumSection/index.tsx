@@ -8,6 +8,8 @@ import { SchoolState } from "../../redux/schools/types";
 import { AppState } from "../../redux/store";
 import { useHistory, withRouter } from "react-router";
 import { ISchool } from "@study-buddy/common";
+import { Link } from "react-router-dom";
+import { Nav } from "react-bootstrap";
 
 interface Props {
   authState?: AuthState;
@@ -49,7 +51,7 @@ const ForumSection = (props: Props): JSX.Element => {
                 <div className="icon"></div>
                 <div className="card-body">
                   <h5 className="card-title course">
-                    <a href="/">Course Name</a>
+                  <Nav.Link as={Link} to={"/course"}>Course Name</Nav.Link>
                   </h5>
                   <h6 className="card-subtitle mb-2 text-muted">Description</h6>
                 </div>
@@ -57,7 +59,7 @@ const ForumSection = (props: Props): JSX.Element => {
               <li className="list-group-item">
                 <div className="card-body">
                   <h5 className="card-title course">
-                    <a href="/">Course Name</a>
+                    <Nav.Link as={Link} to={"/course"}>Course Name</Nav.Link>
                   </h5>
                   <h6 className="card-subtitle mb-2 text-muted">Description</h6>
                 </div>
@@ -65,7 +67,7 @@ const ForumSection = (props: Props): JSX.Element => {
               <li className="list-group-item">
                 <div className="card-body">
                   <h5 className="card-title course">
-                    <a href="/">Course Name</a>
+                    <Nav.Link as={Link} to={"/course"}>Course Name</Nav.Link>
                   </h5>
                   <h6 className="card-subtitle mb-2 text-muted">Description</h6>
                 </div>
@@ -77,7 +79,7 @@ const ForumSection = (props: Props): JSX.Element => {
               <li className="list-group-item">
                 <div className="card-body">
                   <h5 className="card-title course">
-                    <a href="/"> Course Name</a>
+                    <Nav.Link as={Link} to={"/course"}>Course Name</Nav.Link>
                   </h5>
                   <h6 className="card-subtitle mb-2 text-muted">Description</h6>
                 </div>
@@ -85,7 +87,7 @@ const ForumSection = (props: Props): JSX.Element => {
               <li className="list-group-item">
                 <div className="card-body">
                   <h5 className="card-title course">
-                    <a href="/">Course Name</a>
+                    <Nav.Link as={Link} to={"/course"}>Course Name</Nav.Link>
                   </h5>
                   <h6 className="card-subtitle mb-2 text-muted">Description</h6>
                 </div>
@@ -93,7 +95,7 @@ const ForumSection = (props: Props): JSX.Element => {
               <li className="list-group-item">
                 <div className="card-body">
                   <h5 className="card-title course">
-                    <a href="/">Course Name</a>
+                    <Nav.Link as={Link} to={"/course"}>Course Name</Nav.Link>
                   </h5>
                   <h6 className="card-subtitle mb-2 text-muted">Description</h6>
                 </div>
@@ -106,7 +108,7 @@ const ForumSection = (props: Props): JSX.Element => {
               <li className="list-group-item">
                 <div className="card-body">
                   <h5 className="card-title course">
-                    <a href="/"> Course Name</a>
+                    <Nav.Link as={Link} to={"/course"}>Course Name</Nav.Link>
                   </h5>
                   <h6 className="card-subtitle mb-2 text-muted">Description</h6>
                 </div>
@@ -114,7 +116,7 @@ const ForumSection = (props: Props): JSX.Element => {
               <li className="list-group-item">
                 <div className="card-body">
                   <h5 className="card-title course">
-                    <a href="/">Course Name</a>
+                    <Nav.Link as={Link} to={"/course"}>Course Name</Nav.Link>
                   </h5>
                   <h6 className="card-subtitle mb-2 text-muted">Description</h6>
                 </div>
@@ -122,7 +124,7 @@ const ForumSection = (props: Props): JSX.Element => {
               <li className="list-group-item">
                 <div className="card-body">
                   <h5 className="card-title course">
-                    <a href="/">Course Name</a>
+                    <Nav.Link as={Link} to={"/course"}>Course Name</Nav.Link>
                   </h5>
                   <h6 className="card-subtitle mb-2 text-muted">Description</h6>
                 </div>
