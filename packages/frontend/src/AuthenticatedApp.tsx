@@ -9,6 +9,7 @@ import { SchoolState } from "./redux/schools/types";
 import ForumSection from "./sections/ForumSection";
 import HomeSection from "./sections/HomeSection";
 import ChatSection from "./sections/ChatSection";
+import Course from "./sections/Course";
 import SettingsSection from "./sections/SettingsSection";
 
 interface Props {
@@ -28,6 +29,7 @@ const AuthenticatedApp = (props: Props) => {
         <Route path="/settings" component={SettingsSection} />
         <Route path="/forum" component={ForumSection} />
         <Route path="/conversations" component={ChatSection} />
+        <Route path ="/course" component ={Course}/>
       </Switch>
     </>
   );
