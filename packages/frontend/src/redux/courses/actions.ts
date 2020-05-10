@@ -2,24 +2,24 @@ import { Dispatch } from "redux";
 
 import {
   ActionSuccessResponse,
-  ISchool,
+  ICourse,
   ActionErrorResponse,
   GenericParams,
 } from "@study-buddy/common";
 
 import {
-  FETCH_SCHOOLS_REQUEST,
-  FETCH_SCHOOLS_SUCCESS,
-  FETCH_SCHOOLS_FAILURE,
-  FetchSchoolsSuccessPayload,
-  FetchSchoolsFailurePayload,
+  FETCH_COURSES_REQUEST,
+  FETCH_COURSES_SUCCESS,
+  FETCH_COURSES_FAILURE,
+  FetchCoursesSuccessPayload,
+  FetchCoursesFailurePayload,
 } from "./types";
 
-export const fetchSchools = (params?: GenericParams) => async (
+export const fetchCourses = (params?: GenericParams) => async (
   dispatch: Dispatch
-): Promise<FetchSchoolsSuccessPayload | FetchSchoolsFailurePayload> => {
+): Promise<FetchCoursesSuccessPayload | FetchCoursesFailurePayload> => {
   dispatch({
-    type: FETCH_SCHOOLS_REQUEST,
+    type: FETCH_COURSES_REQUEST,
   });
   try {
     const queryStr =
@@ -28,7 +28,7 @@ export const fetchSchools = (params?: GenericParams) => async (
         : "";
 
     const response = await fetch(
-      `http://localhost:3000/api/v1/schools${queryStr}`,
+      `http://localhost:3000/api/v1/courses${queryStr}`,
       {
         method: "GET",
         headers: {
@@ -43,19 +43,19 @@ export const fetchSchools = (params?: GenericParams) => async (
     if (!response.ok) {
       const respErr = json as ActionErrorResponse;
       return dispatch({
-        type: FETCH_SCHOOLS_FAILURE,
+        type: FETCH_COURSES_FAILURE,
         error: respErr.error,
       });
     }
 
-    const respOk = json as ActionSuccessResponse<ISchool[]>;
+    const respOk = json as ActionSuccessResponse<ICourse[]>;
     return dispatch({
-      type: FETCH_SCHOOLS_SUCCESS,
+      type: FETCH_COURSES_SUCCESS,
       data: respOk.result,
     });
   } catch (error) {
     return dispatch({
-      type: FETCH_SCHOOLS_FAILURE,
+      type: FETCH_COURSES_FAILURE,
       error: error,
     });
   }

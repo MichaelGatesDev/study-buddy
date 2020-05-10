@@ -2,24 +2,24 @@ import "./style.scss";
 import React from "react";
 import { connect } from "react-redux";
 
-import chat from "../../images/chat.png";
 import { AuthState } from "../../redux/auth/types";
-import { SchoolState } from "../../redux/schools/types";
+import { SchoolsState } from "../../redux/schools/types";
 import { AppState } from "../../redux/store";
 import { useHistory, withRouter } from "react-router";
 import { ISchool } from "@study-buddy/common";
 import { Link } from "react-router-dom";
 import { Nav } from "react-bootstrap";
 
+
 interface Props {
-  authState?: AuthState;
-  schoolsState?: SchoolState;
+  authState: AuthState;
+  schoolsState: SchoolsState;
 }
 
 const ForumSection = (props: Props): JSX.Element => {
   const history = useHistory();
 
-  const user = props.authState?.authedUser;
+  const user = props.authState.authedUser;
   if (user === undefined) {
     return <h1>Could not find the user object!</h1>;
   }

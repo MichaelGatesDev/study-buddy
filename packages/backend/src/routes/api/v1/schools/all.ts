@@ -1,5 +1,5 @@
 import { Router, Response, Request } from "express";
-import { ActionSuccessResponse, ActionErrorResponse } from "@study-buddy/common";
+import { ActionSuccessResponse, ActionErrorResponse, ISchool } from "@study-buddy/common";
 
 import School from "../../../../db/models/school";
 import User from "../../../../db/models/user";
@@ -14,7 +14,7 @@ router.get(
       const schools = await School.findAll({
         include: [User, Course],
       });
-      res.status(200).json({ result: schools } as ActionSuccessResponse<School[]>);
+      res.status(200).json({ result: schools } as ActionSuccessResponse<ISchool[]>);
     } catch (error) {
       if (error.parent === undefined) {
         console.error("Error: " + error.message);

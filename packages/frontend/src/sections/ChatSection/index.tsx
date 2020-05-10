@@ -3,23 +3,21 @@ import React from "react";
 import { useHistory, withRouter } from "react-router";
 import { connect } from "react-redux";
 
-import { ISchool } from "@study-buddy/common";
-
 import Penguin from "../../images/penguin.png";
 import arrow from "../../images/arrow.png";
 import { AuthState } from "../../redux/auth/types";
-import { SchoolState } from "../../redux/schools/types";
+import { SchoolsState } from "../../redux/schools/types";
 import { AppState } from "../../redux/store";
 
 interface Props {
-  authState?: AuthState;
-  schoolsState?: SchoolState;
+  authState: AuthState;
+  schoolsState: SchoolsState;
 }
 
 const ChatSection = (props: Props): JSX.Element => {
   const history = useHistory();
 
-  const user = props.authState?.authedUser;
+  const user = props.authState.authedUser;
   if (user === undefined) {
     return <h1>Could not find the user object!</h1>;
   }
@@ -251,7 +249,7 @@ const ChatSection = (props: Props): JSX.Element => {
                     placeholder="Type a message"
                   />
                   <button className="msg_send_btn" type="button">
-                    <img src={arrow}></img>
+                    <img src={arrow} alt="arrow"></img>
                   </button>
                 </div>
               </div>

@@ -7,7 +7,7 @@ export interface ISchool {
   updated_at?: Date;
 
   ipeds?: string | null;
-  display_name: string;
+  display_name?: string;
   is_verified?: boolean;
   website?: string | null;
 

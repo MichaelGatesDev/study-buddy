@@ -2,78 +2,104 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
 import { Action } from "redux";
+import { Switch, withRouter, useLocation } from "react-router";
+
+import { IAuthInfo, IUser } from "@study-buddy/common";
 
 import UnauthenticatedApp from "./UnauthenticatedApp";
 import AuthenticatedApp from "./AuthenticatedApp";
 import { AppState } from "./redux/store";
-import { performAuth } from "./redux/auth/actions";
-import { fetchSchool } from "./redux/schools/actions";
+import {
+  authenticate,
+  fetchAuthenticatedUser,
+  unauthenticate,
+} from "./redux/auth/actions";
 import {
   AuthState,
   AuthSuccessPayload,
   AuthFailurePayload,
   AUTH_SUCCESS,
+  FetchAuthenticatedUserSuccessPayload,
+  FetchAuthenticatedUserFailurePayload,
+  FETCH_AUTHENTICATED_USER_SUCCESS,
 } from "./redux/auth/types";
-import {
-  FetchSchoolSuccessPayload,
-  FetchSchoolFailurePayload,
-} from "./redux/schools/types";
-import { HashRouter } from "react-router-dom";
-import { NavBarTop } from "./components/NavBarTop";
-import { Switch } from "react-router";
+import NavBarTop from "./components/NavBarTop";
 import { Footer } from "./components/Footer";
 
 interface Props {
-  authState?: AuthState;
-  onPerformAuth?: (
+  authState: AuthState;
+  authenticate: (
     tokenID: string
   ) => Promise<AuthSuccessPayload | AuthFailurePayload>;
-  fetchSchool?: (
-    schoolID: number
-  ) => Promise<FetchSchoolSuccessPayload | FetchSchoolFailurePayload>;
+  fetchAuthenticatedUser: (
+    email: string,
+    googleID: string
+  ) => Promise<
+    FetchAuthenticatedUserSuccessPayload | FetchAuthenticatedUserFailurePayload
+  >;
 }
 
 const AppBase = (props: Props): JSX.Element => {
-  useEffect(() => {
-    const idToken = localStorage.getItem("google_id_token");
-    if (idToken && idToken !== "") {
-      props
-        .onPerformAuth?.(idToken)
-        .then((payload: AuthSuccessPayload | AuthFailurePayload) => {
-          if (payload.type === AUTH_SUCCESS) {
-            const checkedPayload = payload as AuthSuccessPayload;
-            console.log(`Authenticated as ${checkedPayload.data.email}`);
-          } else {
-            const checkedPayload = payload as AuthFailurePayload;
-            console.error("Failed to authenticate!");
-            console.error(checkedPayload.error);
-            localStorage.removeItem("google_id_token");
-          }
-        });
-    }
-  }, []);
+  const { authState, authenticate, fetchAuthenticatedUser } = props;
 
-  if (props.authState?.authenticating) {
-    // TODO show waiting
-    return (
-      <div>
-        <p>Authenticating...</p>
-      </div>
-    );
-  }
+  const location = useLocation();
+
+  useEffect(() => {
+    const performAuth = async (tempAccessToken: string): Promise<IAuthInfo> => {
+      let payload = await authenticate(tempAccessToken);
+      if (payload.type !== AUTH_SUCCESS) {
+        localStorage.removeItem("google_id_token");
+        payload = payload as AuthFailurePayload;
+        throw new Error(payload.error);
+      }
+
+      payload = payload as AuthSuccessPayload;
+      const authInfo = payload.data as IAuthInfo;
+      return authInfo;
+    };
+
+    const performFetchUser = async (
+      email: string,
+      googleID: string
+    ): Promise<IUser> => {
+      let payload = await fetchAuthenticatedUser(email, googleID);
+      if (payload.type !== FETCH_AUTHENTICATED_USER_SUCCESS) {
+        payload = payload as FetchAuthenticatedUserFailurePayload;
+        throw new Error(payload.error);
+      }
+
+      payload = payload as FetchAuthenticatedUserSuccessPayload;
+      const authedUser = payload.data as IUser;
+      return authedUser;
+    };
+
+    const checkAuth = async (): Promise<void> => {
+      const idToken = localStorage.getItem("google_id_token");
+      if (idToken && idToken !== "") {
+        try {
+          const authInfo = await performAuth(idToken);
+          console.log(
+            `Authenticated as ${authInfo.email} (${authInfo.google_id})`
+          );
+
+          const user = performFetchUser(authInfo.email, authInfo.google_id);
+          console.log("Fetched user!");
+        } catch (error) {
+          console.error(error);
+        }
+      } else {
+        console.log("No id token found! Logged out or cleared storage..");
+      }
+    };
+    checkAuth();
+  }, [location]);
 
   return (
-    <HashRouter basename="/">
-      <NavBarTop authedUser={props.authState?.authedUser} />
-      <Switch>
-        {props.authState?.authenticated ? (
-          <AuthenticatedApp />
-        ) : (
-          <UnauthenticatedApp />
-        )}
-      </Switch>
+    <>
+      <NavBarTop />
+      {authState?.authenticated ? <AuthenticatedApp /> : <UnauthenticatedApp />}
       <Footer />
-    </HashRouter>
+    </>
   );
 };
 
@@ -84,16 +110,24 @@ const mapStateToProps = (state: AppState) => ({
 const mapDispatchToProps = (
   dispatch: ThunkDispatch<AuthState, void, Action>
 ) => ({
-  onPerformAuth(
+  authenticate(
     tokenID: string
   ): Promise<AuthSuccessPayload | AuthFailurePayload> {
-    return dispatch(performAuth(tokenID));
+    return dispatch(authenticate(tokenID));
   },
-  fetchSchool(
-    schoolID: number
-  ): Promise<FetchSchoolSuccessPayload | FetchSchoolFailurePayload> {
-    return dispatch(fetchSchool(schoolID));
+  unauthenticate(): Promise<void> {
+    return dispatch(unauthenticate());
+  },
+  fetchAuthenticatedUser(
+    email: string,
+    googleID: string
+  ): Promise<
+    FetchAuthenticatedUserSuccessPayload | FetchAuthenticatedUserFailurePayload
+  > {
+    return dispatch(fetchAuthenticatedUser(email, googleID));
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(AppBase);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(AppBase)
+);

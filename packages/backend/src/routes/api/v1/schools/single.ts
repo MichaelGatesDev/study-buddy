@@ -8,7 +8,7 @@ const router = Router();
 router.get(
   "/",
   async (_req: Request, res: Response): Promise<void> => {
-    res.status(200).json({ result: _req.body.school } as ActionSuccessResponse<School>);
+    res.status(200).json({ result: _req.body.school } as ActionSuccessResponse<ISchool>);
   }
 );
 
@@ -26,7 +26,7 @@ router.post(
 
     try {
       await school.save();
-      res.status(200).json({ result: school as ISchool } as ActionSuccessResponse<School>);
+      res.status(200).json({ result: school as ISchool } as ActionSuccessResponse<ISchool>);
     } catch (error) {
       res.status(500).json({ error: error.message } as ActionErrorResponse);
     }
@@ -39,7 +39,7 @@ router.post(
     const school: School = _req.body.school;
     try {
       await school.destroy();
-      res.status(200).json({ result: school } as ActionSuccessResponse<School>);
+      res.status(200).json({ result: school } as ActionSuccessResponse<ISchool>);
     } catch (error) {
       res.status(500).json({ error: error.message } as ActionErrorResponse);
     }

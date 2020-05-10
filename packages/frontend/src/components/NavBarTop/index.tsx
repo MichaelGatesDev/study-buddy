@@ -3,17 +3,26 @@ import "./style.scss";
 import React from "react";
 import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { useHistory } from "react-router";
+import { useHistory, withRouter } from "react-router";
+import { ThunkDispatch } from "redux-thunk";
+import { Action } from "redux";
 
-import { IUser } from "@study-buddy/common";
+import { IUser, IAuthInfo } from "@study-buddy/common";
 
 import logo from "../../images/logo.png";
+import { unauthenticate } from "../../redux/auth/actions";
+import { AuthState } from "../../redux/auth/types";
+import { AppState } from "../../redux/store";
+import AppBase from "../../AppBase";
+import { connect } from "react-redux";
 
 interface Props {
-  authedUser?: IUser;
+  authState: AuthState;
+  unauthenticate: () => Promise<void>;
 }
 
-export const NavBarTop = (props: Props): JSX.Element => {
+const NavBarTop = (props: Props): JSX.Element => {
+  const { authState, unauthenticate } = props;
   return (
     <div className="NavBarTop">
       <Navbar bg="light">
@@ -30,17 +39,20 @@ export const NavBarTop = (props: Props): JSX.Element => {
           </h1>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        {props.authedUser === undefined ? (
+        {authState.authInfo === undefined ? (
           <UnauthedNavBar />
         ) : (
-          <AuthedNavBar user={props.authedUser} />
+          <AuthedNavBar
+            user={authState.authInfo}
+            unauthenticate={unauthenticate}
+          />
         )}
       </Navbar>
     </div>
   );
 };
 
-const UnauthedNavBar = () => {
+const UnauthedNavBar = (): JSX.Element => {
   return (
     <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
       <Nav className="mr-auto"></Nav>
@@ -55,9 +67,11 @@ const UnauthedNavBar = () => {
 
 interface AuthedNavBarProps {
   user: IUser;
+  unauthenticate: () => Promise<void>;
 }
 
-const AuthedNavBar = (props: AuthedNavBarProps) => {
+const AuthedNavBar = (props: AuthedNavBarProps): JSX.Element => {
+  const { unauthenticate } = props;
   const history = useHistory();
 
   return (
@@ -87,11 +101,13 @@ const AuthedNavBar = (props: AuthedNavBarProps) => {
           <NavDropdown.Divider />
           <NavDropdown.Item
             href="#"
-            onClick={() => {
+            onClick={(): boolean => {
               localStorage.removeItem("google_id_token");
-              console.log("Disconnected!");
-              history.push("/");
-              window.location.reload();
+              unauthenticate().then(() => {
+                console.log("Disconnected!");
+                history.push("/");
+                window.location.reload();
+              });
               return false;
             }}
           >
@@ -102,3 +118,19 @@ const AuthedNavBar = (props: AuthedNavBarProps) => {
     </Navbar.Collapse>
   );
 };
+
+const mapStateToProps = (state: AppState) => ({
+  authState: state.auth,
+});
+
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<AuthState, void, Action>
+) => ({
+  unauthenticate(): Promise<void> {
+    return dispatch(unauthenticate());
+  },
+});
+
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(NavBarTop)
+);
