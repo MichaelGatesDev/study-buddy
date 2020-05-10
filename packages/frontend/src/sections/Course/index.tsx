@@ -1,0 +1,106 @@
+import "./style.scss";
+import React from "react";
+import { connect } from "react-redux";
+
+import { AuthState } from "../../redux/auth/types";
+import { SchoolState } from "../../redux/schools/types";
+import { AppState } from "../../redux/store";
+import { useHistory, withRouter } from "react-router";
+import { ISchool } from "@study-buddy/common";
+import { Link } from "react-router-dom";
+import { Nav } from "react-bootstrap";
+
+
+interface Props {
+  authState?: AuthState;
+  schoolsState?: SchoolState;
+}
+
+const Course = (props: Props): JSX.Element => {
+  const history = useHistory();
+
+  const user = props.authState?.authedUser;
+  if (user === undefined) {
+    return <h1>Could not find the user object!</h1>;
+  }
+
+  const school = user.school;
+  if (school === undefined || school == null) {
+    history.push("/settings");
+    console.log("Redirecing to settings from forum list...");
+    return <p>Redirecting to settings...</p>;
+  }
+
+  return (
+    <section>
+      <div className="CourseSection container">
+        <div className="title">
+          <h3> Welcome to the Course Forums </h3>
+        </div>
+        <nav aria-label="breadcrumb">
+          <ol className="breadcrumb">
+            <li className=""><Nav.Link as={Link} to={"/forum"}>FORUM</Nav.Link></li>
+            <li id="divider">|</li>
+            <li className=" active" aria-current="page"><Nav.Link as={Link} to={"/course"}>COURSE NAME</Nav.Link></li>
+          </ol>
+        </nav>
+        <div className="row">
+          <div className="col">
+           <div className ="card">
+            <ul className="list-group list-group-flush">
+              <li className="list-group-item">
+                <div className="icon"></div>
+                <div className="card-body">
+                  <h5 className="card-title course"> Question Subject </h5>
+                      <p className="card-text"> 
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+                      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                      </p>
+                    <h6>Author of Post <span className="badge">posted time</span></h6>
+                  
+                </div>
+              </li>
+              <li className="list-group-item">
+                <div className="icon"></div>
+                <div className="card-body">
+                  <h5 className="card-title course"> Question Subject </h5>
+                      <p className="card-text"> 
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+                      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                      </p>
+                    <h6>Author of Post <span className="badge">posted time</span></h6>
+                  
+                </div>
+              </li>
+              <li className="list-group-item">
+                <div className="icon"></div>
+                <div className="card-body">
+                  <h5 className="card-title course"> Question Subject </h5>
+                      <p className="card-text"> 
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+                      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                      </p>
+                    <h6>Author of Post <span className="badge">posted time</span></h6>
+                  
+                </div>
+              </li>
+            </ul>
+          </div> 
+           
+        </div>
+      </div>
+      </div>
+    </section>
+  );
+};
+
+const mapStateToProps = (state: AppState) => ({
+  authState: state.auth,
+  schoolsState: state.schools,
+});
+
+const mapDispatchToProps = () => ({});
+
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(Course)
+);
