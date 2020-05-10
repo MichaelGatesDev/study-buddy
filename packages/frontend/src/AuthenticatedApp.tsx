@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 
 import { AppState } from "./redux/store";
 import { AuthState } from "./redux/auth/types";
-import { SchoolState } from "./redux/schools/types";
+import { SchoolsState } from "./redux/schools/types";
 
 import ForumSection from "./sections/ForumSection";
 import HomeSection from "./sections/HomeSection";
@@ -13,7 +13,7 @@ import SettingsSection from "./sections/SettingsSection";
 
 interface Props {
   authState?: AuthState;
-  schoolsState?: SchoolState;
+  schoolsState?: SchoolsState;
 }
 
 const AuthenticatedApp = (props: Props): JSX.Element => {

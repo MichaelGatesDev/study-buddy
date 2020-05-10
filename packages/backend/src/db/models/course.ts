@@ -42,4 +42,3 @@ Course.init(
 );
 import School from "./school";
 Course.belongsTo(School, { foreignKey: "school_id" });
-// Course.hasMany(User);

@@ -1,6 +1,6 @@
 import React from "react";
 import { AuthState } from "../../redux/auth/types";
-import { SchoolState } from "../../redux/schools/types";
+import { SchoolsState } from "../../redux/schools/types";
 import { Redirect, useHistory } from "react-router";
 import { SimpleAlert } from "../SimpleAlert";
 import { AppState } from "../../redux/store";
@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 
 interface Props {
   authState: AuthState;
-  schoolsState: SchoolState;
+  schoolsState: SchoolsState;
 }
 
 const UserCheck = (props: Props): JSX.Element | null => {

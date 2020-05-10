@@ -1,4 +1,4 @@
-import { Model, DataTypes } from "sequelize";
+import { Model, DataTypes, BelongsToManyGetAssociationsMixin, BelongsToManyAddAssociationMixin, BelongsToManyHasAssociationMixin, BelongsToGetAssociationMixin, BelongsToSetAssociationMixin } from "sequelize";
 
 import { sequelize } from "../database";
 
@@ -10,6 +10,13 @@ export default class User extends Model {
   public email!: string;
   public google_id!: string;
   public school_id!: number;
+
+  public getSchool!: BelongsToGetAssociationMixin<School>;
+  public setSchool!: BelongsToSetAssociationMixin<School, number>;
+
+  public getCourses!: BelongsToManyGetAssociationsMixin<Course>;
+  public addCourse!: BelongsToManyAddAssociationMixin<Course, number>;
+  public hasCourse!: BelongsToManyHasAssociationMixin<Course, number>;
 }
 User.init(
   {
@@ -38,4 +45,4 @@ User.init(
 import School from "./school";
 import Course from "./course";
 User.belongsTo(School, { foreignKey: "school_id" });
-User.belongsToMany(Course, { through: "UserCourse" });
+User.belongsToMany(Course, { through: "user_courses", foreignKey: "user_id" });

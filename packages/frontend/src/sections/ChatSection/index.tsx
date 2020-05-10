@@ -6,12 +6,12 @@ import { connect } from "react-redux";
 import Penguin from "../../images/penguin.png";
 import arrow from "../../images/arrow.png";
 import { AuthState } from "../../redux/auth/types";
-import { SchoolState } from "../../redux/schools/types";
+import { SchoolsState } from "../../redux/schools/types";
 import { AppState } from "../../redux/store";
 
 interface Props {
   authState: AuthState;
-  schoolsState: SchoolState;
+  schoolsState: SchoolsState;
 }
 
 const ChatSection = (props: Props): JSX.Element => {

@@ -3,13 +3,13 @@ import React from "react";
 import { connect } from "react-redux";
 
 import { AuthState } from "../../redux/auth/types";
-import { SchoolState } from "../../redux/schools/types";
+import { SchoolsState } from "../../redux/schools/types";
 import { AppState } from "../../redux/store";
 import { useHistory, withRouter } from "react-router";
 
 interface Props {
   authState: AuthState;
-  schoolsState: SchoolState;
+  schoolsState: SchoolsState;
 }
 
 const ForumSection = (props: Props): JSX.Element => {

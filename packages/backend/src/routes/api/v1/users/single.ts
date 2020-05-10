@@ -1,7 +1,9 @@
 import { Router, Response, Request } from "express";
-import { ActionSuccessResponse, ActionErrorResponse, IUser } from "@study-buddy/common";
+import { ActionSuccessResponse, ActionErrorResponse, IUser, ISchool } from "@study-buddy/common";
 
 import User from "../../../../db/models/user";
+
+import coursesRoute from "./courses";
 
 const router = Router();
 
@@ -10,6 +12,16 @@ router.get(
   async (_req: Request, res: Response): Promise<void> => {
     const user = _req.body.user as User;
     res.status(200).json({ result: user } as ActionSuccessResponse<IUser>);
+  }
+);
+
+router.use("/courses", coursesRoute);
+
+router.get(
+  "/school",
+  async (_req: Request, res: Response): Promise<void> => {
+    const user = _req.body.user as User;
+    res.status(200).json({ result: await user.getSchool() } as ActionSuccessResponse<ISchool>);
   }
 );
 

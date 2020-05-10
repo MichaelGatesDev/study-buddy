@@ -48,6 +48,7 @@ const AppBase = (props: Props): JSX.Element => {
     const performAuth = async (tempAccessToken: string): Promise<IAuthInfo> => {
       let payload = await authenticate(tempAccessToken);
       if (payload.type !== AUTH_SUCCESS) {
+        localStorage.removeItem("google_id_token");
         payload = payload as AuthFailurePayload;
         throw new Error(payload.error);
       }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Form } from "react-bootstrap";
 
 type SimpleDropdownValue = string | number | undefined;
@@ -19,7 +19,7 @@ export interface SimpleDropdownOption {
 }
 
 export const SimpleDropdown = (props: Props): JSX.Element => {
-  const onChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const onChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
     props.onChange(event.target.value);
   };
 
@@ -31,7 +31,7 @@ export const SimpleDropdown = (props: Props): JSX.Element => {
         custom
         onChange={onChange}
         value={props.value ?? -1}
-        placeholder="Select a school..."
+        placeholder={props.selectLabel}
       >
         <option value={-1} disabled>
           {props.selectLabel}
