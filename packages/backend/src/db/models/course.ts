@@ -35,10 +35,10 @@ Course.init(
     },
   },
   {
+    modelName: "course",
     underscored: true,
     sequelize: sequelize, // this bit is important
   }
 );
 import School from "./school";
 Course.belongsTo(School, { foreignKey: "school_id" });
-// Course.hasMany(User);

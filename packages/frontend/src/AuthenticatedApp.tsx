@@ -1,10 +1,10 @@
 import React from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { AppState } from "./redux/store";
 import { AuthState } from "./redux/auth/types";
-import { SchoolState } from "./redux/schools/types";
+import { SchoolsState } from "./redux/schools/types";
 
 import ForumSection from "./sections/ForumSection";
 import HomeSection from "./sections/HomeSection";
@@ -14,15 +14,16 @@ import SettingsSection from "./sections/SettingsSection";
 
 interface Props {
   authState?: AuthState;
-  schoolsState?: SchoolState;
+  schoolsState?: SchoolsState;
 }
 
-const AuthenticatedApp = (props: Props) => {
+const AuthenticatedApp = (props: Props): JSX.Element => {
   if (props.authState === undefined || props.schoolsState === undefined) {
     return <p>Loading states...</p>;
   }
 
   return (
+
     <>
       <Switch>
         <Route exact path="/" component={HomeSection} />
@@ -32,6 +33,7 @@ const AuthenticatedApp = (props: Props) => {
         <Route path ="/course" component ={Course}/>
       </Switch>
     </>
+
   );
 };
 
@@ -40,4 +42,4 @@ const mapStateToProps = (state: AppState) => ({
   schoolsState: state.schools,
 });
 
-export default connect(mapStateToProps, {})(AuthenticatedApp);
+export default withRouter(connect(mapStateToProps, {})(AuthenticatedApp));

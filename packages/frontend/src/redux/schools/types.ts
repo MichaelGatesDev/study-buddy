@@ -1,35 +1,10 @@
 import { ISchool } from "@study-buddy/common";
 
-export interface SchoolState {
-  fetchingSingle: boolean;
+export interface SchoolsState {
   fetchingAll: boolean;
-  fetchedSchool?: ISchool;
   fetchedSchools?: ISchool[];
-  error?: string;
-}
 
-// ---- FETCH SCHOOL ---- \\
-export const FETCH_SCHOOL_REQUEST = "PERFORM_FETCH_SCHOOL";
-export const FETCH_SCHOOL_SUCCESS = "PERFORM_FETCH_SCHOOL_SUCCESS";
-export const FETCH_SCHOOL_FAILURE = "PERFORM_FETCH_SCHOOL_FAILURE";
-interface FetchSchoolRequestAction {
-  type: typeof FETCH_SCHOOL_REQUEST;
-}
-interface FetchSchoolSuccessAction {
-  type: typeof FETCH_SCHOOL_SUCCESS;
-  data: ISchool;
-}
-export interface FetchSchoolSuccessPayload {
-  type: string;
-  data: ISchool;
-}
-interface FetchSchoolFailureAction {
-  type: typeof FETCH_SCHOOL_FAILURE;
-  error: string;
-}
-export interface FetchSchoolFailurePayload {
-  type: string;
-  error: string;
+  error?: string;
 }
 
 // ---- FETCH SCHOOLS ---- \\
@@ -57,10 +32,6 @@ export interface FetchSchoolsFailurePayload {
 }
 
 export type SchoolActionTypes =
-  // fetch school
-  | FetchSchoolRequestAction
-  | FetchSchoolSuccessAction
-  | FetchSchoolFailureAction
   // fetch schools
   | FetchSchoolsRequestAction
   | FetchSchoolsSuccessAction

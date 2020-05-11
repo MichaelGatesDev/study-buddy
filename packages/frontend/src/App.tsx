@@ -2,6 +2,7 @@ import "./App.css";
 
 import React from "react";
 import { Provider } from "react-redux";
+import { HashRouter } from "react-router-dom";
 
 // -- START BOOTSTRAP --
 import "popper.js/dist/umd/popper.min";
@@ -17,7 +18,9 @@ const App: React.FC = () => {
   return (
     <Provider store={store}>
       <div className="App">
-        <AppBase />
+        <HashRouter basename="/">
+          <AppBase />
+        </HashRouter>
       </div>
     </Provider>
   );
