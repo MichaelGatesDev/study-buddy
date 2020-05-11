@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@study-buddy/common": "1.0.0",
+    "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
     "jquery": "^3.4.1",
     "lodash": "^4.17.15",
