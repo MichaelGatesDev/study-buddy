@@ -4,14 +4,14 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import { connect } from "react-redux";
 import { AuthState } from "../../redux/auth/types";
-import { SchoolState } from "../../redux/schools/types";
+import { SchoolsState } from "../../redux/schools/types";
 import { Link } from "react-router-dom";
 import { Nav } from "react-bootstrap";
 
 
 interface Props {
   authState?: AuthState;
-  schoolsState?: SchoolState;
+  schoolsState?: SchoolsState;
 }
 
 export default class Course extends Component {
@@ -66,8 +66,8 @@ render(){
           <div className="col">
            <div className ="card"  >
             <ul className="list-group list-group-flush">
-              <li className="list-group-item" id="create-thread">
-                <div className="card-body">
+              <li className="list-group-item">
+                <div className="card-body" id="create-thread">
                   
                   <h5 className="card-title course"> </h5>
                       <p className="card-text"> 
