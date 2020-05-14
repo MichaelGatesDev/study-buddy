@@ -1,6 +1,7 @@
-import { DataTypes, Model } from "sequelize";
+import { DataTypes, Model, HasOneGetAssociationMixin } from "sequelize";
 
 import { sequelize } from "../database";
+import ForumThread from "./forum-thread";
 
 export default class ForumThreadReply extends Model {
   public id!: number;
@@ -8,6 +9,8 @@ export default class ForumThreadReply extends Model {
   public readonly updated_at!: Date;
 
   public thread_id!: number;
+  public getThread!: HasOneGetAssociationMixin<ForumThread>;
+
   public author_id!: number;
   public content!: string;
 }

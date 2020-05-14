@@ -1,8 +1,9 @@
-import { DataTypes, Model, HasManyGetAssociationsMixin } from "sequelize";
+import { DataTypes, Model, HasManyGetAssociationsMixin, HasOneGetAssociationMixin, HasManyAddAssociationMixin, HasManyHasAssociationMixin } from "sequelize";
 
 import { sequelize } from "../database";
 import User from "./user";
 import ForumThreadReply from "./forum-thread-reply";
+import Forum from "./forum";
 
 export default class ForumThread extends Model {
   public id!: number;
@@ -10,10 +11,14 @@ export default class ForumThread extends Model {
   public readonly updated_at!: Date;
 
   public forum_id!: number;
+  public getForum!: HasOneGetAssociationMixin<Forum>;
+
   public author_id!: number;
   public title!: string;
 
   public getReplies!: HasManyGetAssociationsMixin<ForumThreadReply>;
+  public addReply!: HasManyAddAssociationMixin<ForumThreadReply, number>;
+  public hasReply!: HasManyHasAssociationMixin<ForumThreadReply, number>;
 }
 
 ForumThread.init(

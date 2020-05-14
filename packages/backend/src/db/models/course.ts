@@ -1,7 +1,8 @@
-import { DataTypes, Model } from "sequelize";
+import { DataTypes, Model, BelongsToGetAssociationMixin, BelongsToSetAssociationMixin } from "sequelize";
 
 import { sequelize } from "../database";
 import Forum from "./forum";
+import School from "./school";
 
 export default class Course extends Model {
   public id!: number;
@@ -11,7 +12,10 @@ export default class Course extends Model {
   public course_number!: string;
   public course_title!: string;
   public is_active!: boolean;
+
   public school_id!: number;
+  public getSchool!: BelongsToGetAssociationMixin<School>;
+  public setSchool!: BelongsToSetAssociationMixin<School, number>;
 }
 
 Course.init(

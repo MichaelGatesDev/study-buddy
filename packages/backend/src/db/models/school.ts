@@ -1,4 +1,4 @@
-import { DataTypes, Model, HasManyGetAssociationsMixin } from "sequelize";
+import { DataTypes, Model, HasManyGetAssociationsMixin, HasManyAddAssociationMixin, HasManyHasAssociationMixin, HasManyCreateAssociationMixin } from "sequelize";
 
 import { sequelize } from "../database";
 import User from "./user";
@@ -15,7 +15,11 @@ export default class School extends Model {
   public website!: string | null;
 
   public getEnrolledUsers!: HasManyGetAssociationsMixin<User>;
+
   public getCourses!: HasManyGetAssociationsMixin<Course>;
+  public createCourse!: HasManyCreateAssociationMixin<Course>;
+  public addCourse!: HasManyAddAssociationMixin<Course, number>;
+  public hasCourse!: HasManyHasAssociationMixin<Course, number>;
 }
 School.init(
   {
