@@ -1,6 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 
 import { sequelize } from "../database";
+import Forum from "./forum";
 
 export default class Course extends Model {
   public id!: number;
@@ -40,5 +41,15 @@ Course.init(
     sequelize: sequelize, // this bit is important
   }
 );
-import School from "./school";
-Course.belongsTo(School, { foreignKey: "school_id" });
+Course.hasOne(Forum, { foreignKey: "course_id" });
+
+Course.afterCreate(
+  (course: Course): Promise<void> => {
+    Forum.create({
+      course_id: course.id,
+    }).then((forum: Forum) => {
+      console.log(`Created forum (${forum.id}) associated with course (${course.id})`);
+    });
+    return Promise.resolve();
+  }
+);

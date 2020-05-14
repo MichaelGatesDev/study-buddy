@@ -5,8 +5,6 @@ import { sequelize } from "./db/database";
 import School from "./db/models/school";
 import Course from "./db/models/course";
 
-// i2YuoFnmtPE4_8TjLgAUO4YB
-
 (async (): Promise<void> => {
   // Start the server
   const port = Number(process.env.PORT || 3000);

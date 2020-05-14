@@ -1,6 +1,8 @@
 import { DataTypes, Model, HasManyGetAssociationsMixin } from "sequelize";
 
 import { sequelize } from "../database";
+import User from "./user";
+import Course from "./course";
 
 export default class School extends Model {
   public id!: number;
@@ -47,7 +49,5 @@ School.init(
   }
 );
 
-import User from "./user";
-import Course from "./course";
 School.hasMany(User, { foreignKey: "school_id" });
 School.hasMany(Course, { foreignKey: "school_id" });
