@@ -15,6 +15,7 @@
     "moment": "^2.24.0"
   },
   "devDependencies": {
-    "@types/chalk": "^2.2.0"
+    "@types/chalk": "^2.2.0",
+    "@typescript-eslint/parser": "^2.33.0"
   }
 }
